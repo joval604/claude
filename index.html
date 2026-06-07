@@ -578,24 +578,27 @@ function redistributeDates(silent) {
     const bQ = b.title.startsWith('🧠') ? 1 : 0;
     return aQ - bQ;
   });
-  // Calculate total hours and derive a daily study pace
+  // Calculate total hours and use proportional scheduling across the full span
   const totalHours = pending.reduce((s, c) => s + (c.hours || 1), 0);
-  const studyDays = Math.floor(totalDays * 0.9); // leave 10% buffer before exam
-  const hoursPerDay = Math.max(1, totalHours / studyDays); // avg hrs/day needed
-  // Assign taskStart + due for each task based on its hour weight
-  let cursor = new Date(start);
-  pending.forEach((c) => {
-    const taskDays = Math.max(1, Math.round((c.hours || 1) / hoursPerDay));
-    const taskStart = new Date(cursor);
-    const due = new Date(cursor);
-    due.setDate(due.getDate() + taskDays - 1);
-    // Clamp to exam date
-    if (due >= exam) due.setDate(exam.getDate() - 1);
-    if (taskStart >= exam) taskStart.setDate(exam.getDate() - 1);
+  const spanDays = totalDays; // use the full start→exam span
+  // Build cumulative hour boundaries, then map proportionally to dates
+  let cumHours = 0;
+  pending.forEach((c, i) => {
+    const hoursBefore = cumHours;
+    const hoursAfter  = cumHours + (c.hours || 1);
+    // Proportional positions within [0, spanDays]
+    const startFrac = hoursBefore / totalHours;
+    const endFrac   = hoursAfter  / totalHours;
+    const startDay  = Math.round(startFrac * spanDays);
+    const endDay    = Math.round(endFrac   * spanDays);
+    const taskStart = new Date(start); taskStart.setDate(taskStart.getDate() + startDay);
+    const due       = new Date(start); due.setDate(due.getDate() + Math.max(startDay, endDay - 1));
+    // Pin first task to exact start, last task to exact exam date
+    if (i === 0)          taskStart.setTime(start.getTime());
+    if (i === n - 1)      due.setTime(exam.getTime());
     c.taskStart = taskStart.toISOString().slice(0, 10);
-    c.due = due.toISOString().slice(0, 10);
-    cursor = new Date(due);
-    cursor.setDate(cursor.getDate() + 1);
+    c.due       = due.toISOString().slice(0, 10);
+    cumHours = hoursAfter;
   });
   saveData(); render();
   if (!silent) toast('✨ Dates redistributed!', 'success');
