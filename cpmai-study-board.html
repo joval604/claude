@@ -284,6 +284,19 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
+// Parse "YYYY-MM-DD" as local midnight (avoids UTC timezone shift)
+function parseDate(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+// Format a local Date as "YYYY-MM-DD"
+function fmtDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 const PHASE_LABELS = {
   'phase-0': ['Intro','#0e7490','#a5f3fc'],
   'phase-1': ['Phase I','#7c3aed','#ddd6fe'],
@@ -455,7 +468,7 @@ function cardHTML(c) {
   const today = new Date(); today.setHours(0,0,0,0);
   let dueCls = '', dueText = '';
   if (c.due) {
-    const d = new Date(c.due);
+    const d = parseDate(c.due);
     const diff = Math.round((d - today) / 86400000);
     dueText = d.toLocaleDateString('en-US', {month:'short', day:'numeric'});
     if (c.status !== 'done') {
@@ -465,7 +478,7 @@ function cardHTML(c) {
   }
   let startText = '';
   if (c.taskStart) {
-    const sd = new Date(c.taskStart);
+    const sd = parseDate(c.taskStart);
     startText = sd.toLocaleDateString('en-US', {month:'short', day:'numeric'});
   }
   const isQuiz = c.title.startsWith('🧠');
@@ -545,8 +558,8 @@ function updateCountdown() {
   const val = document.getElementById('examDate').value;
   const el = document.getElementById('countdown');
   if (!val) { el.textContent = ''; return; }
-  const exam = new Date(val); const today = new Date();
-  today.setHours(0,0,0,0); exam.setHours(0,0,0,0);
+  const exam = parseDate(val); const today = new Date();
+  today.setHours(0,0,0,0);
   const diff = Math.round((exam - today) / 86400000);
   if (diff < 0) el.textContent = `${Math.abs(diff)}d ago`;
   else if (diff === 0) el.textContent = '🎯 Today!';
@@ -558,9 +571,9 @@ function redistributeDates(silent) {
   const examVal = document.getElementById('examDate').value;
   const startVal = document.getElementById('startDate').value;
   if (!examVal) { if (!silent) toast('Set an exam date first!', 'info'); return; }
-  const exam = new Date(examVal); exam.setHours(0,0,0,0);
+  const exam = parseDate(examVal);
   const today = new Date(); today.setHours(0,0,0,0);
-  const start = startVal ? (() => { const d = new Date(startVal); d.setHours(0,0,0,0); return d; })() : today;
+  const start = startVal ? parseDate(startVal) : today;
   const totalDays = Math.round((exam - start) / 86400000);
   if (!silent) {
     if (totalDays < 30) { toast('⚠️ Study period must be at least 30 days.', 'info'); return; }
@@ -596,8 +609,8 @@ function redistributeDates(silent) {
     // Pin first task to exact start, last task to exact exam date
     if (i === 0)          taskStart.setTime(start.getTime());
     if (i === n - 1)      due.setTime(exam.getTime());
-    c.taskStart = taskStart.toISOString().slice(0, 10);
-    c.due       = due.toISOString().slice(0, 10);
+    c.taskStart = fmtDate(taskStart);
+    c.due       = fmtDate(due);
     cumHours = hoursAfter;
   });
   saveData(); render();
@@ -711,8 +724,8 @@ function updateDurationBadge() {
   const examVal = document.getElementById('examDate').value;
   const badge = document.getElementById('durationBadge');
   if (!startVal || !examVal) { badge.textContent = ''; return; }
-  const start = new Date(startVal); start.setHours(0,0,0,0);
-  const exam = new Date(examVal); exam.setHours(0,0,0,0);
+  const start = parseDate(startVal);
+  const exam = parseDate(examVal);
   const days = Math.round((exam - start) / 86400000);
   if (days < 30) {
     badge.textContent = `⚠️ ${days}d — minimum is 30 days`;
@@ -732,7 +745,7 @@ function updateModalDuration() {
   const d = document.getElementById('fDue').value;
   const lbl = document.getElementById('fDurationLabel');
   if (s && d) {
-    const diff = Math.round((new Date(d) - new Date(s)) / 86400000) + 1;
+    const diff = Math.round((parseDate(d) - parseDate(s)) / 86400000) + 1;
     lbl.textContent = diff > 0 ? `⏱ ${diff} day${diff>1?'s':''}` : '';
   } else { lbl.textContent = ''; }
 }
