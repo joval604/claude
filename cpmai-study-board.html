@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMI CPMAI Study Board</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22253a;
+    --border: #2e3250;
+    --accent: #6366f1;
+    --accent2: #8b5cf6;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --done-col: #1a2e1a;
+    --todo-col: #1a1d27;
+    --inprog-col: #1a1f2e;
+    --tag-0: #0e7490; --tag-0t: #a5f3fc;
+    --tag-1: #7c3aed; --tag-1t: #ddd6fe;
+    --tag-2: #b45309; --tag-2t: #fde68a;
+    --tag-3: #0f766e; --tag-3t: #99f6e4;
+    --tag-4: #1d4ed8; --tag-4t: #bfdbfe;
+    --tag-5: #be185d; --tag-5t: #fbcfe8;
+    --tag-6: #047857; --tag-6t: #a7f3d0;
+    --tag-wb: #374151; --tag-wbt: #d1d5db;
+    --p-high: #ef4444; --p-med: #f59e0b; --p-low: #10b981;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* HEADER */
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .logo { font-size: 1.2rem; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .logo span { color: var(--text-muted); font-weight: 400; font-size: 0.85rem; margin-left: 8px; }
+  .header-controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-left: auto; }
+  .exam-block { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; }
+  .exam-block label { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+  .exam-block input[type=date] { background: transparent; border: none; color: var(--text); font-size: 0.9rem; outline: none; cursor: pointer; }
+  .exam-block input[type=date]::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+  .countdown { font-size: 0.85rem; color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .btn { padding: 7px 14px; border-radius: 7px; font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-ghost { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .btn-sm { padding: 4px 10px; font-size: 0.75rem; }
+
+  /* STATS BAR */
+  .stats-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 24px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+  .stat { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); }
+  .stat strong { color: var(--text); font-size: 0.9rem; }
+  .progress-wrap { flex: 1; min-width: 160px; max-width: 300px; }
+  .progress-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; transition: width 0.5s; }
+
+  /* FILTERS */
+  .filters { padding: 10px 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .filter-label { font-size: 0.75rem; color: var(--text-muted); }
+  .chip { padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; user-select: none; }
+  .chip.active { border-color: var(--accent); color: var(--accent); background: rgba(99,102,241,0.1); }
+
+  /* BOARD */
+  .board { display: flex; gap: 16px; padding: 16px 24px 40px; overflow-x: auto; min-height: calc(100vh - 200px); }
+  .column { flex: 0 0 320px; display: flex; flex-direction: column; gap: 12px; }
+  .col-header { padding: 10px 14px; border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: space-between; }
+  .col-header h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .col-count { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 2px 7px; border-radius: 999px; }
+  .col-todo .col-header { background: var(--surface2); }
+  .col-inprog .col-header { background: rgba(99,102,241,0.15); border-bottom: 2px solid var(--accent); }
+  .col-done .col-header { background: rgba(16,185,129,0.1); border-bottom: 2px solid #10b981; }
+  .col-done .col-header h3 { color: #10b981; }
+  .col-inprog .col-header h3 { color: var(--accent); }
+  .cards-area { flex: 1; min-height: 200px; padding: 8px 0; display: flex; flex-direction: column; gap: 8px; border-radius: 0 0 8px 8px; padding: 8px 2px; transition: background 0.2s; }
+  .cards-area.drag-over { background: rgba(99,102,241,0.07); border-radius: 8px; }
+
+  /* CARD */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; cursor: grab; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; position: relative; }
+  .card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(99,102,241,0.2); transform: translateY(-1px); }
+  .card.dragging { opacity: 0.4; cursor: grabbing; }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .card-title { font-size: 0.88rem; font-weight: 600; line-height: 1.4; }
+  .card-menu-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; padding: 0 2px; line-height: 1; flex-shrink: 0; }
+  .card-menu-btn:hover { color: var(--text); }
+  .card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tag { padding: 2px 7px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+  .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--text-muted); }
+  .meta-item svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .priority-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .overdue { color: var(--p-high) !important; font-weight: 600; }
+  .due-soon { color: var(--p-med) !important; font-weight: 600; }
+  .card-actions { display: flex; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .card-progress-wrap { margin-top: 8px; }
+  .card-progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .card-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 24px; }
+  .modal h2 { font-size: 1.1rem; margin-bottom: 20px; color: var(--text); }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; color: var(--text); padding: 8px 12px; font-size: 0.88rem; outline: none; transition: border-color 0.15s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .form-group textarea { resize: vertical; min-height: 70px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  /* EMPTY STATE */
+  .empty-col { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.82rem; }
+  .empty-col svg { margin: 0 auto 8px; display: block; opacity: 0.3; }
+
+  /* CONTEXT MENU */
+  .ctx-menu { position: fixed; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 0; z-index: 200; min-width: 150px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+  .ctx-item { padding: 8px 14px; font-size: 0.82rem; cursor: pointer; color: var(--text); transition: background 0.1s; }
+  .ctx-item:hover { background: var(--surface2); }
+  .ctx-item.danger { color: var(--p-high); }
+
+  /* TOAST */
+  .toast-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 300; }
+  .toast { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-size: 0.82rem; color: var(--text); animation: slideIn 0.2s ease; max-width: 280px; }
+  .toast.success { border-left: 3px solid #10b981; }
+  .toast.info { border-left: 3px solid var(--accent); }
+  @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .board { padding: 12px; }
+    .column { flex: 0 0 280px; }
+    header { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PMI CPMAI™ Study Board <span>Certified Professional in Managing AI</span></div>
+  <div class="header-controls">
+    <div class="exam-block">
+      <label>🎯 Exam Date</label>
+      <input type="date" id="examDate">
+      <span class="countdown" id="countdown"></span>
+    </div>
+    <button class="btn btn-ghost" onclick="openAddModal()">+ Add Task</button>
+    <button class="btn btn-primary btn-sm" onclick="redistributeDates()">Auto-Schedule</button>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat">Total <strong id="statTotal">0</strong></div>
+  <div class="stat">To Do <strong id="statTodo">0</strong></div>
+  <div class="stat">In Progress <strong id="statInProg">0</strong></div>
+  <div class="stat">Done <strong id="statDone">0</strong></div>
+  <div class="stat">⏱ Study Hours Left <strong id="statHours">0h</strong></div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Overall Progress</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="filters">
+  <span class="filter-label">Filter:</span>
+  <span class="chip active" data-filter="all" onclick="setFilter('all',this)">All</span>
+  <span class="chip" data-filter="phase-0" onclick="setFilter('phase-0',this)" style="border-color:#0e7490">Intro</span>
+  <span class="chip" data-filter="phase-1" onclick="setFilter('phase-1',this)" style="border-color:#7c3aed">Phase I</span>
+  <span class="chip" data-filter="phase-2" onclick="setFilter('phase-2',this)" style="border-color:#b45309">Phase II</span>
+  <span class="chip" data-filter="phase-3" onclick="setFilter('phase-3',this)" style="border-color:#0f766e">Phase III</span>
+  <span class="chip" data-filter="phase-4" onclick="setFilter('phase-4',this)" style="border-color:#1d4ed8">Phase IV</span>
+  <span class="chip" data-filter="phase-5" onclick="setFilter('phase-5',this)" style="border-color:#be185d">Phase V</span>
+  <span class="chip" data-filter="phase-6" onclick="setFilter('phase-6',this)" style="border-color:#047857">Phase VI</span>
+  <span class="chip" data-filter="workbook" onclick="setFilter('workbook',this)">Workbook</span>
+  <span class="chip" data-filter="overdue" onclick="setFilter('overdue',this)" style="border-color:#ef4444">⚠ Overdue</span>
+</div>
+
+<div class="board">
+  <div class="column col-todo">
+    <div class="col-header"><h3>📋 To Do</h3><span class="col-count" id="cnt-todo">0</span></div>
+    <div class="cards-area" id="col-todo" data-col="todo"></div>
+  </div>
+  <div class="column col-inprog">
+    <div class="col-header"><h3>⚡ In Progress</h3><span class="col-count" id="cnt-inprog">0</span></div>
+    <div class="cards-area" id="col-inprog" data-col="inprog"></div>
+  </div>
+  <div class="column col-done">
+    <div class="col-header"><h3>✅ Done</h3><span class="col-count" id="cnt-done">0</span></div>
+    <div class="cards-area" id="col-done" data-col="done"></div>
+  </div>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2 id="modalTitle">Add Study Task</h2>
+    <div class="form-group">
+      <label>Topic / Task Name *</label>
+      <input type="text" id="fTitle" placeholder="e.g. Study CPMAI Phase I – Business Understanding">
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea id="fNotes" placeholder="Key concepts, resources, or reminders..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Section / Phase</label>
+        <select id="fPhase">
+          <option value="phase-0">Intro – AI Project Management</option>
+          <option value="phase-1">Phase I – Business Understanding</option>
+          <option value="phase-2">Phase II – Data Understanding</option>
+          <option value="phase-3">Phase III – Data Preparation</option>
+          <option value="phase-4">Phase IV – Model Development</option>
+          <option value="phase-5">Phase V – Testing & Evaluation</option>
+          <option value="phase-6">Phase VI – Operationalizing AI</option>
+          <option value="workbook">Workbook / Practice</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select id="fPriority">
+          <option value="high">🔴 High</option>
+          <option value="med" selected>🟡 Medium</option>
+          <option value="low">🟢 Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Due Date</label>
+        <input type="date" id="fDue">
+      </div>
+      <div class="form-group">
+        <label>Study Time (hours)</label>
+        <input type="number" id="fHours" min="0.5" max="40" step="0.5" placeholder="e.g. 2">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="fStatus">
+        <option value="todo">To Do</option>
+        <option value="inprog">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCard()">Save Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div class="ctx-menu" id="ctxMenu" style="display:none">
+  <div class="ctx-item" onclick="ctxAction('inprog')">▶ Move to In Progress</div>
+  <div class="ctx-item" onclick="ctxAction('todo')">◀ Move to To Do</div>
+  <div class="ctx-item" onclick="ctxAction('done')">✓ Mark Done</div>
+  <div class="ctx-item" onclick="ctxAction('edit')">✎ Edit</div>
+  <div class="ctx-item danger" onclick="ctxAction('delete')">✕ Delete</div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+const PHASE_LABELS = {
+  'phase-0': ['Intro','#0e7490','#a5f3fc'],
+  'phase-1': ['Phase I','#7c3aed','#ddd6fe'],
+  'phase-2': ['Phase II','#b45309','#fde68a'],
+  'phase-3': ['Phase III','#0f766e','#99f6e4'],
+  'phase-4': ['Phase IV','#1d4ed8','#bfdbfe'],
+  'phase-5': ['Phase V','#be185d','#fbcfe8'],
+  'phase-6': ['Phase VI','#047857','#a7f3d0'],
+  'workbook': ['Workbook','#374151','#d1d5db'],
+};
+
+const PRIORITY_COLORS = { high: '#ef4444', med: '#f59e0b', low: '#10b981' };
+
+let cards = [];
+let editId = null;
+let ctxCardId = null;
+let dragCardId = null;
+let activeFilter = 'all';
+
+// Default study tasks based on CPMAI curriculum
+const defaultTasks = [
+  // Intro
+  { title: 'What is AI? Key Terms & Digital Transformation', phase: 'phase-0', priority: 'high', hours: 1.5, notes: 'Cover: AI definitions, how AI enables digital transformation, current AI landscape' },
+  { title: 'The Seven Patterns of AI', phase: 'phase-0', priority: 'high', hours: 1.5, notes: 'Memorize all 7 patterns + how to map business problems to them' },
+  { title: 'Why AI Projects Fail & Trustworthy AI Framework', phase: 'phase-0', priority: 'high', hours: 2, notes: 'Key failure reasons, 5-layer trustworthy AI framework, agile/iterative approach for AI' },
+  { title: 'CPMAI Overview – 6-Phase Iterative Methodology', phase: 'phase-0', priority: 'high', hours: 1, notes: 'Understand the full CPMAI loop and when to iterate back' },
+
+  // Phase I
+  { title: 'Phase I: Define the Problem – Is AI the Right Fit?', phase: 'phase-1', priority: 'high', hours: 2, notes: 'AI vs non-AI, augmented intelligence, well-suited AI applications, DIKUW pyramid' },
+  { title: 'Phase I: AI Feasibility & Go/No-Go Decision', phase: 'phase-1', priority: 'high', hours: 1.5, notes: 'Strategic questions, the AI project go/no-go decision framework' },
+  { title: 'Phase I: ROI, Success Metrics & Scoping', phase: 'phase-1', priority: 'med', hours: 2, notes: 'ROI timelines, performance acceptance levels, PoC trap, pretrained/foundation models' },
+  { title: 'Phase I: Team Requirements & AI-Specific Risks', phase: 'phase-1', priority: 'med', hours: 1.5, notes: 'Trustworthy AI requirements, XAI/transparency, GenAI challenges' },
+
+  // Phase II
+  { title: 'Phase II: Role of Data & Big Data Concepts', phase: 'phase-2', priority: 'high', hours: 2, notes: 'Big Data 4 Vs (Volume, Velocity, Variety, Veracity), data-first approach' },
+  { title: 'Phase II: Data Quality, Quantity & AI-Specific Needs', phase: 'phase-2', priority: 'high', hours: 1.5, notes: 'Failure reasons from data issues, structured vs unstructured data, ground truth data' },
+  { title: 'Phase II: Data Privacy, Governance & Access', phase: 'phase-2', priority: 'med', hours: 1.5, notes: 'Data governance, data stewardship, informational bias, compliance requirements' },
+  { title: 'Phase II: Analytics, Data Roles & Phase Go/No-Go', phase: 'phase-2', priority: 'med', hours: 1, notes: 'Data science vs analytics, data life cycle, when to iterate back' },
+
+  // Phase III
+  { title: 'Phase III: Data Engineering & Pipeline Concepts', phase: 'phase-3', priority: 'high', hours: 2, notes: 'Data engineering, ETL pipelines, data ingestion approaches, pipeline complexity' },
+  { title: 'Phase III: Data Quality Checks & Cleansing', phase: 'phase-3', priority: 'high', hours: 1.5, notes: 'Ways to improve data quality, cleaning/enhancing data, data sampling & splitting' },
+  { title: 'Phase III: Transformation, Synthetic Data & Augmentation', phase: 'phase-3', priority: 'high', hours: 1.5, notes: 'Data transformation, synthetic data generation, image augmentation techniques, data labeling' },
+  { title: 'Phase III: GenAI Data Management & Trustworthy AI', phase: 'phase-3', priority: 'med', hours: 1.5, notes: 'Using GenAI for data prep/augmentation, data governance framework, roles & lifecycle' },
+
+  // Phase IV
+  { title: 'Phase IV: Machine Learning Fundamentals', phase: 'phase-4', priority: 'high', hours: 2.5, notes: 'Supervised, unsupervised, reinforcement learning; ML algorithms & models' },
+  { title: 'Phase IV: Model Development & AutoML', phase: 'phase-4', priority: 'high', hours: 2, notes: 'What is AI model development, AutoML, transfer learning, third-party/pretrained models' },
+  { title: 'Phase IV: Model Validation & Generalization', phase: 'phase-4', priority: 'high', hours: 1.5, notes: 'Overfitting, underfitting, validation techniques, generalizing to new data' },
+  { title: 'Phase IV: Building Generative AI Systems & RAG', phase: 'phase-4', priority: 'high', hours: 2, notes: 'GenAI system architecture, RAG, fine-tuning LLMs, foundation models' },
+
+  // Phase V
+  { title: 'Phase V: AI Testing Strategies & Frameworks', phase: 'phase-5', priority: 'high', hours: 2, notes: 'Types of AI testing, evaluation metrics, testing vs traditional software' },
+  { title: 'Phase V: Evaluating AI Model Performance', phase: 'phase-5', priority: 'high', hours: 2, notes: 'Performance metrics (accuracy, precision, recall, F1), bias evaluation, model comparison' },
+  { title: 'Phase V: Testing Generative AI Systems', phase: 'phase-5', priority: 'med', hours: 1.5, notes: 'Evaluating LLMs, hallucination testing, safety evaluation, red teaming basics' },
+
+  // Phase VI
+  { title: 'Phase VI: Moving AI Models into Operation', phase: 'phase-6', priority: 'high', hours: 1.5, notes: 'Inference phase vs training, different infrastructure & data pipeline needs' },
+  { title: 'Phase VI: AI Platforms, Infrastructure & Interaction Modes', phase: 'phase-6', priority: 'high', hours: 2, notes: '4 tech environments, batch/microservice/real-time/stream learning, on-prem vs edge vs cloud' },
+  { title: 'Phase VI: Model Lifecycle Management & MLOps', phase: 'phase-6', priority: 'high', hours: 2, notes: 'AI lifecycle challenges, MLOps, DevOps for AI, managing the data lifecycle' },
+  { title: 'Phase VI: Model Governance, Monitoring & Trustworthy AI in Ops', phase: 'phase-6', priority: 'high', hours: 1.5, notes: 'Model governance framework, model monitoring, malicious AI, securing ML models, regulations' },
+  { title: 'Phase VI: Operationalizing Generative AI & Limits of AI', phase: 'phase-6', priority: 'med', hours: 1.5, notes: 'GenAI in production, self-hosted vs API-hosted, GenAI risks, limits of AI technology' },
+
+  // Workbook & Practice
+  { title: 'Workbook: Complete Phase I–III Checkpoints', phase: 'workbook', priority: 'med', hours: 3, notes: 'Work through all CPMAI workbook checkpoints for Phases I, II, and III' },
+  { title: 'Workbook: Complete Phase IV–VI Checkpoints', phase: 'workbook', priority: 'med', hours: 3, notes: 'Work through all CPMAI workbook checkpoints for Phases IV, V, and VI' },
+  { title: 'Practice Exam #1 – Full Mock Exam', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Simulate real exam conditions. Review all wrong answers thoroughly.' },
+  { title: 'Practice Exam #2 – Focus on Weak Areas', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Targeted practice on phases where score was lowest in exam #1' },
+  { title: 'Final Review – Flash Cards & Key Frameworks', phase: 'workbook', priority: 'high', hours: 2, notes: 'Quick review of 7 AI patterns, CPMAI 6 phases, trustworthy AI layers, go/no-go criteria' },
+];
+
+function genId() { return 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,6); }
+
+function loadData() {
+  const saved = localStorage.getItem('cpmai_board');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    cards = parsed.cards || [];
+    const savedExam = parsed.examDate;
+    if (savedExam) document.getElementById('examDate').value = savedExam;
+  } else {
+    initDefaults();
+  }
+  updateCountdown();
+  render();
+}
+
+function initDefaults() {
+  const examDate = document.getElementById('examDate').value;
+  cards = defaultTasks.map((t, i) => ({
+    id: genId(),
+    title: t.title,
+    notes: t.notes || '',
+    phase: t.phase,
+    priority: t.priority,
+    hours: t.hours,
+    due: '',
+    status: 'todo',
+  }));
+  if (examDate) redistributeDates(true);
+  saveData();
+}
+
+function saveData() {
+  localStorage.setItem('cpmai_board', JSON.stringify({
+    cards,
+    examDate: document.getElementById('examDate').value
+  }));
+}
+
+function render() {
+  ['todo','inprog','done'].forEach(col => {
+    const el = document.getElementById('col-' + col);
+    let filtered = cards.filter(c => c.status === col);
+    if (activeFilter !== 'all') {
+      if (activeFilter === 'overdue') {
+        filtered = filtered.filter(c => c.due && new Date(c.due) < new Date() && c.status !== 'done');
+      } else {
+        filtered = filtered.filter(c => c.phase === activeFilter);
+      }
+    }
+    if (filtered.length === 0) {
+      el.innerHTML = `<div class="empty-col"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12h6M12 9v6"/></svg>Drop cards here</div>`;
+    } else {
+      el.innerHTML = filtered.map(c => cardHTML(c)).join('');
+      filtered.forEach(c => setupCardDrag(c.id));
+    }
+    document.getElementById('cnt-' + col).textContent = cards.filter(c => c.status === col).length;
+  });
+  updateStats();
+  setupColumnDrop();
+}
+
+function cardHTML(c) {
+  const [pLabel, pBg, pFg] = PHASE_LABELS[c.phase] || ['','#444','#fff'];
+  const prioColor = PRIORITY_COLORS[c.priority] || '#94a3b8';
+  const today = new Date(); today.setHours(0,0,0,0);
+  let dueCls = '', dueText = '';
+  if (c.due) {
+    const d = new Date(c.due);
+    const diff = Math.round((d - today) / 86400000);
+    dueText = d.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    if (c.status !== 'done') {
+      if (diff < 0) dueCls = 'overdue';
+      else if (diff <= 3) dueCls = 'due-soon';
+    }
+  }
+  const doneTick = c.status === 'done' ? 'opacity:0.6;' : '';
+  return `<div class="card" id="card-${c.id}" draggable="true" style="${doneTick}">
+    <div class="card-top">
+      <div class="card-title">${escHtml(c.title)}</div>
+      <button class="card-menu-btn" onclick="openCtx(event,'${c.id}')">⋮</button>
+    </div>
+    <div class="card-tags">
+      <span class="tag" style="background:${pBg}22;color:${pFg};border:1px solid ${pBg}55">${pLabel}</span>
+    </div>
+    <div class="card-meta">
+      <span class="meta-item"><span class="priority-dot" style="background:${prioColor}"></span>${c.priority}</span>
+      ${c.due ? `<span class="meta-item ${dueCls}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${dueText}</span>` : ''}
+      ${c.hours ? `<span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${c.hours}h</span>` : ''}
+    </div>
+    ${c.notes ? `<div style="font-size:0.72rem;color:var(--text-muted);margin-top:8px;line-height:1.5">${escHtml(c.notes.slice(0,120))}${c.notes.length>120?'…':''}</div>` : ''}
+    <div class="card-actions">
+      ${c.status !== 'done' ? `<button class="btn btn-ghost btn-sm" onclick="moveCard('${c.id}','done')">✓ Done</button>` : `<button class="btn btn-ghost btn-sm" onclick="moveCard('${c.id}','todo')">↩ Undo</button>`}
+      ${c.status === 'todo' ? `<button class="btn btn-primary btn-sm" onclick="moveCard('${c.id}','inprog')">▶ Start</button>` : ''}
+      <button class="btn btn-ghost btn-sm" onclick="openEditModal('${c.id}')" style="margin-left:auto">✎</button>
+    </div>
+  </div>`;
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function setupCardDrag(id) {
+  const el = document.getElementById('card-' + id);
+  if (!el) return;
+  el.addEventListener('dragstart', e => { dragCardId = id; el.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+  el.addEventListener('dragend', () => { el.classList.remove('dragging'); dragCardId = null; });
+}
+
+function setupColumnDrop() {
+  document.querySelectorAll('.cards-area').forEach(col => {
+    col.ondragover = e => { e.preventDefault(); col.classList.add('drag-over'); };
+    col.ondragleave = () => col.classList.remove('drag-over');
+    col.ondrop = e => {
+      e.preventDefault(); col.classList.remove('drag-over');
+      if (!dragCardId) return;
+      const newStatus = col.dataset.col;
+      moveCard(dragCardId, newStatus, true);
+    };
+  });
+}
+
+function moveCard(id, status, silent) {
+  const c = cards.find(x => x.id === id);
+  if (!c) return;
+  c.status = status;
+  saveData(); render();
+  if (!silent) toast(status === 'done' ? '✅ Marked as done!' : status === 'inprog' ? '⚡ Started!' : '↩ Moved back', status === 'done' ? 'success' : 'info');
+}
+
+function updateStats() {
+  const total = cards.length;
+  const done = cards.filter(c => c.status === 'done').length;
+  const inprog = cards.filter(c => c.status === 'inprog').length;
+  const todo = cards.filter(c => c.status === 'todo').length;
+  const hoursLeft = cards.filter(c => c.status !== 'done').reduce((s,c) => s + (c.hours||0), 0);
+  const pct = total > 0 ? Math.round(done/total*100) : 0;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statTodo').textContent = todo;
+  document.getElementById('statInProg').textContent = inprog;
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statHours').textContent = hoursLeft.toFixed(1) + 'h';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function updateCountdown() {
+  const val = document.getElementById('examDate').value;
+  const el = document.getElementById('countdown');
+  if (!val) { el.textContent = ''; return; }
+  const exam = new Date(val); const today = new Date();
+  today.setHours(0,0,0,0); exam.setHours(0,0,0,0);
+  const diff = Math.round((exam - today) / 86400000);
+  if (diff < 0) el.textContent = `${Math.abs(diff)}d ago`;
+  else if (diff === 0) el.textContent = '🎯 Today!';
+  else el.textContent = `${diff}d left`;
+  el.style.color = diff <= 7 ? '#ef4444' : diff <= 14 ? '#f59e0b' : '#6366f1';
+}
+
+function redistributeDates(silent) {
+  const examVal = document.getElementById('examDate').value;
+  if (!examVal) { if (!silent) toast('Set an exam date first!', 'info'); return; }
+  const exam = new Date(examVal);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const totalDays = Math.max(1, Math.round((exam - today) / 86400000));
+  const pending = cards.filter(c => c.status !== 'done');
+  const n = pending.length;
+  if (n === 0) return;
+  // Group by phase order for sequential scheduling
+  const phaseOrder = ['phase-0','phase-1','phase-2','phase-3','phase-4','phase-5','phase-6','workbook'];
+  pending.sort((a,b) => {
+    const ai = phaseOrder.indexOf(a.phase), bi = phaseOrder.indexOf(b.phase);
+    return ai !== bi ? ai - bi : 0;
+  });
+  // Reserve last 20% of days for practice/review
+  const studyDays = Math.max(n, Math.floor(totalDays * 0.85));
+  const interval = studyDays / n;
+  pending.forEach((c, i) => {
+    const d = new Date(today);
+    d.setDate(d.getDate() + Math.round(i * interval));
+    if (d >= exam) d.setDate(exam.getDate() - (n - i));
+    c.due = d.toISOString().slice(0,10);
+  });
+  saveData(); render();
+  if (!silent) toast('✨ Dates redistributed!', 'success');
+}
+
+// MODAL
+function openAddModal() {
+  editId = null;
+  document.getElementById('modalTitle').textContent = 'Add Study Task';
+  document.getElementById('fTitle').value = '';
+  document.getElementById('fNotes').value = '';
+  document.getElementById('fPhase').value = 'phase-0';
+  document.getElementById('fPriority').value = 'med';
+  document.getElementById('fDue').value = '';
+  document.getElementById('fHours').value = '';
+  document.getElementById('fStatus').value = 'todo';
+  document.getElementById('modal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const c = cards.find(x => x.id === id);
+  if (!c) return;
+  editId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Task';
+  document.getElementById('fTitle').value = c.title;
+  document.getElementById('fNotes').value = c.notes || '';
+  document.getElementById('fPhase').value = c.phase;
+  document.getElementById('fPriority').value = c.priority;
+  document.getElementById('fDue').value = c.due || '';
+  document.getElementById('fHours').value = c.hours || '';
+  document.getElementById('fStatus').value = c.status;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function saveCard() {
+  const title = document.getElementById('fTitle').value.trim();
+  if (!title) { document.getElementById('fTitle').focus(); return; }
+  const data = {
+    title, notes: document.getElementById('fNotes').value,
+    phase: document.getElementById('fPhase').value,
+    priority: document.getElementById('fPriority').value,
+    due: document.getElementById('fDue').value,
+    hours: parseFloat(document.getElementById('fHours').value) || 0,
+    status: document.getElementById('fStatus').value,
+  };
+  if (editId) {
+    const idx = cards.findIndex(c => c.id === editId);
+    if (idx >= 0) cards[idx] = { ...cards[idx], ...data };
+    toast('Task updated', 'info');
+  } else {
+    cards.push({ id: genId(), ...data });
+    toast('Task added!', 'success');
+  }
+  closeModal(); saveData(); render();
+}
+
+// CONTEXT MENU
+function openCtx(e, id) {
+  e.stopPropagation();
+  ctxCardId = id;
+  const menu = document.getElementById('ctxMenu');
+  menu.style.display = 'block';
+  menu.style.top = Math.min(e.clientY, window.innerHeight - 160) + 'px';
+  menu.style.left = Math.min(e.clientX, window.innerWidth - 160) + 'px';
+}
+
+function ctxAction(action) {
+  document.getElementById('ctxMenu').style.display = 'none';
+  if (!ctxCardId) return;
+  if (action === 'edit') { openEditModal(ctxCardId); return; }
+  if (action === 'delete') {
+    cards = cards.filter(c => c.id !== ctxCardId);
+    saveData(); render(); toast('Task deleted', 'info'); return;
+  }
+  moveCard(ctxCardId, action);
+}
+
+document.addEventListener('click', () => { document.getElementById('ctxMenu').style.display = 'none'; });
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+// FILTER
+function setFilter(f, el) {
+  activeFilter = f;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+// TOAST
+function toast(msg, type='info') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// EXAM DATE
+document.getElementById('examDate').addEventListener('change', () => {
+  updateCountdown(); saveData();
+});
+
+// KEYBOARD
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); document.getElementById('ctxMenu').style.display='none'; }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'n') { e.preventDefault(); openAddModal(); }
+});
+
+// INIT
+const defaultExam = (() => {
+  const d = new Date(); d.setDate(d.getDate() + 60);
+  return d.toISOString().slice(0,10);
+})();
+document.getElementById('examDate').value = defaultExam;
+loadData();
+updateCountdown();
+</script>
+</body>
+</html>
