@@ -20,6 +20,7 @@ export interface Project {
   resources: Resource[];
   teams: Team[];
   description: string;
+  statusReport: string;
 }
 
 export interface Program {

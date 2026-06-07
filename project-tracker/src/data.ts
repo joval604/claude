@@ -17,6 +17,7 @@ export const initialData: Division[] = [
             percentComplete: 65,
             goLiveDate: '2026-09-15',
             description: 'Full redesign of the customer-facing portal.',
+            statusReport: 'On track. UI components completed. Backend integration in progress.',
             resources: [
               { id: 'r1', name: 'Alex Kim', role: 'Project Manager' },
               { id: 'r2', name: 'Sara Lopez', role: 'Developer' },
@@ -33,6 +34,7 @@ export const initialData: Division[] = [
             percentComplete: 40,
             goLiveDate: '2026-08-01',
             description: 'Migrate legacy APIs to new gateway infrastructure.',
+            statusReport: 'Blocked - Awaiting approval on infrastructure requirements. Risk mitigation plan in place.',
             resources: [
               { id: 'r3', name: 'Jordan Lee', role: 'Tech Lead' },
             ],
@@ -55,6 +57,7 @@ export const initialData: Division[] = [
             percentComplete: 80,
             goLiveDate: '2026-07-10',
             description: 'Centralize all data sources into a unified data lake.',
+            statusReport: 'Nearly complete. Final testing and data validation in progress.',
             resources: [
               { id: 'r4', name: 'Morgan Chen', role: 'Data Engineer' },
               { id: 'r5', name: 'Riley Park', role: 'Analyst' },
@@ -83,6 +86,7 @@ export const initialData: Division[] = [
             percentComplete: 0,
             goLiveDate: '2026-12-01',
             description: 'Automate manual operational workflows.',
+            statusReport: 'Scheduled to start Q3. Requirements gathering phase pending.',
             resources: [],
             teams: [
               { id: 't6', name: 'Operations' },
