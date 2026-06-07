@@ -77,7 +77,7 @@ export default function App() {
                     return (
                       <div key={program.id} style={{ borderBottom: isLast ? 'none' : '1px solid #e2e8f0' }}>
                         {/* Program Row */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: '#dcfce7', cursor: 'pointer', userSelect: 'none' }}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: '#ede9fe', cursor: 'pointer', userSelect: 'none' }}
                           onClick={() => toggleProg(program.id)}>
                           <span style={{ fontSize: 13, color: '#64748b', transition: 'transform 0.2s', transform: progExpanded ? 'rotate(90deg)' : 'rotate(0)' }}>▶</span>
                           <span style={{ fontSize: 14, fontWeight: 600, color: '#334155', flex: 1 }}>{program.name}</span>
