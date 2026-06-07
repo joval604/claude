@@ -245,6 +245,10 @@
       </div>
     </div>
     <div class="form-group">
+      <label>Reference Pages / Lessons</label>
+      <input type="text" id="fRef" placeholder="e.g. Section 00 · Lessons 7–9">
+    </div>
+    <div class="form-group">
       <label>Status</label>
       <select id="fStatus">
         <option value="todo">To Do</option>
@@ -293,53 +297,53 @@ let activeFilter = 'all';
 // Default study tasks based on CPMAI curriculum
 const defaultTasks = [
   // Intro
-  { title: 'What is AI? Key Terms & Digital Transformation', phase: 'phase-0', priority: 'high', hours: 1.5, notes: 'Cover: AI definitions, how AI enables digital transformation, current AI landscape' },
-  { title: 'The Seven Patterns of AI', phase: 'phase-0', priority: 'high', hours: 1.5, notes: 'Memorize all 7 patterns + how to map business problems to them' },
-  { title: 'Why AI Projects Fail & Trustworthy AI Framework', phase: 'phase-0', priority: 'high', hours: 2, notes: 'Key failure reasons, 5-layer trustworthy AI framework, agile/iterative approach for AI' },
-  { title: 'CPMAI Overview – 6-Phase Iterative Methodology', phase: 'phase-0', priority: 'high', hours: 1, notes: 'Understand the full CPMAI loop and when to iterate back' },
+  { title: 'What is AI? Key Terms & Digital Transformation', phase: 'phase-0', priority: 'high', hours: 1.5, notes: 'Cover: AI definitions, how AI enables digital transformation, current AI landscape', ref: 'Section 00 · Lessons 1–6' },
+  { title: 'The Seven Patterns of AI', phase: 'phase-0', priority: 'high', hours: 1.5, notes: 'Memorize all 7 patterns + how to map business problems to them', ref: 'Section 00 · Lessons 7–9' },
+  { title: 'Why AI Projects Fail & Trustworthy AI Framework', phase: 'phase-0', priority: 'high', hours: 2, notes: 'Key failure reasons, 5-layer trustworthy AI framework, agile/iterative approach for AI', ref: 'Section 00 · Lessons 10–16' },
+  { title: 'CPMAI Overview – 6-Phase Iterative Methodology', phase: 'phase-0', priority: 'high', hours: 1, notes: 'Understand the full CPMAI loop and when to iterate back', ref: 'Section 00 · Lessons 17–23' },
 
   // Phase I
-  { title: 'Phase I: Define the Problem – Is AI the Right Fit?', phase: 'phase-1', priority: 'high', hours: 2, notes: 'AI vs non-AI, augmented intelligence, well-suited AI applications, DIKUW pyramid' },
-  { title: 'Phase I: AI Feasibility & Go/No-Go Decision', phase: 'phase-1', priority: 'high', hours: 1.5, notes: 'Strategic questions, the AI project go/no-go decision framework' },
-  { title: 'Phase I: ROI, Success Metrics & Scoping', phase: 'phase-1', priority: 'med', hours: 2, notes: 'ROI timelines, performance acceptance levels, PoC trap, pretrained/foundation models' },
-  { title: 'Phase I: Team Requirements & AI-Specific Risks', phase: 'phase-1', priority: 'med', hours: 1.5, notes: 'Trustworthy AI requirements, XAI/transparency, GenAI challenges' },
+  { title: 'Phase I: Define the Problem – Is AI the Right Fit?', phase: 'phase-1', priority: 'high', hours: 2, notes: 'AI vs non-AI, augmented intelligence, well-suited AI applications, DIKUW pyramid', ref: 'Section 01 · Lessons 1–4 (Determine Problem & AI Fit)' },
+  { title: 'Phase I: AI Feasibility & Go/No-Go Decision', phase: 'phase-1', priority: 'high', hours: 1.5, notes: 'Strategic questions, the AI project go/no-go decision framework', ref: 'Section 01 · Lessons 5–8 (Evaluate Feasibility, Map to Patterns, Go/No-Go)' },
+  { title: 'Phase I: ROI, Success Metrics & Scoping', phase: 'phase-1', priority: 'med', hours: 2, notes: 'ROI timelines, performance acceptance levels, PoC trap, pretrained/foundation models', ref: 'Section 01 · Lessons 9–12 (ROI, Success Metrics, Scope & Schedule)' },
+  { title: 'Phase I: Team Requirements & AI-Specific Risks', phase: 'phase-1', priority: 'med', hours: 1.5, notes: 'Trustworthy AI requirements, XAI/transparency, GenAI challenges', ref: 'Section 01 · Lessons 13–16 (Team Needs, AI Risks, Map to Phase I)' },
 
   // Phase II
-  { title: 'Phase II: Role of Data & Big Data Concepts', phase: 'phase-2', priority: 'high', hours: 2, notes: 'Big Data 4 Vs (Volume, Velocity, Variety, Veracity), data-first approach' },
-  { title: 'Phase II: Data Quality, Quantity & AI-Specific Needs', phase: 'phase-2', priority: 'high', hours: 1.5, notes: 'Failure reasons from data issues, structured vs unstructured data, ground truth data' },
-  { title: 'Phase II: Data Privacy, Governance & Access', phase: 'phase-2', priority: 'med', hours: 1.5, notes: 'Data governance, data stewardship, informational bias, compliance requirements' },
-  { title: 'Phase II: Analytics, Data Roles & Phase Go/No-Go', phase: 'phase-2', priority: 'med', hours: 1, notes: 'Data science vs analytics, data life cycle, when to iterate back' },
+  { title: 'Phase II: Role of Data & Big Data Concepts', phase: 'phase-2', priority: 'high', hours: 2, notes: 'Big Data 4 Vs (Volume, Velocity, Variety, Veracity), data-first approach', ref: 'Section 02 · Lessons 1–5 (Role of Data, Big Data, Vs of Big Data)' },
+  { title: 'Phase II: Data Quality, Quantity & AI-Specific Needs', phase: 'phase-2', priority: 'high', hours: 1.5, notes: 'Failure reasons from data issues, structured vs unstructured data, ground truth data', ref: 'Section 02 · Lessons 6–9 (Data Quality/Quantity, Determine Data Sets)' },
+  { title: 'Phase II: Data Privacy, Governance & Access', phase: 'phase-2', priority: 'med', hours: 1.5, notes: 'Data governance, data stewardship, informational bias, compliance requirements', ref: 'Section 02 · Lessons 10–13 (Privacy, Compliance, Data Infrastructure)' },
+  { title: 'Phase II: Analytics, Data Roles & Phase Go/No-Go', phase: 'phase-2', priority: 'med', hours: 1, notes: 'Data science vs analytics, data life cycle, when to iterate back', ref: 'Section 02 · Lessons 14–18 (Analytics, Data Roles, Map to Phase II)' },
 
   // Phase III
-  { title: 'Phase III: Data Engineering & Pipeline Concepts', phase: 'phase-3', priority: 'high', hours: 2, notes: 'Data engineering, ETL pipelines, data ingestion approaches, pipeline complexity' },
-  { title: 'Phase III: Data Quality Checks & Cleansing', phase: 'phase-3', priority: 'high', hours: 1.5, notes: 'Ways to improve data quality, cleaning/enhancing data, data sampling & splitting' },
-  { title: 'Phase III: Transformation, Synthetic Data & Augmentation', phase: 'phase-3', priority: 'high', hours: 1.5, notes: 'Data transformation, synthetic data generation, image augmentation techniques, data labeling' },
-  { title: 'Phase III: GenAI Data Management & Trustworthy AI', phase: 'phase-3', priority: 'med', hours: 1.5, notes: 'Using GenAI for data prep/augmentation, data governance framework, roles & lifecycle' },
+  { title: 'Phase III: Data Engineering & Pipeline Concepts', phase: 'phase-3', priority: 'high', hours: 2, notes: 'Data engineering, ETL pipelines, data ingestion approaches, pipeline complexity', ref: 'Section 03 · Lessons 1–7 (Data Prep Concepts, Data Pipeline, Engineering)' },
+  { title: 'Phase III: Data Quality Checks & Cleansing', phase: 'phase-3', priority: 'high', hours: 1.5, notes: 'Ways to improve data quality, cleaning/enhancing data, data sampling & splitting', ref: 'Section 03 · Lessons 8–12 (Quality Check, Cleansing, Sampling, Splitting)' },
+  { title: 'Phase III: Transformation, Synthetic Data & Augmentation', phase: 'phase-3', priority: 'high', hours: 1.5, notes: 'Data transformation, synthetic data generation, image augmentation techniques, data labeling', ref: 'Section 03 · Lessons 13–18 (Transformation, Synthetic Data, Augmentation, Labeling)' },
+  { title: 'Phase III: GenAI Data Management & Trustworthy AI', phase: 'phase-3', priority: 'med', hours: 1.5, notes: 'Using GenAI for data prep/augmentation, data governance framework, roles & lifecycle', ref: 'Section 03 · Lessons 19–24 (GenAI for Data, Trustworthy AI, Data Governance)' },
 
   // Phase IV
-  { title: 'Phase IV: Machine Learning Fundamentals', phase: 'phase-4', priority: 'high', hours: 2.5, notes: 'Supervised, unsupervised, reinforcement learning; ML algorithms & models' },
-  { title: 'Phase IV: Model Development & AutoML', phase: 'phase-4', priority: 'high', hours: 2, notes: 'What is AI model development, AutoML, transfer learning, third-party/pretrained models' },
-  { title: 'Phase IV: Model Validation & Generalization', phase: 'phase-4', priority: 'high', hours: 1.5, notes: 'Overfitting, underfitting, validation techniques, generalizing to new data' },
-  { title: 'Phase IV: Building Generative AI Systems & RAG', phase: 'phase-4', priority: 'high', hours: 2, notes: 'GenAI system architecture, RAG, fine-tuning LLMs, foundation models' },
+  { title: 'Phase IV: Machine Learning Fundamentals', phase: 'phase-4', priority: 'high', hours: 2.5, notes: 'Supervised, unsupervised, reinforcement learning; ML algorithms & models', ref: 'Section 04 · Lessons 2–6 (Intro to ML, Algorithm vs Model, ML Basics, Other Models)' },
+  { title: 'Phase IV: Model Development & AutoML', phase: 'phase-4', priority: 'high', hours: 2, notes: 'What is AI model development, AutoML, transfer learning, third-party/pretrained models', ref: 'Section 04 · Lessons 7–11 (Model Development, AutoML, Workbook Checkpoint, Transfer Learning)' },
+  { title: 'Phase IV: Model Validation & Generalization', phase: 'phase-4', priority: 'high', hours: 1.5, notes: 'Overfitting, underfitting, validation techniques, generalizing to new data', ref: 'Section 04 · Lessons 12–14 (Intro to Model Validation, Generalizing to New Data)' },
+  { title: 'Phase IV: Building Generative AI Systems & RAG', phase: 'phase-4', priority: 'high', hours: 2, notes: 'GenAI system architecture, RAG, fine-tuning LLMs, foundation models', ref: 'Section 04 · Lessons 15–20 (Building GenAI Systems, RAG, Fine-Tune LLMs, Workbook Checkpoint)' },
 
   // Phase V
-  { title: 'Phase V: AI Testing Strategies & Frameworks', phase: 'phase-5', priority: 'high', hours: 2, notes: 'Types of AI testing, evaluation metrics, testing vs traditional software' },
-  { title: 'Phase V: Evaluating AI Model Performance', phase: 'phase-5', priority: 'high', hours: 2, notes: 'Performance metrics (accuracy, precision, recall, F1), bias evaluation, model comparison' },
-  { title: 'Phase V: Testing Generative AI Systems', phase: 'phase-5', priority: 'med', hours: 1.5, notes: 'Evaluating LLMs, hallucination testing, safety evaluation, red teaming basics' },
+  { title: 'Phase V: AI Testing Strategies & Frameworks', phase: 'phase-5', priority: 'high', hours: 2, notes: 'Types of AI testing, evaluation metrics, testing vs traditional software', ref: 'Section 05 · Part 1 – Testing Strategies (05_Testing-and-Evaluating-AI-Systems.pdf)' },
+  { title: 'Phase V: Evaluating AI Model Performance', phase: 'phase-5', priority: 'high', hours: 2, notes: 'Performance metrics (accuracy, precision, recall, F1), bias evaluation, model comparison', ref: 'Section 05 · Part 2 – Model Evaluation Metrics (05_Testing-and-Evaluating-AI-Systems.pdf)' },
+  { title: 'Phase V: Testing Generative AI Systems', phase: 'phase-5', priority: 'med', hours: 1.5, notes: 'Evaluating LLMs, hallucination testing, safety evaluation, red teaming basics', ref: 'Section 05 · Part 3 – GenAI Testing (05_Testing-and-Evaluating-AI-Systems.pdf)' },
 
   // Phase VI
-  { title: 'Phase VI: Moving AI Models into Operation', phase: 'phase-6', priority: 'high', hours: 1.5, notes: 'Inference phase vs training, different infrastructure & data pipeline needs' },
-  { title: 'Phase VI: AI Platforms, Infrastructure & Interaction Modes', phase: 'phase-6', priority: 'high', hours: 2, notes: '4 tech environments, batch/microservice/real-time/stream learning, on-prem vs edge vs cloud' },
-  { title: 'Phase VI: Model Lifecycle Management & MLOps', phase: 'phase-6', priority: 'high', hours: 2, notes: 'AI lifecycle challenges, MLOps, DevOps for AI, managing the data lifecycle' },
-  { title: 'Phase VI: Model Governance, Monitoring & Trustworthy AI in Ops', phase: 'phase-6', priority: 'high', hours: 1.5, notes: 'Model governance framework, model monitoring, malicious AI, securing ML models, regulations' },
-  { title: 'Phase VI: Operationalizing Generative AI & Limits of AI', phase: 'phase-6', priority: 'med', hours: 1.5, notes: 'GenAI in production, self-hosted vs API-hosted, GenAI risks, limits of AI technology' },
+  { title: 'Phase VI: Moving AI Models into Operation', phase: 'phase-6', priority: 'high', hours: 1.5, notes: 'Inference phase vs training, different infrastructure & data pipeline needs', ref: 'Section 06 · Lessons 1–5 (Inference Phase, Operationalization, Model Lifecycle Questions)' },
+  { title: 'Phase VI: AI Platforms, Infrastructure & Interaction Modes', phase: 'phase-6', priority: 'high', hours: 2, notes: '4 tech environments, batch/microservice/real-time/stream learning, on-prem vs edge vs cloud', ref: 'Section 06 · Lessons 6–19 (4 AI Environments, Batch, Microservices, Real-Time, Stream, Hot/Cold Path, On-Prem/Edge/Cloud)' },
+  { title: 'Phase VI: Operationalizing Generative AI & Limits of AI', phase: 'phase-6', priority: 'med', hours: 1.5, notes: 'GenAI in production, self-hosted vs API-hosted, GenAI risks, limits of AI technology', ref: 'Section 06 · Lessons 20–24 (Implementing GenAI, Self-Hosted vs API, GenAI Risks) + Lesson 41 (Limits of AI)' },
+  { title: 'Phase VI: Model Lifecycle Management & MLOps', phase: 'phase-6', priority: 'high', hours: 2, notes: 'AI lifecycle challenges, MLOps, DevOps for AI, managing the data lifecycle', ref: 'Section 06 · Lessons 25–31 (AI Lifecycle Challenges, Model Lifecycle Mgmt, Data Lifecycle, DevOps, MLOps)' },
+  { title: 'Phase VI: Model Governance, Monitoring & Trustworthy AI in Ops', phase: 'phase-6', priority: 'high', hours: 1.5, notes: 'Model governance framework, model monitoring, malicious AI, securing ML models, regulations', ref: 'Section 06 · Lessons 32–40 (Model Governance, Model Monitoring, Trustworthy AI, Safety, Malicious AI, Regulations)' },
 
   // Workbook & Practice
-  { title: 'Workbook: Complete Phase I–III Checkpoints', phase: 'workbook', priority: 'med', hours: 3, notes: 'Work through all CPMAI workbook checkpoints for Phases I, II, and III' },
-  { title: 'Workbook: Complete Phase IV–VI Checkpoints', phase: 'workbook', priority: 'med', hours: 3, notes: 'Work through all CPMAI workbook checkpoints for Phases IV, V, and VI' },
-  { title: 'Practice Exam #1 – Full Mock Exam', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Simulate real exam conditions. Review all wrong answers thoroughly.' },
-  { title: 'Practice Exam #2 – Focus on Weak Areas', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Targeted practice on phases where score was lowest in exam #1' },
-  { title: 'Final Review – Flash Cards & Key Frameworks', phase: 'workbook', priority: 'high', hours: 2, notes: 'Quick review of 7 AI patterns, CPMAI 6 phases, trustworthy AI layers, go/no-go criteria' },
+  { title: 'Workbook: Complete Phase I–III Checkpoints', phase: 'workbook', priority: 'med', hours: 3, notes: 'Work through all CPMAI workbook checkpoints for Phases I, II, and III', ref: 'CPMAI_Workbook.pdf · Sections for Phases I, II & III' },
+  { title: 'Workbook: Complete Phase IV–VI Checkpoints', phase: 'workbook', priority: 'med', hours: 3, notes: 'Work through all CPMAI workbook checkpoints for Phases IV, V, and VI', ref: 'CPMAI_Workbook.pdf · Sections for Phases IV, V & VI' },
+  { title: 'Practice Exam #1 – Full Mock Exam', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Simulate real exam conditions. Review all wrong answers thoroughly.', ref: 'CPMAI_Workbook_v7.0_Filled_Out_Sample.pdf · Use as reference after exam' },
+  { title: 'Practice Exam #2 – Focus on Weak Areas', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Targeted practice on phases where score was lowest in exam #1', ref: 'All Sections · Revisit lowest-scoring phase PDFs' },
+  { title: 'Final Review – Flash Cards & Key Frameworks', phase: 'workbook', priority: 'high', hours: 2, notes: 'Quick review of 7 AI patterns, CPMAI 6 phases, trustworthy AI layers, go/no-go criteria', ref: 'Section 00 Lessons 7–9 · Section 01 Lessons 5–8 · Section 06 Lessons 32–40' },
 ];
 
 function genId() { return 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,6); }
@@ -368,6 +372,7 @@ function initDefaults() {
     phase: t.phase,
     priority: t.priority,
     hours: t.hours,
+    ref: t.ref || '',
     due: '',
     status: 'todo',
   }));
@@ -435,6 +440,7 @@ function cardHTML(c) {
       ${c.hours ? `<span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${c.hours}h</span>` : ''}
     </div>
     ${c.notes ? `<div style="font-size:0.72rem;color:#333;margin-top:8px;line-height:1.5">${escHtml(c.notes.slice(0,120))}${c.notes.length>120?'…':''}</div>` : ''}
+    ${c.ref ? `<div style="font-size:0.7rem;color:#5b21b6;background:#ddd6fe;border-radius:4px;padding:3px 7px;margin-top:8px;font-weight:600">📖 ${escHtml(c.ref)}</div>` : ''}
     <div class="card-actions">
       ${c.status !== 'done' ? `<button class="btn btn-ghost btn-sm" onclick="moveCard('${c.id}','done')">✓ Done</button>` : `<button class="btn btn-ghost btn-sm" onclick="moveCard('${c.id}','todo')">↩ Undo</button>`}
       ${c.status === 'todo' ? `<button class="btn btn-primary btn-sm" onclick="moveCard('${c.id}','inprog')">▶ Start</button>` : ''}
@@ -544,6 +550,7 @@ function openAddModal() {
   document.getElementById('fPriority').value = 'med';
   document.getElementById('fDue').value = '';
   document.getElementById('fHours').value = '';
+  document.getElementById('fRef').value = '';
   document.getElementById('fStatus').value = 'todo';
   document.getElementById('modal').classList.add('open');
 }
@@ -559,6 +566,7 @@ function openEditModal(id) {
   document.getElementById('fPriority').value = c.priority;
   document.getElementById('fDue').value = c.due || '';
   document.getElementById('fHours').value = c.hours || '';
+  document.getElementById('fRef').value = c.ref || '';
   document.getElementById('fStatus').value = c.status;
   document.getElementById('modal').classList.add('open');
 }
@@ -574,6 +582,7 @@ function saveCard() {
     priority: document.getElementById('fPriority').value,
     due: document.getElementById('fDue').value,
     hours: parseFloat(document.getElementById('fHours').value) || 0,
+    ref: document.getElementById('fRef').value.trim(),
     status: document.getElementById('fStatus').value,
   };
   if (editId) {
