@@ -236,12 +236,21 @@
     </div>
     <div class="form-row">
       <div class="form-group">
+        <label>Task Start Date</label>
+        <input type="date" id="fTaskStart">
+      </div>
+      <div class="form-group">
         <label>Due Date</label>
         <input type="date" id="fDue">
       </div>
+    </div>
+    <div class="form-row">
       <div class="form-group">
         <label>Study Time (hours)</label>
         <input type="number" id="fHours" min="0.5" max="40" step="0.5" placeholder="e.g. 2">
+      </div>
+      <div class="form-group" style="display:flex;align-items:flex-end">
+        <span id="fDurationLabel" style="font-size:0.78rem;color:var(--text-muted);padding-bottom:6px"></span>
       </div>
     </div>
     <div class="form-group">
@@ -344,6 +353,16 @@ const defaultTasks = [
   { title: 'Practice Exam #1 – Full Mock Exam', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Simulate real exam conditions. Review all wrong answers thoroughly.', ref: 'CPMAI_Workbook_v7.0_Filled_Out_Sample.pdf · Use as reference after exam' },
   { title: 'Practice Exam #2 – Focus on Weak Areas', phase: 'workbook', priority: 'high', hours: 2.5, notes: 'Targeted practice on phases where score was lowest in exam #1', ref: 'All Sections · Revisit lowest-scoring phase PDFs' },
   { title: 'Final Review – Flash Cards & Key Frameworks', phase: 'workbook', priority: 'high', hours: 2, notes: 'Quick review of 7 AI patterns, CPMAI 6 phases, trustworthy AI layers, go/no-go criteria', ref: 'Section 00 Lessons 7–9 · Section 01 Lessons 5–8 · Section 06 Lessons 32–40' },
+
+  // Quizzes (after each phase)
+  { title: '🧠 Quiz: Intro – AI Fundamentals & CPMAI Overview', phase: 'phase-0', priority: 'high', hours: 0.5, notes: 'Test yourself: AI definitions, 7 patterns, why projects fail, 5-layer trustworthy AI framework, CPMAI 6 phases', ref: 'Section 00 · Lessons 1–23 (Full Section Review)' },
+  { title: '🧠 Quiz: Phase I – Business Understanding', phase: 'phase-1', priority: 'high', hours: 0.5, notes: 'Test yourself: AI fit assessment, go/no-go criteria, ROI, success metrics, project scoping, risk identification', ref: 'Section 01 · Full Section Review' },
+  { title: '🧠 Quiz: Phase II – Data Understanding', phase: 'phase-2', priority: 'high', hours: 0.5, notes: 'Test yourself: Big Data 4 Vs, data quality vs quantity, structured/unstructured data, data governance, stewardship', ref: 'Section 02 · Full Section Review' },
+  { title: '🧠 Quiz: Phase III – Data Preparation', phase: 'phase-3', priority: 'high', hours: 0.5, notes: 'Test yourself: Data pipelines, cleansing techniques, synthetic data, augmentation, labeling, governance framework', ref: 'Section 03 · Full Section Review' },
+  { title: '🧠 Quiz: Phase IV – Model Development', phase: 'phase-4', priority: 'high', hours: 0.5, notes: 'Test yourself: ML types, algorithm vs model, AutoML, transfer learning, model validation, GenAI & RAG', ref: 'Section 04 · Full Section Review' },
+  { title: '🧠 Quiz: Phase V – Testing & Evaluation', phase: 'phase-5', priority: 'high', hours: 0.5, notes: 'Test yourself: Testing frameworks, performance metrics (accuracy, precision, recall, F1), bias evaluation, GenAI testing', ref: 'Section 05 · Full Section Review' },
+  { title: '🧠 Quiz: Phase VI – Operationalizing AI', phase: 'phase-6', priority: 'high', hours: 0.5, notes: 'Test yourself: Inference vs training, 4 AI environments, deployment modes, MLOps, model governance, trustworthy AI in ops', ref: 'Section 06 · Full Section Review' },
+  { title: '🧠 Quiz: Full CPMAI Comprehensive Review', phase: 'workbook', priority: 'high', hours: 1, notes: 'Final comprehensive quiz covering all 6 CPMAI phases and key cross-cutting themes (trustworthy AI, go/no-go, data-centricity)', ref: 'All Sections · Cross-phase knowledge check' },
 ];
 
 function genId() { return 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,6); }
@@ -355,12 +374,23 @@ function loadData() {
     cards = parsed.cards || [];
     if (parsed.examDate) document.getElementById('examDate').value = parsed.examDate;
     if (parsed.startDate) document.getElementById('startDate').value = parsed.startDate;
-    // Backfill ref for any card missing it
+    // Backfill ref + add any missing quiz tasks
     const refMap = {};
-    defaultTasks.forEach(t => { refMap[t.title] = t.ref || ''; });
+    defaultTasks.forEach(t => { refMap[t.title] = { ref: t.ref || '', hours: t.hours || 0 }; });
     let changed = false;
     cards.forEach(c => {
-      if (!c.ref && refMap[c.title]) { c.ref = refMap[c.title]; changed = true; }
+      const def = refMap[c.title];
+      if (def) {
+        if (!c.ref) { c.ref = def.ref; changed = true; }
+        if (!c.hours && def.hours) { c.hours = def.hours; changed = true; }
+      }
+    });
+    // Add missing quiz tasks
+    const existingTitles = new Set(cards.map(c => c.title));
+    defaultTasks.filter(t => t.title.startsWith('🧠') && !existingTitles.has(t.title)).forEach(t => {
+      cards.push({ id: genId(), title: t.title, notes: t.notes || '', phase: t.phase,
+        priority: t.priority, hours: t.hours, due: '', taskStart: '', ref: t.ref || '', status: 'todo' });
+      changed = true;
     });
     if (changed) saveData();
   } else {
@@ -433,18 +463,26 @@ function cardHTML(c) {
       else if (diff <= 3) dueCls = 'due-soon';
     }
   }
+  let startText = '';
+  if (c.taskStart) {
+    const sd = new Date(c.taskStart);
+    startText = sd.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+  }
+  const isQuiz = c.title.startsWith('🧠');
   const doneTick = c.status === 'done' ? 'opacity:0.6;' : '';
-  return `<div class="card" id="card-${c.id}" draggable="true" style="${doneTick}">
+  const quizBorder = isQuiz ? 'border-left:3px solid #6366f1;' : '';
+  return `<div class="card" id="card-${c.id}" draggable="true" style="${doneTick}${quizBorder}">
     <div class="card-top">
       <div class="card-title">${escHtml(c.title)}</div>
       <button class="card-menu-btn" onclick="openCtx(event,'${c.id}')">⋮</button>
     </div>
     <div class="card-tags">
       <span class="tag" style="background:${pBg}22;color:#1e293b;border:1px solid ${pBg}55;font-weight:700">${pLabel}</span>
+      ${isQuiz ? `<span class="tag" style="background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;font-weight:700">Quiz</span>` : ''}
     </div>
     <div class="card-meta">
       <span class="meta-item"><span class="priority-dot" style="background:${prioColor}"></span>${c.priority}</span>
-      ${c.due ? `<span class="meta-item ${dueCls}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${dueText}</span>` : ''}
+      ${(c.taskStart && c.due) ? `<span class="meta-item ${dueCls}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${startText} → ${dueText}</span>` : c.due ? `<span class="meta-item ${dueCls}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${dueText}</span>` : ''}
       ${c.hours ? `<span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${c.hours}h</span>` : ''}
     </div>
     ${c.notes ? `<div style="font-size:0.72rem;color:#333;margin-top:8px;line-height:1.5">${escHtml(c.notes.slice(0,120))}${c.notes.length>120?'…':''}</div>` : ''}
@@ -532,17 +570,32 @@ function redistributeDates(silent) {
   const n = pending.length;
   if (n === 0) return;
   const phaseOrder = ['phase-0','phase-1','phase-2','phase-3','phase-4','phase-5','phase-6','workbook'];
+  // Sort: study tasks first (by phase), then quizzes within each phase at the end
   pending.sort((a,b) => {
     const ai = phaseOrder.indexOf(a.phase), bi = phaseOrder.indexOf(b.phase);
-    return ai !== bi ? ai - bi : 0;
+    if (ai !== bi) return ai - bi;
+    const aQ = a.title.startsWith('🧠') ? 1 : 0;
+    const bQ = b.title.startsWith('🧠') ? 1 : 0;
+    return aQ - bQ;
   });
-  const studyDays = Math.max(n, Math.floor(totalDays * 0.85));
-  const interval = studyDays / n;
-  pending.forEach((c, i) => {
-    const d = new Date(start);
-    d.setDate(d.getDate() + Math.round(i * interval));
-    if (d >= exam) d.setDate(exam.getDate() - (n - i));
-    c.due = d.toISOString().slice(0,10);
+  // Calculate total hours and derive a daily study pace
+  const totalHours = pending.reduce((s, c) => s + (c.hours || 1), 0);
+  const studyDays = Math.floor(totalDays * 0.9); // leave 10% buffer before exam
+  const hoursPerDay = Math.max(1, totalHours / studyDays); // avg hrs/day needed
+  // Assign taskStart + due for each task based on its hour weight
+  let cursor = new Date(start);
+  pending.forEach((c) => {
+    const taskDays = Math.max(1, Math.round((c.hours || 1) / hoursPerDay));
+    const taskStart = new Date(cursor);
+    const due = new Date(cursor);
+    due.setDate(due.getDate() + taskDays - 1);
+    // Clamp to exam date
+    if (due >= exam) due.setDate(exam.getDate() - 1);
+    if (taskStart >= exam) taskStart.setDate(exam.getDate() - 1);
+    c.taskStart = taskStart.toISOString().slice(0, 10);
+    c.due = due.toISOString().slice(0, 10);
+    cursor = new Date(due);
+    cursor.setDate(cursor.getDate() + 1);
   });
   saveData(); render();
   if (!silent) toast('✨ Dates redistributed!', 'success');
@@ -556,10 +609,12 @@ function openAddModal() {
   document.getElementById('fNotes').value = '';
   document.getElementById('fPhase').value = 'phase-0';
   document.getElementById('fPriority').value = 'med';
+  document.getElementById('fTaskStart').value = '';
   document.getElementById('fDue').value = '';
   document.getElementById('fHours').value = '';
   document.getElementById('fRef').value = '';
   document.getElementById('fStatus').value = 'todo';
+  document.getElementById('fDurationLabel').textContent = '';
   document.getElementById('modal').classList.add('open');
 }
 
@@ -572,10 +627,12 @@ function openEditModal(id) {
   document.getElementById('fNotes').value = c.notes || '';
   document.getElementById('fPhase').value = c.phase;
   document.getElementById('fPriority').value = c.priority;
+  document.getElementById('fTaskStart').value = c.taskStart || '';
   document.getElementById('fDue').value = c.due || '';
   document.getElementById('fHours').value = c.hours || '';
   document.getElementById('fRef').value = c.ref || '';
   document.getElementById('fStatus').value = c.status;
+  updateModalDuration();
   document.getElementById('modal').classList.add('open');
 }
 
@@ -588,6 +645,7 @@ function saveCard() {
     title, notes: document.getElementById('fNotes').value,
     phase: document.getElementById('fPhase').value,
     priority: document.getElementById('fPriority').value,
+    taskStart: document.getElementById('fTaskStart').value,
     due: document.getElementById('fDue').value,
     hours: parseFloat(document.getElementById('fHours').value) || 0,
     ref: document.getElementById('fRef').value.trim(),
@@ -665,6 +723,17 @@ function updateDurationBadge() {
     badge.style.color = '#10b981';
   }
 }
+
+function updateModalDuration() {
+  const s = document.getElementById('fTaskStart').value;
+  const d = document.getElementById('fDue').value;
+  const lbl = document.getElementById('fDurationLabel');
+  if (s && d) {
+    const diff = Math.round((new Date(d) - new Date(s)) / 86400000) + 1;
+    lbl.textContent = diff > 0 ? `⏱ ${diff} day${diff>1?'s':''}` : '';
+  } else { lbl.textContent = ''; }
+}
+['fTaskStart','fDue'].forEach(id => document.getElementById(id).addEventListener('change', updateModalDuration));
 
 // EXAM DATE
 document.getElementById('examDate').addEventListener('change', () => {
