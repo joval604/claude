@@ -6,17 +6,17 @@
 <title>PMI CPMAI Study Board</title>
 <style>
   :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #22253a;
-    --border: #2e3250;
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface2: #f8fafc;
+    --border: #e2e8f0;
     --accent: #6366f1;
     --accent2: #8b5cf6;
-    --text: #e2e8f0;
-    --text-muted: #94a3b8;
-    --done-col: #1a2e1a;
-    --todo-col: #1a1d27;
-    --inprog-col: #1a1f2e;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --done-col: #f0fdf4;
+    --todo-col: #ffffff;
+    --inprog-col: #eef2ff;
     --tag-0: #0e7490; --tag-0t: #a5f3fc;
     --tag-1: #7c3aed; --tag-1t: #ddd6fe;
     --tag-2: #b45309; --tag-2t: #fde68a;
@@ -38,7 +38,7 @@
   .exam-block { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; }
   .exam-block label { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
   .exam-block input[type=date] { background: transparent; border: none; color: var(--text); font-size: 0.9rem; outline: none; cursor: pointer; }
-  .exam-block input[type=date]::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+  .exam-block input[type=date]::-webkit-calendar-picker-indicator { filter: none; cursor: pointer; }
   .countdown { font-size: 0.85rem; color: var(--accent); font-weight: 600; white-space: nowrap; }
   .btn { padding: 7px 14px; border-radius: 7px; font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; transition: opacity 0.15s; }
   .btn:hover { opacity: 0.85; }
@@ -67,7 +67,7 @@
   .col-header { padding: 10px 14px; border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: space-between; }
   .col-header h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
   .col-count { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 2px 7px; border-radius: 999px; }
-  .col-todo .col-header { background: var(--surface2); }
+  .col-todo .col-header { background: #e2e8f0; }
   .col-inprog .col-header { background: rgba(99,102,241,0.15); border-bottom: 2px solid var(--accent); }
   .col-done .col-header { background: rgba(16,185,129,0.1); border-bottom: 2px solid #10b981; }
   .col-done .col-header h3 { color: #10b981; }
@@ -121,7 +121,7 @@
 
   /* TOAST */
   .toast-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 300; }
-  .toast { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-size: 0.82rem; color: var(--text); animation: slideIn 0.2s ease; max-width: 280px; }
+  .toast { background: var(--surface); border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; padding: 10px 16px; font-size: 0.82rem; color: var(--text); animation: slideIn 0.2s ease; max-width: 280px; }
   .toast.success { border-left: 3px solid #10b981; }
   .toast.info { border-left: 3px solid var(--accent); }
   @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
