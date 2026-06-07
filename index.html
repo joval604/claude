@@ -144,10 +144,15 @@
   <div class="logo">PMI CPMAI™ Study Board <span>Certified Professional in Managing AI</span></div>
   <div class="header-controls">
     <div class="exam-block">
+      <label>📅 Study Start</label>
+      <input type="date" id="startDate">
+    </div>
+    <div class="exam-block">
       <label>🎯 Exam Date</label>
       <input type="date" id="examDate">
       <span class="countdown" id="countdown"></span>
     </div>
+    <span id="durationBadge" style="font-size:0.8rem;color:var(--text-muted)"></span>
     <button class="btn btn-ghost" onclick="openAddModal()">+ Add Task</button>
     <button class="btn btn-primary btn-sm" onclick="redistributeDates()">Auto-Schedule</button>
   </div>
@@ -344,12 +349,13 @@ function loadData() {
   if (saved) {
     const parsed = JSON.parse(saved);
     cards = parsed.cards || [];
-    const savedExam = parsed.examDate;
-    if (savedExam) document.getElementById('examDate').value = savedExam;
+    if (parsed.examDate) document.getElementById('examDate').value = parsed.examDate;
+    if (parsed.startDate) document.getElementById('startDate').value = parsed.startDate;
   } else {
     initDefaults();
   }
   updateCountdown();
+  updateDurationBadge();
   render();
 }
 
@@ -372,7 +378,8 @@ function initDefaults() {
 function saveData() {
   localStorage.setItem('cpmai_board', JSON.stringify({
     cards,
-    examDate: document.getElementById('examDate').value
+    examDate: document.getElementById('examDate').value,
+    startDate: document.getElementById('startDate').value,
   }));
 }
 
@@ -497,24 +504,28 @@ function updateCountdown() {
 
 function redistributeDates(silent) {
   const examVal = document.getElementById('examDate').value;
+  const startVal = document.getElementById('startDate').value;
   if (!examVal) { if (!silent) toast('Set an exam date first!', 'info'); return; }
-  const exam = new Date(examVal);
+  const exam = new Date(examVal); exam.setHours(0,0,0,0);
   const today = new Date(); today.setHours(0,0,0,0);
-  const totalDays = Math.max(1, Math.round((exam - today) / 86400000));
+  const start = startVal ? (() => { const d = new Date(startVal); d.setHours(0,0,0,0); return d; })() : today;
+  const totalDays = Math.round((exam - start) / 86400000);
+  if (!silent) {
+    if (totalDays < 30) { toast('⚠️ Study period must be at least 30 days.', 'info'); return; }
+    if (totalDays > 183) { toast('⚠️ Study period cannot exceed 6 months.', 'info'); return; }
+  }
   const pending = cards.filter(c => c.status !== 'done');
   const n = pending.length;
   if (n === 0) return;
-  // Group by phase order for sequential scheduling
   const phaseOrder = ['phase-0','phase-1','phase-2','phase-3','phase-4','phase-5','phase-6','workbook'];
   pending.sort((a,b) => {
     const ai = phaseOrder.indexOf(a.phase), bi = phaseOrder.indexOf(b.phase);
     return ai !== bi ? ai - bi : 0;
   });
-  // Reserve last 20% of days for practice/review
   const studyDays = Math.max(n, Math.floor(totalDays * 0.85));
   const interval = studyDays / n;
   pending.forEach((c, i) => {
-    const d = new Date(today);
+    const d = new Date(start);
     d.setDate(d.getDate() + Math.round(i * interval));
     if (d >= exam) d.setDate(exam.getDate() - (n - i));
     c.due = d.toISOString().slice(0,10);
@@ -617,9 +628,33 @@ function toast(msg, type='info') {
   setTimeout(() => el.remove(), 3000);
 }
 
+function updateDurationBadge() {
+  const startVal = document.getElementById('startDate').value;
+  const examVal = document.getElementById('examDate').value;
+  const badge = document.getElementById('durationBadge');
+  if (!startVal || !examVal) { badge.textContent = ''; return; }
+  const start = new Date(startVal); start.setHours(0,0,0,0);
+  const exam = new Date(examVal); exam.setHours(0,0,0,0);
+  const days = Math.round((exam - start) / 86400000);
+  if (days < 30) {
+    badge.textContent = `⚠️ ${days}d — minimum is 30 days`;
+    badge.style.color = '#ef4444';
+  } else if (days > 183) {
+    badge.textContent = `⚠️ ${days}d — maximum is 6 months`;
+    badge.style.color = '#ef4444';
+  } else {
+    const weeks = Math.round(days / 7);
+    badge.textContent = `📆 ${days} days (${weeks} weeks) study period`;
+    badge.style.color = '#10b981';
+  }
+}
+
 // EXAM DATE
 document.getElementById('examDate').addEventListener('change', () => {
-  updateCountdown(); saveData();
+  updateCountdown(); updateDurationBadge(); saveData();
+});
+document.getElementById('startDate').addEventListener('change', () => {
+  updateDurationBadge(); saveData();
 });
 
 // KEYBOARD
@@ -629,13 +664,16 @@ document.addEventListener('keydown', e => {
 });
 
 // INIT
+const todayStr = new Date().toISOString().slice(0,10);
 const defaultExam = (() => {
   const d = new Date(); d.setDate(d.getDate() + 60);
   return d.toISOString().slice(0,10);
 })();
+document.getElementById('startDate').value = todayStr;
 document.getElementById('examDate').value = defaultExam;
 loadData();
 updateCountdown();
+updateDurationBadge();
 </script>
 </body>
 </html>
