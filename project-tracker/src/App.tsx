@@ -61,7 +61,7 @@ export default function App() {
               {/* Division Header */}
               <div
                 onClick={() => toggleDiv(division.id)}
-                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: '#1e293b', color: '#fff', borderRadius: divExpanded ? '10px 10px 0 0' : 10, cursor: 'pointer', userSelect: 'none' }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: '#15803d', color: '#fff', borderRadius: divExpanded ? '10px 10px 0 0' : 10, cursor: 'pointer', userSelect: 'none' }}>
                 <span style={{ fontSize: 16, transition: 'transform 0.2s', transform: divExpanded ? 'rotate(90deg)' : 'rotate(0)' }}>▶</span>
                 <span style={{ fontSize: 16, fontWeight: 700 }}>{division.name}</span>
                 <span style={{ marginLeft: 'auto', fontSize: 13, color: '#94a3b8' }}>{division.programs.length} programs · {totalProjects} projects</span>
