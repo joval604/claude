@@ -766,10 +766,10 @@ document.addEventListener('keydown', e => {
 });
 
 // INIT
-const todayStr = new Date().toISOString().slice(0,10);
+const todayStr = fmtDate(new Date());
 const defaultExam = (() => {
   const d = new Date(); d.setDate(d.getDate() + 60);
-  return d.toISOString().slice(0,10);
+  return fmtDate(d);
 })();
 document.getElementById('startDate').value = todayStr;
 document.getElementById('examDate').value = defaultExam;
