@@ -43,7 +43,6 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-      {/* Header */}
       <div style={{ background: '#1e293b', color: '#fff', padding: '20px 32px', display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>Project Tracker</div>
         <div style={{ marginLeft: 'auto', fontSize: 13, color: '#94a3b8' }}>
@@ -58,7 +57,6 @@ export default function App() {
 
           return (
             <div key={division.id} style={{ marginBottom: 24 }}>
-              {/* Division Header */}
               <div
                 onClick={() => toggleDiv(division.id)}
                 style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: '#1e293b', color: '#fff', borderRadius: divExpanded ? '10px 10px 0 0' : 10, cursor: 'pointer', userSelect: 'none' }}>
@@ -76,7 +74,6 @@ export default function App() {
 
                     return (
                       <div key={program.id} style={{ borderBottom: isLast ? 'none' : '1px solid #e2e8f0' }}>
-                        {/* Program Row */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: '#f1f5f9', cursor: 'pointer', userSelect: 'none' }}
                           onClick={() => toggleProg(program.id)}>
                           <span style={{ fontSize: 13, color: '#64748b', transition: 'transform 0.2s', transform: progExpanded ? 'rotate(90deg)' : 'rotate(0)' }}>▶</span>
@@ -92,7 +89,6 @@ export default function App() {
                           </button>
                         </div>
 
-                        {/* Projects Table */}
                         {progExpanded && program.projects.length > 0 && (
                           <div style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
@@ -156,7 +152,6 @@ export default function App() {
         })}
       </div>
 
-      {/* Modals */}
       {editingProject && (
         <ProjectModal
           project={editingProject.project}

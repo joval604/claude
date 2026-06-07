@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Project, Resource, Status, Team } from '../types';
+import { Project, Resource } from '../types';
 import { StatusSelect } from './StatusBadge';
 
 interface Props {
