@@ -98,7 +98,7 @@ export default function App() {
                             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                               <thead>
                                 <tr style={{ background: '#f8fafc' }}>
-                                  {['Project', 'Status', 'Progress', 'Go-Live', 'Status Report', 'Teams', 'Resources', ''].map(h => (
+                                  {['Project', 'Status', 'Progress', 'Go-Live', 'Status Report', 'Project Manager', 'Teams', 'Resources', ''].map(h => (
                                     <th key={h} style={{ padding: '8px 16px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>{h}</th>
                                   ))}
                                 </tr>
@@ -114,6 +114,7 @@ export default function App() {
                                     <td style={{ ...tdStyle, minWidth: 140 }}><ProgressBar value={project.percentComplete} /></td>
                                     <td style={{ ...tdStyle, whiteSpace: 'nowrap', color: '#374151' }}>{formatDate(project.goLiveDate)}</td>
                                     <td style={{ ...tdStyle, maxWidth: 220, color: '#374151' }}>{project.statusReport || <span style={{ color: '#d1d5db' }}>—</span>}</td>
+                                    <td style={{ ...tdStyle, whiteSpace: 'nowrap', color: '#374151' }}>{project.resources.find(r => r.role === 'Project Manager')?.name || <span style={{ color: '#d1d5db' }}>—</span>}</td>
                                     <td style={tdStyle}>
                                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                                         {project.teams.map(t => (
