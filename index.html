@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PMI CPMAI Study Board</title>
+<title>CPMAI Study Board</title>
+<link rel="manifest" href="/claude/manifest.json">
+<meta name="theme-color" content="#6366f1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="CPMAI">
+<link rel="apple-touch-icon" href="/claude/icon-192.png">
 <style>
   :root {
     --bg: #f1f5f9;
@@ -776,6 +782,9 @@ document.getElementById('examDate').value = defaultExam;
 loadData();
 updateCountdown();
 updateDurationBadge();
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/claude/sw.js');
+}
 </script>
 </body>
 </html>
