@@ -1,0 +1,113 @@
+.table-wrap { overflow-x: auto; }
+
+.expense-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.expense-table thead tr {
+  background: linear-gradient(135deg, var(--pink-l), var(--lav-l));
+}
+.expense-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 900;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-l);
+  white-space: nowrap;
+}
+
+.expense-row {
+  border-bottom: 1px solid var(--pink-l);
+  transition: background 0.12s;
+}
+.expense-row:hover { background: var(--pink-l); }
+.expense-row:last-child { border-bottom: none; }
+
+.expense-table td {
+  padding: 13px 16px;
+  color: var(--text);
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.td-client {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink-d), var(--lav-d));
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.td-desc { max-width: 160px; }
+.td-notes { max-width: 140px; color: var(--text-l); font-size: 0.85rem; }
+.td-amount { font-weight: 900; color: var(--text); white-space: nowrap; }
+
+/* Status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.badge-draft    { background: #f0f0f0;        color: #888;     }
+.badge-invoiced { background: var(--sky);     color: #2a6da0;  }
+.badge-paid     { background: var(--mint-l);  color: #2a7a54;  }
+.badge-overdue  { background: var(--red-l);   color: #b0204a;  }
+
+/* Action buttons */
+.action-btns { display: flex; gap: 6px; align-items: center; }
+
+.btn-edit, .btn-delete, .btn-confirm, .btn-cancel {
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: grid;
+  place-items: center;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.btn-edit   { background: var(--lav-l); }
+.btn-delete { background: var(--red-l); }
+.btn-confirm { background: var(--mint-l); color: var(--mint-d); font-weight: 900; }
+.btn-cancel  { background: var(--red-l);  color: var(--red-d);  font-weight: 900; }
+
+.btn-edit:hover, .btn-delete:hover, .btn-confirm:hover, .btn-cancel:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Empty state */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 70px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-l);
+}
+.empty span { font-size: 3rem; }
+.empty-sub { font-size: 0.85rem; }

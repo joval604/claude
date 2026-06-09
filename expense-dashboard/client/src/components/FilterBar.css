@@ -1,0 +1,54 @@
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 2px solid var(--pink);
+  border-radius: var(--radius-s);
+  padding: 8px 14px;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: var(--shadow);
+}
+.search-icon { font-size: 1rem; }
+.filter-search input {
+  border: none;
+  outline: none;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  width: 100%;
+}
+.filter-search input::placeholder { color: var(--text-l); }
+
+.filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.pill {
+  border: 2px solid transparent;
+  border-radius: 99px;
+  padding: 7px 16px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pill-all       { background: var(--lav-l);  border-color: var(--lavender); color: var(--lav-d);  }
+.pill-draft     { background: #f5f5f5;        border-color: #ddd;            color: #888;          }
+.pill-invoiced  { background: var(--sky);     border-color: var(--sky-d);    color: #3a7cad;       }
+.pill-paid      { background: var(--mint-l);  border-color: var(--mint-d);   color: #2a8a60;       }
+.pill-overdue   { background: var(--red-l);   border-color: var(--red-d);    color: #c0295a;       }
+
+.pill.active,
+.pill:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); filter: brightness(0.95); }
