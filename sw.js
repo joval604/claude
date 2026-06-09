@@ -1,5 +1,5 @@
-const CACHE = 'cpmai-v1';
-const ASSETS = ['/claude/', '/claude/index.html', '/claude/manifest.json'];
+const CACHE = 'cpmai-v3';
+const ASSETS = ['/claude/', '/claude/index.html', '/claude/manifest.json', '/claude/icon-192.png', '/claude/icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
