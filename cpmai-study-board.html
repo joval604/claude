@@ -129,6 +129,10 @@ header h1{font-size:1.1rem;font-weight:700;color:#6366f1;white-space:nowrap}
 .doc-link{font-size:0.7rem;color:#6366f1;text-decoration:none}
 .doc-link:hover{text-decoration:underline}
 .linked-phase-badge{font-size:0.68rem;background:#fef3c7;color:#92400e;border-radius:4px;padding:0.1rem 0.4rem;margin-left:0.3rem;font-weight:600}
+.ref-btn{display:inline-flex;align-items:center;gap:0.25rem;padding:0.22rem 0.6rem;border-radius:5px;font-size:0.72rem;font-weight:600;color:#6366f1;background:#eef2ff;border:1px solid #c7d2fe;text-decoration:none;transition:all .15s;margin-top:0.25rem}
+.ref-btn:hover{background:#e0e7ff;border-color:#a5b4fc}
+.ref-btn-wb{color:#0369a1;background:#e0f2fe;border-color:#bae6fd}
+.ref-btn-wb:hover{background:#bae6fd}
 </style>
 </head>
 <body>
@@ -236,6 +240,7 @@ header h1{font-size:1.1rem;font-weight:700;color:#6366f1;white-space:nowrap}
     </div>
     <div class="form-row"><label>Est. Hours</label><input type="number" id="mHours" min="0.5" step="0.5" value="1"></div>
     <div class="form-row"><label>Reference Pages</label><input type="text" id="mRef" placeholder="e.g. pp. 12–18"></div>
+    <div class="form-row"><label>Document URL</label><input type="url" id="mDocUrl" placeholder="https://drive.google.com/…"></div>
     <div class="form-row"><label>Notes</label><textarea id="mNotes"></textarea></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
@@ -284,65 +289,68 @@ const TIMER_SEGMENTS = [
 ];
 
 // ── Default tasks (~46 hours) ──────────────────────────────────────────────
+// docUrl is stored on the task object in localStorage so it persists and is editable.
+// Workbook tasks carry both the workbook doc URL and a secondary link to the phase doc via linkedPhase.
+const D = DOC_URLS; // shorthand
 const DEFAULT_TASKS = [
   // INTRO
-  {title:'Read CPMAI Introduction & Overview',                    phase:'intro',     hours:1,   ref:'pp. 1–10'},
-  {title:'Understand AI Project Lifecycle Framework',             phase:'intro',     hours:1,   ref:'pp. 11–18'},
-  {title:'Quiz: CPMAI Intro Concepts',                            phase:'intro',     hours:0.5, ref:'pp. 1–18',    isQuiz:true},
+  {title:'Read CPMAI Introduction & Overview',                    phase:'intro',     hours:1,   ref:'pp. 1–10',           docUrl:D['intro']},
+  {title:'Understand AI Project Lifecycle Framework',             phase:'intro',     hours:1,   ref:'pp. 11–18',          docUrl:D['intro']},
+  {title:'Quiz: CPMAI Intro Concepts',                            phase:'intro',     hours:0.5, ref:'pp. 1–18',           docUrl:D['intro'],    isQuiz:true},
   // Phase I – Business Understanding
-  {title:'Business Problem Framing',                              phase:'phase-1',   hours:1.5, ref:'pp. 19–28'},
-  {title:'Stakeholder Identification & Goals',                    phase:'phase-1',   hours:1,   ref:'pp. 29–36'},
-  {title:'Success Criteria & KPIs',                               phase:'phase-1',   hours:1,   ref:'pp. 37–44'},
-  {title:'Feasibility & Risk Assessment',                         phase:'phase-1',   hours:1,   ref:'pp. 45–52'},
-  {title:'Workbook: Phase I Business Understanding Exercises',    phase:'workbook',  hours:1,   ref:'Workbook pp. 1–15',  linkedPhase:'phase-1'},
-  {title:'Quiz: Phase I Business Understanding',                  phase:'phase-1',   hours:0.5, ref:'pp. 19–52',   isQuiz:true},
+  {title:'Business Problem Framing',                              phase:'phase-1',   hours:1.5, ref:'pp. 19–28',          docUrl:D['phase-1']},
+  {title:'Stakeholder Identification & Goals',                    phase:'phase-1',   hours:1,   ref:'pp. 29–36',          docUrl:D['phase-1']},
+  {title:'Success Criteria & KPIs',                               phase:'phase-1',   hours:1,   ref:'pp. 37–44',          docUrl:D['phase-1']},
+  {title:'Feasibility & Risk Assessment',                         phase:'phase-1',   hours:1,   ref:'pp. 45–52',          docUrl:D['phase-1']},
+  {title:'Workbook: Phase I Business Understanding Exercises',    phase:'workbook',  hours:1,   ref:'Workbook pp. 1–15',  docUrl:D['workbook'], linkedPhase:'phase-1'},
+  {title:'Quiz: Phase I Business Understanding',                  phase:'phase-1',   hours:0.5, ref:'pp. 19–52',          docUrl:D['phase-1'], isQuiz:true},
   // Phase II – Data Understanding
-  {title:'Data Inventory & Sources',                              phase:'phase-2',   hours:1.5, ref:'pp. 53–62'},
-  {title:'Exploratory Data Analysis Techniques',                  phase:'phase-2',   hours:2,   ref:'pp. 63–78'},
-  {title:'Data Quality Assessment',                               phase:'phase-2',   hours:1.5, ref:'pp. 79–90'},
-  {title:'Data Governance & Ethics',                              phase:'phase-2',   hours:1,   ref:'pp. 91–98'},
-  {title:'Workbook: Phase II Data Understanding Exercises',       phase:'workbook',  hours:1.5, ref:'Workbook pp. 16–32', linkedPhase:'phase-2'},
-  {title:'Quiz: Phase II Data Understanding',                     phase:'phase-2',   hours:0.5, ref:'pp. 53–98',   isQuiz:true},
+  {title:'Data Inventory & Sources',                              phase:'phase-2',   hours:1.5, ref:'pp. 53–62',          docUrl:D['phase-2']},
+  {title:'Exploratory Data Analysis Techniques',                  phase:'phase-2',   hours:2,   ref:'pp. 63–78',          docUrl:D['phase-2']},
+  {title:'Data Quality Assessment',                               phase:'phase-2',   hours:1.5, ref:'pp. 79–90',          docUrl:D['phase-2']},
+  {title:'Data Governance & Ethics',                              phase:'phase-2',   hours:1,   ref:'pp. 91–98',          docUrl:D['phase-2']},
+  {title:'Workbook: Phase II Data Understanding Exercises',       phase:'workbook',  hours:1.5, ref:'Workbook pp. 16–32', docUrl:D['workbook'], linkedPhase:'phase-2'},
+  {title:'Quiz: Phase II Data Understanding',                     phase:'phase-2',   hours:0.5, ref:'pp. 53–98',          docUrl:D['phase-2'], isQuiz:true},
   // Phase III – Data Preparation
-  {title:'Data Cleaning Strategies',                              phase:'phase-3',   hours:2,   ref:'pp. 99–114'},
-  {title:'Feature Engineering & Selection',                       phase:'phase-3',   hours:2,   ref:'pp. 115–130'},
-  {title:'Data Transformation & Normalization',                   phase:'phase-3',   hours:1.5, ref:'pp. 131–142'},
-  {title:'Train / Validation / Test Splits',                      phase:'phase-3',   hours:1,   ref:'pp. 143–150'},
-  {title:'Workbook: Phase III Data Preparation Exercises',        phase:'workbook',  hours:1.5, ref:'Workbook pp. 33–50', linkedPhase:'phase-3'},
-  {title:'Quiz: Phase III Data Preparation',                      phase:'phase-3',   hours:0.5, ref:'pp. 99–150',  isQuiz:true},
+  {title:'Data Cleaning Strategies',                              phase:'phase-3',   hours:2,   ref:'pp. 99–114',         docUrl:D['phase-3']},
+  {title:'Feature Engineering & Selection',                       phase:'phase-3',   hours:2,   ref:'pp. 115–130',        docUrl:D['phase-3']},
+  {title:'Data Transformation & Normalization',                   phase:'phase-3',   hours:1.5, ref:'pp. 131–142',        docUrl:D['phase-3']},
+  {title:'Train / Validation / Test Splits',                      phase:'phase-3',   hours:1,   ref:'pp. 143–150',        docUrl:D['phase-3']},
+  {title:'Workbook: Phase III Data Preparation Exercises',        phase:'workbook',  hours:1.5, ref:'Workbook pp. 33–50', docUrl:D['workbook'], linkedPhase:'phase-3'},
+  {title:'Quiz: Phase III Data Preparation',                      phase:'phase-3',   hours:0.5, ref:'pp. 99–150',         docUrl:D['phase-3'], isQuiz:true},
   // Phase IV – Modeling
-  {title:'Model Selection Criteria',                              phase:'phase-4',   hours:2,   ref:'pp. 151–166'},
-  {title:'Supervised Learning Algorithms',                        phase:'phase-4',   hours:2,   ref:'pp. 167–184'},
-  {title:'Unsupervised & Reinforcement Learning',                 phase:'phase-4',   hours:1.5, ref:'pp. 185–196'},
-  {title:'Model Training & Hyperparameter Tuning',                phase:'phase-4',   hours:2,   ref:'pp. 197–212'},
-  {title:'Workbook: Phase IV Modeling Exercises',                 phase:'workbook',  hours:2,   ref:'Workbook pp. 51–72', linkedPhase:'phase-4'},
-  {title:'Quiz: Phase IV Modeling',                               phase:'phase-4',   hours:0.5, ref:'pp. 151–212', isQuiz:true},
+  {title:'Model Selection Criteria',                              phase:'phase-4',   hours:2,   ref:'pp. 151–166',        docUrl:D['phase-4']},
+  {title:'Supervised Learning Algorithms',                        phase:'phase-4',   hours:2,   ref:'pp. 167–184',        docUrl:D['phase-4']},
+  {title:'Unsupervised & Reinforcement Learning',                 phase:'phase-4',   hours:1.5, ref:'pp. 185–196',        docUrl:D['phase-4']},
+  {title:'Model Training & Hyperparameter Tuning',                phase:'phase-4',   hours:2,   ref:'pp. 197–212',        docUrl:D['phase-4']},
+  {title:'Workbook: Phase IV Modeling Exercises',                 phase:'workbook',  hours:2,   ref:'Workbook pp. 51–72', docUrl:D['workbook'], linkedPhase:'phase-4'},
+  {title:'Quiz: Phase IV Modeling',                               phase:'phase-4',   hours:0.5, ref:'pp. 151–212',        docUrl:D['phase-4'], isQuiz:true},
   // Phase V – Evaluation
-  {title:'Model Evaluation Metrics (Regression)',                 phase:'phase-5',   hours:1.5, ref:'pp. 213–224'},
-  {title:'Model Evaluation Metrics (Classification)',             phase:'phase-5',   hours:1.5, ref:'pp. 225–238'},
-  {title:'Bias, Fairness & Explainability',                       phase:'phase-5',   hours:1.5, ref:'pp. 239–250'},
-  {title:'Model Validation & Cross-Validation',                   phase:'phase-5',   hours:1.5, ref:'pp. 251–262'},
-  {title:'Workbook: Phase V Evaluation Exercises',                phase:'workbook',  hours:1.5, ref:'Workbook pp. 73–90', linkedPhase:'phase-5'},
-  {title:'Quiz: Phase V Evaluation',                              phase:'phase-5',   hours:0.5, ref:'pp. 213–262', isQuiz:true},
+  {title:'Model Evaluation Metrics (Regression)',                 phase:'phase-5',   hours:1.5, ref:'pp. 213–224',        docUrl:D['phase-5']},
+  {title:'Model Evaluation Metrics (Classification)',             phase:'phase-5',   hours:1.5, ref:'pp. 225–238',        docUrl:D['phase-5']},
+  {title:'Bias, Fairness & Explainability',                       phase:'phase-5',   hours:1.5, ref:'pp. 239–250',        docUrl:D['phase-5']},
+  {title:'Model Validation & Cross-Validation',                   phase:'phase-5',   hours:1.5, ref:'pp. 251–262',        docUrl:D['phase-5']},
+  {title:'Workbook: Phase V Evaluation Exercises',                phase:'workbook',  hours:1.5, ref:'Workbook pp. 73–90', docUrl:D['workbook'], linkedPhase:'phase-5'},
+  {title:'Quiz: Phase V Evaluation',                              phase:'phase-5',   hours:0.5, ref:'pp. 213–262',        docUrl:D['phase-5'], isQuiz:true},
   // Phase VI – Deployment
-  {title:'Model Deployment Patterns & MLOps',                     phase:'phase-6',   hours:2,   ref:'pp. 263–278'},
-  {title:'Monitoring & Model Drift',                              phase:'phase-6',   hours:1.5, ref:'pp. 279–290'},
-  {title:'Responsible AI & Governance',                           phase:'phase-6',   hours:1.5, ref:'pp. 291–304'},
-  {title:'Change Management & Stakeholder Buy-in',                phase:'phase-6',   hours:1,   ref:'pp. 305–314'},
-  {title:'Workbook: Phase VI Deployment Exercises',               phase:'workbook',  hours:1.5, ref:'Workbook pp. 91–108', linkedPhase:'phase-6'},
-  {title:'Quiz: Phase VI Deployment',                             phase:'phase-6',   hours:0.5, ref:'pp. 263–314', isQuiz:true},
-  // Week 7 Review
-  {title:'Full Phase I–III Review & Weak Area Deep Dive',         phase:'review',    hours:2,   ref:'Phases I–III'},
-  {title:'Full Phase IV–VI Review & Weak Area Deep Dive',         phase:'review',    hours:2,   ref:'Phases IV–VI'},
-  {title:'Practice Exam #1 (Full)',                               phase:'review',    hours:2,   ref:'Complete Syllabus', isQuiz:true},
-  {title:'Review Practice Exam #1 Answers',                       phase:'review',    hours:1.5, ref:'Complete Syllabus'},
+  {title:'Model Deployment Patterns & MLOps',                     phase:'phase-6',   hours:2,   ref:'pp. 263–278',        docUrl:D['phase-6']},
+  {title:'Monitoring & Model Drift',                              phase:'phase-6',   hours:1.5, ref:'pp. 279–290',        docUrl:D['phase-6']},
+  {title:'Responsible AI & Governance',                           phase:'phase-6',   hours:1.5, ref:'pp. 291–304',        docUrl:D['phase-6']},
+  {title:'Change Management & Stakeholder Buy-in',                phase:'phase-6',   hours:1,   ref:'pp. 305–314',        docUrl:D['phase-6']},
+  {title:'Workbook: Phase VI Deployment Exercises',               phase:'workbook',  hours:1.5, ref:'Workbook pp. 91–108',docUrl:D['workbook'], linkedPhase:'phase-6'},
+  {title:'Quiz: Phase VI Deployment',                             phase:'phase-6',   hours:0.5, ref:'pp. 263–314',        docUrl:D['phase-6'], isQuiz:true},
+  // Week 7 Review — link to start doc of each range as anchor
+  {title:'Full Phase I–III Review & Weak Area Deep Dive',         phase:'review',    hours:2,   ref:'Phases I–III',       docUrl:D['phase-1']},
+  {title:'Full Phase IV–VI Review & Weak Area Deep Dive',         phase:'review',    hours:2,   ref:'Phases IV–VI',       docUrl:D['phase-4']},
+  {title:'Practice Exam #1 (Full)',                               phase:'review',    hours:2,   ref:'Complete Syllabus',  docUrl:D['intro'],   isQuiz:true},
+  {title:'Review Practice Exam #1 Answers',                       phase:'review',    hours:1.5, ref:'Complete Syllabus',  docUrl:D['intro']},
   // Exam Prep (Week 8)
-  {title:'Final Cram: Phase I & II Key Concepts',                 phase:'exam-prep', hours:1,   ref:'Phases I–II'},
-  {title:'Final Cram: Phase III & IV Key Concepts',               phase:'exam-prep', hours:1,   ref:'Phases III–IV'},
-  {title:'Final Cram: Phase V & VI Key Concepts',                 phase:'exam-prep', hours:1,   ref:'Phases V–VI'},
-  {title:'Practice Exam #2 (Timed)',                              phase:'exam-prep', hours:2,   ref:'Complete Syllabus', isQuiz:true},
-  {title:'Review Practice Exam #2 & Shore Up Gaps',               phase:'exam-prep', hours:1.5, ref:'Complete Syllabus'},
-  {title:'Exam Day Preparation (Rest & Review Notes)',             phase:'exam-prep', hours:0.5, ref:'All Notes'},
+  {title:'Final Cram: Phase I & II Key Concepts',                 phase:'exam-prep', hours:1,   ref:'Phases I–II',        docUrl:D['phase-1']},
+  {title:'Final Cram: Phase III & IV Key Concepts',               phase:'exam-prep', hours:1,   ref:'Phases III–IV',      docUrl:D['phase-3']},
+  {title:'Final Cram: Phase V & VI Key Concepts',                 phase:'exam-prep', hours:1,   ref:'Phases V–VI',        docUrl:D['phase-5']},
+  {title:'Practice Exam #2 (Timed)',                              phase:'exam-prep', hours:2,   ref:'Complete Syllabus',  docUrl:D['intro'],   isQuiz:true},
+  {title:'Review Practice Exam #2 & Shore Up Gaps',               phase:'exam-prep', hours:1.5, ref:'Complete Syllabus',  docUrl:D['intro']},
+  {title:'Exam Day Preparation (Rest & Review Notes)',             phase:'exam-prep', hours:0.5, ref:'All Notes',          docUrl:D['intro']},
 ];
 
 // ── State ──────────────────────────────────────────────────────────────────
@@ -380,6 +388,8 @@ function loadState() {
     if (t.linkedPhase === undefined) t.linkedPhase = '';
     if (t.weak === undefined) t.weak = false;
     if (!t.hoursEst) t.hoursEst = 1;
+    // backfill docUrl: prefer stored value, else derive from DOC_URLS
+    if (!t.docUrl) t.docUrl = DOC_URLS[t.phase] || (t.linkedPhase && DOC_URLS[t.linkedPhase]) || '';
   });
   if (!state.weakPhases) state.weakPhases = [];
   if (!state.hoursLogged) state.hoursLogged = {};
@@ -418,6 +428,7 @@ function init() {
       id: uid(), title:t.title, phase:t.phase, status:'backlog',
       hoursEst:t.hours||1, ref:t.ref||'', notes:'',
       isQuiz:!!t.isQuiz, linkedPhase:t.linkedPhase||'',
+      docUrl:t.docUrl||'',
       weak:false, subStatus:null, taskStart:'', taskEnd:'',
     }));
     state.tasks = scheduleTasks(baseTasks, state.studyStart, state.examDate);
@@ -477,7 +488,6 @@ function renderBoard() {
 
 function makeCardEl(t) {
   const phase  = PHASES.find(p => p.id===t.phase) || PHASES[0];
-  const docUrl = DOC_URLS[t.phase] || (t.linkedPhase && DOC_URLS[t.linkedPhase]) || '';
   const el = document.createElement('div');
   el.className = 'card' + (t.weak?' weak-flag':'');
   el.dataset.id = t.id;
@@ -496,6 +506,28 @@ function makeCardEl(t) {
   const weakBadge = t.weak ? `<div class="weak-badge">🚩 Needs Review</div>` : '';
   const logged = state.hoursLogged[t.id] || 0;
 
+  // Reference link buttons
+  let refLinks = '';
+  if (t.ref) {
+    const isWorkbook = t.phase === 'workbook';
+    // Primary doc button
+    if (t.docUrl) {
+      const btnClass = isWorkbook ? 'ref-btn ref-btn-wb' : 'ref-btn';
+      const icon = isWorkbook ? '📒' : '📄';
+      const label = isWorkbook ? 'Open Workbook' : 'Open Document';
+      refLinks += `<a href="${t.docUrl}" target="_blank" class="${btnClass}" onclick="event.stopPropagation()">${icon} ${label} · ${escHtml(t.ref)}</a>`;
+    }
+    // Secondary phase doc button for workbook tasks
+    if (isWorkbook && t.linkedPhase && DOC_URLS[t.linkedPhase]) {
+      const pLabel = PHASES.find(p=>p.id===t.linkedPhase)?.label || t.linkedPhase;
+      refLinks += `<a href="${DOC_URLS[t.linkedPhase]}" target="_blank" class="ref-btn" onclick="event.stopPropagation()" style="margin-left:.3rem">📄 ${pLabel} Doc</a>`;
+    }
+    // Fallback text if no URL
+    if (!t.docUrl) {
+      refLinks = `<span style="font-size:.7rem;color:#64748b">📖 ${escHtml(t.ref)}</span>`;
+    }
+  }
+
   el.innerHTML = `
     <div class="card-top">
       <div class="card-title">${escHtml(t.title)}${t.isQuiz?' 📝':''}</div>
@@ -505,7 +537,7 @@ function makeCardEl(t) {
       <span class="phase-tag" style="background:${phase.color}">${phase.label}</span>${linkedBadge}
     </div>
     ${weakBadge}
-    ${t.ref?`<div class="card-ref">📖 ${escHtml(t.ref)}${docUrl?` <a href="${docUrl}" target="_blank" class="doc-link">↗</a>`:''}</div>`:''}
+    ${refLinks ? `<div style="margin-bottom:.3rem">${refLinks}</div>` : ''}
     <div class="card-dates">${t.taskStart||'—'} → ${t.taskEnd||'—'} · ${t.hoursEst}h est</div>
     ${t.status==='done'
       ? '<div class="substatus-row"><span class="ss-btn done-auto">✓ Complete</span></div>'
@@ -599,6 +631,7 @@ function openAddModal(defaultStatus='backlog') {
   document.getElementById('mEnd').value         = state.examDate||todayStr();
   document.getElementById('mHours').value       = '1';
   document.getElementById('mRef').value         = '';
+  document.getElementById('mDocUrl').value      = '';
   document.getElementById('mNotes').value       = '';
   document.getElementById('modalOverlay').classList.remove('hidden');
 }
@@ -615,6 +648,7 @@ function openEditModal(id) {
   document.getElementById('mEnd').value         = t.taskEnd||'';
   document.getElementById('mHours').value       = t.hoursEst||1;
   document.getElementById('mRef').value         = t.ref||'';
+  document.getElementById('mDocUrl').value      = t.docUrl||'';
   document.getElementById('mNotes').value       = t.notes||'';
   document.getElementById('modalOverlay').classList.remove('hidden');
 }
@@ -635,18 +669,21 @@ function saveModal() {
       taskEnd:document.getElementById('mEnd').value,
       hoursEst:parseFloat(document.getElementById('mHours').value)||1,
       ref:document.getElementById('mRef').value.trim(),
+      docUrl:document.getElementById('mDocUrl').value.trim(),
       notes:document.getElementById('mNotes').value.trim(),
     });
   } else {
+    const ph = document.getElementById('mPhase').value;
+    const lp = document.getElementById('mLinkedPhase').value;
     state.tasks.push({
-      id:uid(), title,
-      phase:document.getElementById('mPhase').value,
-      linkedPhase:document.getElementById('mLinkedPhase').value,
+      id:uid(), title, phase:ph,
+      linkedPhase:lp,
       status:document.getElementById('mStatus').value,
       taskStart:document.getElementById('mStart').value,
       taskEnd:document.getElementById('mEnd').value,
       hoursEst:parseFloat(document.getElementById('mHours').value)||1,
       ref:document.getElementById('mRef').value.trim(),
+      docUrl:document.getElementById('mDocUrl').value.trim() || DOC_URLS[ph] || (lp && DOC_URLS[lp]) || '',
       notes:document.getElementById('mNotes').value.trim(),
       isQuiz:false, weak:false, subStatus:null,
     });
