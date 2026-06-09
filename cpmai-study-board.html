@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPMAI Study Board</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6366f1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="CPMAI Study">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh}
+/* ── Header ── */
+header{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 1rem;display:flex;align-items:center;gap:1rem;height:56px;position:sticky;top:0;z-index:100}
+header h1{font-size:1.1rem;font-weight:700;color:#6366f1;white-space:nowrap}
+.nav-tabs{display:flex;gap:0.25rem;flex:1}
+.nav-tab{padding:0.4rem 0.8rem;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:500;color:#64748b;transition:all .15s}
+.nav-tab.active{background:#6366f1;color:#fff}
+.nav-tab:hover:not(.active){background:#f1f5f9}
+/* ── Config bar ── */
+.config-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:0.5rem 1rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem}
+.config-bar label{font-size:0.8rem;color:#64748b;display:flex;align-items:center;gap:0.4rem}
+.config-bar input[type=date],.config-bar input[type=text]{border:1px solid #cbd5e1;border-radius:6px;padding:0.3rem 0.5rem;font-size:0.82rem;color:#1e293b}
+.config-bar input[type=text]{width:220px}
+.btn{padding:0.35rem 0.8rem;border:none;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:600;transition:all .15s}
+.btn-primary{background:#6366f1;color:#fff}
+.btn-primary:hover{background:#4f46e5}
+.btn-sm{padding:0.25rem 0.6rem;font-size:0.78rem}
+.btn-ghost{background:transparent;border:1px solid #cbd5e1;color:#64748b}
+.btn-ghost:hover{background:#f1f5f9}
+/* ── Filter bar ── */
+.filter-bar{padding:0.6rem 1rem;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center}
+.filter-chip{padding:0.25rem 0.65rem;border-radius:999px;font-size:0.75rem;font-weight:600;cursor:pointer;border:2px solid transparent;transition:all .15s;color:#1e293b}
+.filter-chip.active{border-color:#1e293b}
+/* ── Board ── */
+.board{display:flex;gap:1rem;padding:1rem;overflow-x:auto;min-height:calc(100vh - 160px);align-items:flex-start}
+.column{background:#e2e8f0;border-radius:10px;min-width:270px;max-width:270px;display:flex;flex-direction:column}
+.col-header{padding:0.65rem 0.8rem;font-size:0.82rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;border-radius:10px 10px 0 0}
+.col-header .count{background:rgba(0,0,0,.12);border-radius:999px;padding:0.1rem 0.45rem;font-size:0.72rem}
+.cards-list{padding:0.5rem;display:flex;flex-direction:column;gap:0.5rem;min-height:60px;flex:1}
+/* ── Card ── */
+.card{background:#fff;border-radius:8px;padding:0.7rem;cursor:grab;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:box-shadow .15s;border-left:3px solid transparent;position:relative}
+.card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card.dragging{opacity:.5}
+.card.weak-flag{border-left-color:#ef4444}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:0.4rem;margin-bottom:0.35rem}
+.card-title{font-size:0.82rem;font-weight:600;line-height:1.3;flex:1}
+.card-menu-btn{background:none;border:none;cursor:pointer;color:#94a3b8;font-size:1rem;line-height:1;padding:0 0.2rem;flex-shrink:0}
+.card-menu-btn:hover{color:#64748b}
+.phase-tag{display:inline-block;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.68rem;font-weight:700;color:#1e293b;margin-bottom:0.3rem}
+.card-meta{font-size:0.72rem;color:#64748b;margin-bottom:0.35rem}
+.card-dates{font-size:0.7rem;color:#94a3b8;margin-bottom:0.35rem}
+.card-ref{font-size:0.7rem;color:#6366f1;margin-bottom:0.3rem}
+.weak-badge{display:inline-block;background:#fef2f2;color:#ef4444;border-radius:4px;font-size:0.68rem;font-weight:700;padding:0.1rem 0.4rem;margin-bottom:0.3rem}
+/* ── Sub-status ── */
+.substatus-row{display:flex;gap:0.3rem;margin-top:0.4rem;flex-wrap:wrap}
+.ss-btn{padding:0.18rem 0.5rem;border-radius:5px;font-size:0.7rem;font-weight:600;cursor:pointer;border:1.5px solid #cbd5e1;background:#f8fafc;color:#64748b;transition:all .15s}
+.ss-btn.active{border-color:#6366f1;background:#eef2ff;color:#6366f1}
+.ss-btn.done-auto{border-color:#22c55e;background:#f0fdf4;color:#16a34a;cursor:default}
+.hours-row{display:flex;align-items:center;gap:0.4rem;margin-top:0.4rem}
+.hours-input{width:52px;border:1px solid #cbd5e1;border-radius:5px;padding:0.15rem 0.35rem;font-size:0.72rem;color:#1e293b}
+.hours-label{font-size:0.7rem;color:#94a3b8}
+/* ── Add card ── */
+.add-card-btn{margin:0.4rem 0.5rem 0.5rem;padding:0.4rem;border:1.5px dashed #94a3b8;background:transparent;border-radius:7px;font-size:0.78rem;color:#64748b;cursor:pointer;text-align:left;transition:all .15s}
+.add-card-btn:hover{border-color:#6366f1;color:#6366f1;background:#f5f3ff}
+/* ── Context menu ── */
+.ctx-menu{position:fixed;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:500;min-width:160px;padding:0.3rem 0}
+.ctx-menu-item{padding:0.45rem 0.9rem;font-size:0.82rem;cursor:pointer;display:flex;align-items:center;gap:0.5rem;color:#1e293b}
+.ctx-menu-item:hover{background:#f1f5f9}
+.ctx-menu-item.danger{color:#ef4444}
+.ctx-menu-item.danger:hover{background:#fef2f2}
+/* ── Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:600;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal{background:#fff;border-radius:12px;max-width:460px;width:100%;padding:1.25rem;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:1rem;font-weight:700;margin-bottom:1rem}
+.modal .form-row{display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.75rem}
+.modal .form-row label{font-size:0.78rem;font-weight:600;color:#475569}
+.modal .form-row input,.modal .form-row select,.modal .form-row textarea{border:1px solid #cbd5e1;border-radius:6px;padding:0.4rem 0.6rem;font-size:0.83rem;color:#1e293b;width:100%}
+.modal .form-row textarea{resize:vertical;min-height:60px}
+.modal-footer{display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem}
+/* ── Weekly View ── */
+.weekly-view{padding:1rem;max-width:900px;margin:0 auto}
+.weekly-view h2{font-size:1rem;font-weight:700;margin-bottom:1rem;color:#374151}
+.week-grid{display:flex;flex-direction:column;gap:0.5rem}
+.week-row{background:#fff;border-radius:8px;padding:0.75rem 1rem;border:2px solid transparent;display:flex;align-items:flex-start;gap:1rem}
+.week-row.current-week{border-color:#6366f1;background:#f5f3ff}
+.week-num{font-size:0.78rem;font-weight:700;color:#6366f1;min-width:70px}
+.week-dates{font-size:0.72rem;color:#94a3b8;margin-bottom:0.2rem}
+.week-phases{display:flex;flex-wrap:wrap;gap:0.3rem;flex:1}
+.week-phase-chip{padding:0.2rem 0.55rem;border-radius:999px;font-size:0.72rem;font-weight:700;color:#1e293b}
+.current-week-label{color:#ef4444;font-size:0.65rem;font-weight:700;margin-left:4px}
+.weak-phases-section{background:#fff;border-radius:8px;padding:1rem;margin-top:1rem;border:2px solid #fca5a5}
+.weak-phases-section h3{font-size:0.88rem;font-weight:700;color:#ef4444;margin-bottom:0.5rem}
+/* ── Hours Log ── */
+.hours-log-view{padding:1rem;max-width:760px;margin:0 auto}
+.hours-log-view h2{font-size:1rem;font-weight:700;margin-bottom:1rem}
+.hours-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.hours-table th{background:#f8fafc;font-size:0.78rem;color:#64748b;font-weight:600;padding:0.6rem 0.8rem;text-align:left;border-bottom:1px solid #e2e8f0}
+.hours-table td{padding:0.55rem 0.8rem;font-size:0.82rem;border-bottom:1px solid #f1f5f9}
+.hours-table tr:last-child td{border-bottom:none}
+.progress-bar-wrap{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;min-width:80px}
+.progress-bar-fill{height:100%;background:#6366f1;border-radius:999px;transition:width .3s}
+/* ── Timer ── */
+.timer-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem}
+.timer-fab-btn{width:52px;height:52px;border-radius:50%;background:#6366f1;color:#fff;border:none;cursor:pointer;font-size:1.3rem;box-shadow:0 4px 14px rgba(99,102,241,.4);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.timer-fab-btn:hover{background:#4f46e5;transform:scale(1.05)}
+.timer-panel{background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.14);padding:1rem;width:240px;display:none}
+.timer-panel.open{display:block}
+.timer-title{font-size:0.8rem;font-weight:700;color:#6366f1;text-align:center;margin-bottom:0.2rem}
+.timer-segment-label{font-size:0.72rem;color:#64748b;text-align:center;margin-bottom:0.5rem}
+.timer-clock{font-size:2.2rem;font-weight:800;text-align:center;color:#1e293b;font-variant-numeric:tabular-nums;margin-bottom:0.6rem}
+.timer-segments{display:flex;gap:0.3rem;margin-bottom:0.75rem}
+.timer-seg-dot{flex:1;height:6px;border-radius:999px;background:#e2e8f0}
+.timer-seg-dot.active{background:#6366f1}
+.timer-seg-dot.done{background:#22c55e}
+.timer-controls{display:flex;gap:0.4rem;justify-content:center}
+.timer-controls .btn{padding:0.35rem 0.65rem;font-size:0.78rem}
+/* ── Toast ── */
+.toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:0.55rem 1.1rem;border-radius:8px;font-size:0.82rem;z-index:700;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+/* ── Misc ── */
+.hidden{display:none!important}
+.view-section{display:none}
+.view-section.active{display:block}
+#board-view.active{display:flex;flex-direction:column}
+.doc-link{font-size:0.7rem;color:#6366f1;text-decoration:none}
+.doc-link:hover{text-decoration:underline}
+.linked-phase-badge{font-size:0.68rem;background:#fef3c7;color:#92400e;border-radius:4px;padding:0.1rem 0.4rem;margin-left:0.3rem;font-weight:600}
+.ref-btn{display:inline-flex;align-items:center;gap:0.25rem;padding:0.22rem 0.6rem;border-radius:5px;font-size:0.72rem;font-weight:600;color:#6366f1;background:#eef2ff;border:1px solid #c7d2fe;text-decoration:none;transition:all .15s;margin-top:0.25rem}
+.ref-btn:hover{background:#e0e7ff;border-color:#a5b4fc}
+.ref-btn-wb{color:#0369a1;background:#e0f2fe;border-color:#bae6fd}
+.ref-btn-wb:hover{background:#bae6fd}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📋 CPMAI Study Board</h1>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('board')">Board</button>
+    <button class="nav-tab" onclick="switchView('weekly')">Weekly Plan</button>
+    <button class="nav-tab" onclick="switchView('hours')">Hours Log</button>
+  </nav>
+</header>
+
+<div class="config-bar">
+  <label>Study Start <input type="date" id="startDateInput" onchange="onStartChange()"></label>
+  <label>Exam Date <input type="date" id="examDateInput" onchange="onExamChange()"></label>
+  <label>Search <input type="text" id="searchInput" placeholder="Search tasks…" oninput="renderBoard()"></label>
+  <button class="btn btn-primary btn-sm" onclick="openAddModal()">+ Add Task</button>
+  <button class="btn btn-ghost btn-sm" onclick="rescheduleAll()">Reschedule</button>
+  <button class="btn btn-ghost btn-sm" onclick="clearAll()" style="color:#ef4444">Clear All</button>
+</div>
+
+<div class="filter-bar" id="filterBar"></div>
+
+<!-- Views -->
+<div id="board-view" class="view-section active">
+  <div class="board" id="boardEl"></div>
+</div>
+
+<div id="weekly-view" class="view-section">
+  <div class="weekly-view" id="weeklyEl"></div>
+</div>
+
+<div id="hours-view" class="view-section">
+  <div class="hours-log-view" id="hoursEl"></div>
+</div>
+
+<!-- Timer FAB -->
+<div class="timer-fab">
+  <div class="timer-panel" id="timerPanel">
+    <div class="timer-title" id="timerTitle">Daily Session</div>
+    <div class="timer-segment-label" id="timerSegLabel">Recall Review · 10 min</div>
+    <div class="timer-clock" id="timerClock">10:00</div>
+    <div class="timer-segments">
+      <div class="timer-seg-dot" id="seg0"></div>
+      <div class="timer-seg-dot" id="seg1"></div>
+      <div class="timer-seg-dot" id="seg2"></div>
+    </div>
+    <div class="timer-controls">
+      <button class="btn btn-primary btn-sm" id="timerStartBtn" onclick="timerToggle()">Start</button>
+      <button class="btn btn-ghost btn-sm" onclick="timerReset()">Reset</button>
+    </div>
+  </div>
+  <button class="timer-fab-btn" onclick="toggleTimerPanel()" title="Session Timer">⏱</button>
+</div>
+
+<!-- Context Menu -->
+<div class="ctx-menu hidden" id="ctxMenu">
+  <div class="ctx-menu-item" onclick="ctxEdit()">✏️ Edit</div>
+  <div class="ctx-menu-item" onclick="ctxToggleWeak()">🚩 Toggle Weak Flag</div>
+  <div class="ctx-menu-item danger" onclick="ctxDelete()">🗑 Delete</div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3 id="modalTitle">Add Task</h3>
+    <div class="form-row"><label>Title</label><input type="text" id="mTitle"></div>
+    <div class="form-row"><label>Phase</label>
+      <select id="mPhase">
+        <option value="intro">INTRO</option>
+        <option value="phase-1">Phase I</option>
+        <option value="phase-2">Phase II</option>
+        <option value="phase-3">Phase III</option>
+        <option value="phase-4">Phase IV</option>
+        <option value="phase-5">Phase V</option>
+        <option value="phase-6">Phase VI</option>
+        <option value="workbook">Workbook</option>
+        <option value="review">Week 7 Review</option>
+        <option value="exam-prep">Exam Prep</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Linked Phase (for Workbook tasks)</label>
+      <select id="mLinkedPhase">
+        <option value="">— none —</option>
+        <option value="phase-1">Phase I</option>
+        <option value="phase-2">Phase II</option>
+        <option value="phase-3">Phase III</option>
+        <option value="phase-4">Phase IV</option>
+        <option value="phase-5">Phase V</option>
+        <option value="phase-6">Phase VI</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Status</label>
+      <select id="mStatus">
+        <option value="backlog">Backlog</option>
+        <option value="todo">To Do</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+    <div class="form-row" style="display:flex;gap:.5rem">
+      <div style="flex:1"><label>Start Date</label><input type="date" id="mStart"></div>
+      <div style="flex:1"><label>End Date</label><input type="date" id="mEnd"></div>
+    </div>
+    <div class="form-row"><label>Est. Hours</label><input type="number" id="mHours" min="0.5" step="0.5" value="1"></div>
+    <div class="form-row"><label>Reference Pages</label><input type="text" id="mRef" placeholder="e.g. pp. 12–18"></div>
+    <div class="form-row"><label>Document URL</label><input type="url" id="mDocUrl" placeholder="https://drive.google.com/…"></div>
+    <div class="form-row"><label>Notes</label><textarea id="mNotes"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Constants ──────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'cpmai_v2';
+const COLUMNS = [
+  {id:'backlog',     label:'Backlog',      color:'#94a3b8'},
+  {id:'todo',        label:'To Do',        color:'#f59e0b'},
+  {id:'in-progress', label:'In Progress',  color:'#6366f1'},
+  {id:'done',        label:'Done ✓',       color:'#22c55e'},
+];
+const PHASES = [
+  {id:'intro',     label:'INTRO',      color:'#e2e8f0'},
+  {id:'phase-1',   label:'Phase I',    color:'#dbeafe'},
+  {id:'phase-2',   label:'Phase II',   color:'#fce7f3'},
+  {id:'phase-3',   label:'Phase III',  color:'#d1fae5'},
+  {id:'phase-4',   label:'Phase IV',   color:'#fef3c7'},
+  {id:'phase-5',   label:'Phase V',    color:'#ede9fe'},
+  {id:'phase-6',   label:'Phase VI',   color:'#fee2e2'},
+  {id:'workbook',  label:'Workbook',   color:'#e0f2fe'},
+  {id:'review',    label:'Wk7 Review', color:'#fdf4ff'},
+  {id:'exam-prep', label:'Exam Prep',  color:'#f0fdf4'},
+];
+const DOC_URLS = {
+  'intro':    'https://drive.google.com/file/d/1VKv6olC4bqq81jzEZUS5pnq9LuQ8PvO3/view',
+  'phase-1':  'https://drive.google.com/file/d/1x2fPBZsWfWaxBfOowYq9jDAX1im1aGRd/view',
+  'phase-2':  'https://drive.google.com/file/d/1AiBB_zzwK657mcQb2u-O64LChYmudtVv/view',
+  'phase-3':  'https://drive.google.com/file/d/1zQ7LgeuYM38kHjxJM9q7dNVtXKUEOUoG/view',
+  'phase-4':  'https://drive.google.com/file/d/1u8FL15D3DeGQ4bngsP9ghbsWwNHZssn6/view',
+  'phase-5':  'https://drive.google.com/file/d/1Y7OAlY-LwHkj2pFsH5gVC9CPpbHoMJeB/view',
+  'phase-6':  'https://drive.google.com/file/d/1QdaW1_EUeoMzg3tQGXaL7eu5XPsWsZni/view',
+  'workbook': 'https://drive.google.com/file/d/1Fu64p80p4AqptvC0yC9eoFbVLki0d1p6/view',
+};
+const TIMER_SEGMENTS = [
+  {label:'Recall Review', mins:10},
+  {label:'New Material',  mins:35},
+  {label:'Practice',      mins:15},
+];
+
+// ── Default tasks (~46 hours) ──────────────────────────────────────────────
+// docUrl is stored on the task object in localStorage so it persists and is editable.
+// Workbook tasks carry both the workbook doc URL and a secondary link to the phase doc via linkedPhase.
+const D = DOC_URLS; // shorthand
+const DEFAULT_TASKS = [
+  // INTRO
+  {title:'Read CPMAI Introduction & Overview',                    phase:'intro',     hours:1,   ref:'pp. 1–10',           docUrl:D['intro']},
+  {title:'Understand AI Project Lifecycle Framework',             phase:'intro',     hours:1,   ref:'pp. 11–18',          docUrl:D['intro']},
+  {title:'Quiz: CPMAI Intro Concepts',                            phase:'intro',     hours:0.5, ref:'pp. 1–18',           docUrl:D['intro'],    isQuiz:true},
+  // Phase I – Business Understanding
+  {title:'Business Problem Framing',                              phase:'phase-1',   hours:1.5, ref:'pp. 19–28',          docUrl:D['phase-1']},
+  {title:'Stakeholder Identification & Goals',                    phase:'phase-1',   hours:1,   ref:'pp. 29–36',          docUrl:D['phase-1']},
+  {title:'Success Criteria & KPIs',                               phase:'phase-1',   hours:1,   ref:'pp. 37–44',          docUrl:D['phase-1']},
+  {title:'Feasibility & Risk Assessment',                         phase:'phase-1',   hours:1,   ref:'pp. 45–52',          docUrl:D['phase-1']},
+  {title:'Workbook: Phase I Business Understanding Exercises',    phase:'workbook',  hours:1,   ref:'Workbook pp. 1–15',  docUrl:D['workbook'], linkedPhase:'phase-1'},
+  {title:'Quiz: Phase I Business Understanding',                  phase:'phase-1',   hours:0.5, ref:'pp. 19–52',          docUrl:D['phase-1'], isQuiz:true},
+  // Phase II – Data Understanding
+  {title:'Data Inventory & Sources',                              phase:'phase-2',   hours:1.5, ref:'pp. 53–62',          docUrl:D['phase-2']},
+  {title:'Exploratory Data Analysis Techniques',                  phase:'phase-2',   hours:2,   ref:'pp. 63–78',          docUrl:D['phase-2']},
+  {title:'Data Quality Assessment',                               phase:'phase-2',   hours:1.5, ref:'pp. 79–90',          docUrl:D['phase-2']},
+  {title:'Data Governance & Ethics',                              phase:'phase-2',   hours:1,   ref:'pp. 91–98',          docUrl:D['phase-2']},
+  {title:'Workbook: Phase II Data Understanding Exercises',       phase:'workbook',  hours:1.5, ref:'Workbook pp. 16–32', docUrl:D['workbook'], linkedPhase:'phase-2'},
+  {title:'Quiz: Phase II Data Understanding',                     phase:'phase-2',   hours:0.5, ref:'pp. 53–98',          docUrl:D['phase-2'], isQuiz:true},
+  // Phase III – Data Preparation
+  {title:'Data Cleaning Strategies',                              phase:'phase-3',   hours:2,   ref:'pp. 99–114',         docUrl:D['phase-3']},
+  {title:'Feature Engineering & Selection',                       phase:'phase-3',   hours:2,   ref:'pp. 115–130',        docUrl:D['phase-3']},
+  {title:'Data Transformation & Normalization',                   phase:'phase-3',   hours:1.5, ref:'pp. 131–142',        docUrl:D['phase-3']},
+  {title:'Train / Validation / Test Splits',                      phase:'phase-3',   hours:1,   ref:'pp. 143–150',        docUrl:D['phase-3']},
+  {title:'Workbook: Phase III Data Preparation Exercises',        phase:'workbook',  hours:1.5, ref:'Workbook pp. 33–50', docUrl:D['workbook'], linkedPhase:'phase-3'},
+  {title:'Quiz: Phase III Data Preparation',                      phase:'phase-3',   hours:0.5, ref:'pp. 99–150',         docUrl:D['phase-3'], isQuiz:true},
+  // Phase IV – Modeling
+  {title:'Model Selection Criteria',                              phase:'phase-4',   hours:2,   ref:'pp. 151–166',        docUrl:D['phase-4']},
+  {title:'Supervised Learning Algorithms',                        phase:'phase-4',   hours:2,   ref:'pp. 167–184',        docUrl:D['phase-4']},
+  {title:'Unsupervised & Reinforcement Learning',                 phase:'phase-4',   hours:1.5, ref:'pp. 185–196',        docUrl:D['phase-4']},
+  {title:'Model Training & Hyperparameter Tuning',                phase:'phase-4',   hours:2,   ref:'pp. 197–212',        docUrl:D['phase-4']},
+  {title:'Workbook: Phase IV Modeling Exercises',                 phase:'workbook',  hours:2,   ref:'Workbook pp. 51–72', docUrl:D['workbook'], linkedPhase:'phase-4'},
+  {title:'Quiz: Phase IV Modeling',                               phase:'phase-4',   hours:0.5, ref:'pp. 151–212',        docUrl:D['phase-4'], isQuiz:true},
+  // Phase V – Evaluation
+  {title:'Model Evaluation Metrics (Regression)',                 phase:'phase-5',   hours:1.5, ref:'pp. 213–224',        docUrl:D['phase-5']},
+  {title:'Model Evaluation Metrics (Classification)',             phase:'phase-5',   hours:1.5, ref:'pp. 225–238',        docUrl:D['phase-5']},
+  {title:'Bias, Fairness & Explainability',                       phase:'phase-5',   hours:1.5, ref:'pp. 239–250',        docUrl:D['phase-5']},
+  {title:'Model Validation & Cross-Validation',                   phase:'phase-5',   hours:1.5, ref:'pp. 251–262',        docUrl:D['phase-5']},
+  {title:'Workbook: Phase V Evaluation Exercises',                phase:'workbook',  hours:1.5, ref:'Workbook pp. 73–90', docUrl:D['workbook'], linkedPhase:'phase-5'},
+  {title:'Quiz: Phase V Evaluation',                              phase:'phase-5',   hours:0.5, ref:'pp. 213–262',        docUrl:D['phase-5'], isQuiz:true},
+  // Phase VI – Deployment
+  {title:'Model Deployment Patterns & MLOps',                     phase:'phase-6',   hours:2,   ref:'pp. 263–278',        docUrl:D['phase-6']},
+  {title:'Monitoring & Model Drift',                              phase:'phase-6',   hours:1.5, ref:'pp. 279–290',        docUrl:D['phase-6']},
+  {title:'Responsible AI & Governance',                           phase:'phase-6',   hours:1.5, ref:'pp. 291–304',        docUrl:D['phase-6']},
+  {title:'Change Management & Stakeholder Buy-in',                phase:'phase-6',   hours:1,   ref:'pp. 305–314',        docUrl:D['phase-6']},
+  {title:'Workbook: Phase VI Deployment Exercises',               phase:'workbook',  hours:1.5, ref:'Workbook pp. 91–108',docUrl:D['workbook'], linkedPhase:'phase-6'},
+  {title:'Quiz: Phase VI Deployment',                             phase:'phase-6',   hours:0.5, ref:'pp. 263–314',        docUrl:D['phase-6'], isQuiz:true},
+  // Week 7 Review — link to start doc of each range as anchor
+  {title:'Full Phase I–III Review & Weak Area Deep Dive',         phase:'review',    hours:2,   ref:'Phases I–III',       docUrl:D['phase-1']},
+  {title:'Full Phase IV–VI Review & Weak Area Deep Dive',         phase:'review',    hours:2,   ref:'Phases IV–VI',       docUrl:D['phase-4']},
+  {title:'Practice Exam #1 (Full)',                               phase:'review',    hours:2,   ref:'Complete Syllabus',  docUrl:D['intro'],   isQuiz:true},
+  {title:'Review Practice Exam #1 Answers',                       phase:'review',    hours:1.5, ref:'Complete Syllabus',  docUrl:D['intro']},
+  // Exam Prep (Week 8)
+  {title:'Final Cram: Phase I & II Key Concepts',                 phase:'exam-prep', hours:1,   ref:'Phases I–II',        docUrl:D['phase-1']},
+  {title:'Final Cram: Phase III & IV Key Concepts',               phase:'exam-prep', hours:1,   ref:'Phases III–IV',      docUrl:D['phase-3']},
+  {title:'Final Cram: Phase V & VI Key Concepts',                 phase:'exam-prep', hours:1,   ref:'Phases V–VI',        docUrl:D['phase-5']},
+  {title:'Practice Exam #2 (Timed)',                              phase:'exam-prep', hours:2,   ref:'Complete Syllabus',  docUrl:D['intro'],   isQuiz:true},
+  {title:'Review Practice Exam #2 & Shore Up Gaps',               phase:'exam-prep', hours:1.5, ref:'Complete Syllabus',  docUrl:D['intro']},
+  {title:'Exam Day Preparation (Rest & Review Notes)',             phase:'exam-prep', hours:0.5, ref:'All Notes',          docUrl:D['intro']},
+];
+
+// ── State ──────────────────────────────────────────────────────────────────
+let state = {studyStart:'', examDate:'', tasks:[], weakPhases:[], hoursLogged:{}};
+let activeFilter = 'all';
+let dragId = null;
+let ctxCardId = null;
+let editingId = null;
+
+// ── Date helpers ───────────────────────────────────────────────────────────
+function parseDate(str) {
+  const [y,m,d] = str.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+function fmtDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function todayStr() { return fmtDate(new Date()); }
+function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate()+n); return r; }
+function daysBetween(a, b) { return Math.round((b-a)/(1000*60*60*24)); }
+
+// ── Persistence ────────────────────────────────────────────────────────────
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function loadState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return false;
+  const parsed = JSON.parse(raw);
+  state = Object.assign({studyStart:'',examDate:'',tasks:[],weakPhases:[],hoursLogged:{}}, parsed);
+  // migrations for new fields
+  state.tasks.forEach(t => {
+    if (t.subStatus === undefined) t.subStatus = null;
+    if (t.linkedPhase === undefined) t.linkedPhase = '';
+    if (t.weak === undefined) t.weak = false;
+    if (!t.hoursEst) t.hoursEst = 1;
+    // backfill docUrl: prefer stored value, else derive from DOC_URLS
+    if (!t.docUrl) t.docUrl = DOC_URLS[t.phase] || (t.linkedPhase && DOC_URLS[t.linkedPhase]) || '';
+  });
+  if (!state.weakPhases) state.weakPhases = [];
+  if (!state.hoursLogged) state.hoursLogged = {};
+  return true;
+}
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+// ── Scheduling ─────────────────────────────────────────────────────────────
+function scheduleTasks(tasks, startStr, examStr) {
+  if (!startStr || !examStr) return tasks;
+  const start = parseDate(startStr);
+  const exam  = parseDate(examStr);
+  const totalDays  = daysBetween(start, exam);
+  if (totalDays < 1) return tasks;
+  const totalHours = tasks.reduce((s,t) => s+(t.hoursEst||1), 0);
+  let cursor = 0;
+  return tasks.map(t => {
+    const h = t.hoursEst || 1;
+    const s = addDays(start, Math.min(Math.round(cursor/totalHours*totalDays), totalDays));
+    const e = addDays(start, Math.min(Math.round((cursor+h)/totalHours*totalDays), totalDays));
+    cursor += h;
+    return {...t, taskStart: fmtDate(s), taskEnd: fmtDate(e)};
+  });
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+function init() {
+  const hadData = loadState();
+  if (!hadData) {
+    const today    = todayStr();
+    const examDef  = fmtDate(addDays(parseDate(today), 56));
+    state.studyStart = today;
+    state.examDate   = examDef;
+    const baseTasks = DEFAULT_TASKS.map(t => ({
+      id: uid(), title:t.title, phase:t.phase, status:'backlog',
+      hoursEst:t.hours||1, ref:t.ref||'', notes:'',
+      isQuiz:!!t.isQuiz, linkedPhase:t.linkedPhase||'',
+      docUrl:t.docUrl||'',
+      weak:false, subStatus:null, taskStart:'', taskEnd:'',
+    }));
+    state.tasks = scheduleTasks(baseTasks, state.studyStart, state.examDate);
+    saveState();
+  }
+  document.getElementById('startDateInput').value = state.studyStart;
+  document.getElementById('examDateInput').value  = state.examDate;
+  updateDateConstraints();
+  buildFilterBar();
+  renderBoard();
+}
+
+function updateDateConstraints() {
+  if (!state.studyStart) return;
+  const minExam = fmtDate(addDays(parseDate(state.studyStart), 30));
+  const maxExam = fmtDate(addDays(parseDate(state.studyStart), 180));
+  const ei = document.getElementById('examDateInput');
+  ei.min = minExam; ei.max = maxExam;
+}
+
+// ── Filter bar ────────────────────────────────────────────────────────────
+function buildFilterBar() {
+  const bar = document.getElementById('filterBar');
+  const filters = [{id:'all',label:'All',color:'#e2e8f0'}, ...PHASES];
+  bar.innerHTML = filters.map(f =>
+    `<span class="filter-chip${activeFilter===f.id?' active':''}" style="background:${f.color}"
+      onclick="setFilter('${f.id}')">${f.label}</span>`
+  ).join('');
+}
+function setFilter(id) { activeFilter = id; buildFilterBar(); renderBoard(); }
+
+// ── Board ──────────────────────────────────────────────────────────────────
+function renderBoard() {
+  const search = (document.getElementById('searchInput').value||'').toLowerCase();
+  const board  = document.getElementById('boardEl');
+  board.innerHTML = '';
+  COLUMNS.forEach(col => {
+    const tasks = state.tasks.filter(t => {
+      if (t.status !== col.id) return false;
+      if (activeFilter !== 'all' && t.phase !== activeFilter) return false;
+      if (search && !t.title.toLowerCase().includes(search) && !(t.ref||'').toLowerCase().includes(search)) return false;
+      return true;
+    });
+    const colEl = document.createElement('div');
+    colEl.className = 'column';
+    colEl.innerHTML = `<div class="col-header" style="background:${col.color}20;border-top:3px solid ${col.color}">
+      <span>${col.label}</span><span class="count">${tasks.length}</span>
+    </div>
+    <div class="cards-list" id="col-${col.id}"></div>
+    <button class="add-card-btn" onclick="openAddModal('${col.id}')">+ Add task</button>`;
+    board.appendChild(colEl);
+    const list = colEl.querySelector('.cards-list');
+    tasks.forEach(t => list.appendChild(makeCardEl(t)));
+    setupDrop(list, col.id);
+  });
+}
+
+function makeCardEl(t) {
+  const phase  = PHASES.find(p => p.id===t.phase) || PHASES[0];
+  const el = document.createElement('div');
+  el.className = 'card' + (t.weak?' weak-flag':'');
+  el.dataset.id = t.id;
+  el.draggable = true;
+
+  // sub-status buttons — highlight all steps up to current
+  const order = ['learn','apply','recall'];
+  const curIdx = order.indexOf(t.subStatus);
+  const ssBtns = order.map((s,i) => {
+    const isActive = i <= curIdx;
+    return `<button class="ss-btn${isActive?' active':''}" onclick="advanceSubStatus('${t.id}','${s}');event.stopPropagation()">${s[0].toUpperCase()+s.slice(1)}</button>`;
+  }).join('');
+
+  const linkedBadge = t.linkedPhase
+    ? `<span class="linked-phase-badge">→ ${PHASES.find(p=>p.id===t.linkedPhase)?.label||t.linkedPhase}</span>` : '';
+  const weakBadge = t.weak ? `<div class="weak-badge">🚩 Needs Review</div>` : '';
+  const logged = state.hoursLogged[t.id] || 0;
+
+  // Reference link buttons
+  let refLinks = '';
+  if (t.ref) {
+    const isWorkbook = t.phase === 'workbook';
+    // Primary doc button
+    if (t.docUrl) {
+      const btnClass = isWorkbook ? 'ref-btn ref-btn-wb' : 'ref-btn';
+      const icon = isWorkbook ? '📒' : '📄';
+      const label = isWorkbook ? 'Open Workbook' : 'Open Document';
+      refLinks += `<a href="${t.docUrl}" target="_blank" class="${btnClass}" onclick="event.stopPropagation()">${icon} ${label} · ${escHtml(t.ref)}</a>`;
+    }
+    // Secondary phase doc button for workbook tasks
+    if (isWorkbook && t.linkedPhase && DOC_URLS[t.linkedPhase]) {
+      const pLabel = PHASES.find(p=>p.id===t.linkedPhase)?.label || t.linkedPhase;
+      refLinks += `<a href="${DOC_URLS[t.linkedPhase]}" target="_blank" class="ref-btn" onclick="event.stopPropagation()" style="margin-left:.3rem">📄 ${pLabel} Doc</a>`;
+    }
+    // Fallback text if no URL
+    if (!t.docUrl) {
+      refLinks = `<span style="font-size:.7rem;color:#64748b">📖 ${escHtml(t.ref)}</span>`;
+    }
+  }
+
+  el.innerHTML = `
+    <div class="card-top">
+      <div class="card-title">${escHtml(t.title)}${t.isQuiz?' 📝':''}</div>
+      <button class="card-menu-btn" onclick="openCtx(event,'${t.id}')">⋯</button>
+    </div>
+    <div>
+      <span class="phase-tag" style="background:${phase.color}">${phase.label}</span>${linkedBadge}
+    </div>
+    ${weakBadge}
+    ${refLinks ? `<div style="margin-bottom:.3rem">${refLinks}</div>` : ''}
+    <div class="card-dates">${t.taskStart||'—'} → ${t.taskEnd||'—'} · ${t.hoursEst}h est</div>
+    ${t.status==='done'
+      ? '<div class="substatus-row"><span class="ss-btn done-auto">✓ Complete</span></div>'
+      : `<div class="substatus-row">${ssBtns}</div>`}
+    <div class="hours-row">
+      <input class="hours-input" type="number" min="0" step="0.25" value="${logged}"
+        onchange="logHours('${t.id}',this.value);event.stopPropagation()"
+        onclick="event.stopPropagation()">
+      <span class="hours-label">hrs logged</span>
+    </div>`;
+
+  el.addEventListener('dragstart', () => { dragId=t.id; el.classList.add('dragging'); });
+  el.addEventListener('dragend',   () => { el.classList.remove('dragging'); });
+  el.addEventListener('contextmenu', e => { e.preventDefault(); openCtx(e,t.id); });
+  return el;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Drag & drop ───────────────────────────────────────────────────────────
+function setupDrop(el, colId) {
+  el.addEventListener('dragover',  e => { e.preventDefault(); el.style.background='#ddd6fe40'; });
+  el.addEventListener('dragleave', () => { el.style.background=''; });
+  el.addEventListener('drop', e => {
+    e.preventDefault(); el.style.background='';
+    if (!dragId) return;
+    const t = state.tasks.find(x=>x.id===dragId);
+    if (t) { t.status=colId; if(colId==='done') t.subStatus='recall'; saveState(); renderBoard(); }
+    dragId=null;
+  });
+}
+
+// ── Sub-status ────────────────────────────────────────────────────────────
+function advanceSubStatus(id, clicked) {
+  const t = state.tasks.find(x=>x.id===id);
+  if (!t || t.status==='done') return;
+  const order = ['learn','apply','recall'];
+  const curIdx = order.indexOf(t.subStatus);
+  const tgtIdx = order.indexOf(clicked);
+  // clicking an already-active step toggles it off (go back one)
+  if (tgtIdx === curIdx) {
+    t.subStatus = tgtIdx > 0 ? order[tgtIdx-1] : null;
+  } else {
+    t.subStatus = clicked;
+  }
+  if (t.subStatus === 'recall') {
+    t.status = 'done';
+    showToast('✓ All 3 learning steps done — moved to Done!');
+  }
+  saveState(); renderBoard();
+}
+
+function logHours(id, val) {
+  state.hoursLogged[id] = parseFloat(val)||0;
+  saveState();
+}
+
+// ── Context menu ──────────────────────────────────────────────────────────
+function openCtx(e, id) {
+  e.preventDefault(); e.stopPropagation();
+  ctxCardId = id;
+  const menu = document.getElementById('ctxMenu');
+  menu.classList.remove('hidden');
+  menu.style.left = Math.min(e.clientX, window.innerWidth-180)+'px';
+  menu.style.top  = Math.min(e.clientY, window.innerHeight-130)+'px';
+}
+document.addEventListener('click', () => document.getElementById('ctxMenu').classList.add('hidden'));
+
+function ctxEdit()       { openEditModal(ctxCardId); }
+function ctxDelete()     {
+  if (!confirm('Delete this task?')) return;
+  state.tasks = state.tasks.filter(t=>t.id!==ctxCardId);
+  saveState(); renderBoard();
+}
+function ctxToggleWeak() {
+  const t = state.tasks.find(x=>x.id===ctxCardId);
+  if (t) { t.weak=!t.weak; saveState(); renderBoard(); }
+}
+
+// ── Add/Edit Modal ────────────────────────────────────────────────────────
+function openAddModal(defaultStatus='backlog') {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add Task';
+  document.getElementById('mTitle').value       = '';
+  document.getElementById('mPhase').value       = 'intro';
+  document.getElementById('mLinkedPhase').value = '';
+  document.getElementById('mStatus').value      = defaultStatus;
+  document.getElementById('mStart').value       = state.studyStart||todayStr();
+  document.getElementById('mEnd').value         = state.examDate||todayStr();
+  document.getElementById('mHours').value       = '1';
+  document.getElementById('mRef').value         = '';
+  document.getElementById('mDocUrl').value      = '';
+  document.getElementById('mNotes').value       = '';
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+function openEditModal(id) {
+  const t = state.tasks.find(x=>x.id===id);
+  if (!t) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Task';
+  document.getElementById('mTitle').value       = t.title;
+  document.getElementById('mPhase').value       = t.phase;
+  document.getElementById('mLinkedPhase').value = t.linkedPhase||'';
+  document.getElementById('mStatus').value      = t.status;
+  document.getElementById('mStart').value       = t.taskStart||'';
+  document.getElementById('mEnd').value         = t.taskEnd||'';
+  document.getElementById('mHours').value       = t.hoursEst||1;
+  document.getElementById('mRef').value         = t.ref||'';
+  document.getElementById('mDocUrl').value      = t.docUrl||'';
+  document.getElementById('mNotes').value       = t.notes||'';
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+function closeModal(e) {
+  if (!e || e.target===document.getElementById('modalOverlay'))
+    document.getElementById('modalOverlay').classList.add('hidden');
+}
+function saveModal() {
+  const title = document.getElementById('mTitle').value.trim();
+  if (!title) { alert('Title is required'); return; }
+  if (editingId) {
+    const t = state.tasks.find(x=>x.id===editingId);
+    if (t) Object.assign(t, {
+      title, phase:document.getElementById('mPhase').value,
+      linkedPhase:document.getElementById('mLinkedPhase').value,
+      status:document.getElementById('mStatus').value,
+      taskStart:document.getElementById('mStart').value,
+      taskEnd:document.getElementById('mEnd').value,
+      hoursEst:parseFloat(document.getElementById('mHours').value)||1,
+      ref:document.getElementById('mRef').value.trim(),
+      docUrl:document.getElementById('mDocUrl').value.trim(),
+      notes:document.getElementById('mNotes').value.trim(),
+    });
+  } else {
+    const ph = document.getElementById('mPhase').value;
+    const lp = document.getElementById('mLinkedPhase').value;
+    state.tasks.push({
+      id:uid(), title, phase:ph,
+      linkedPhase:lp,
+      status:document.getElementById('mStatus').value,
+      taskStart:document.getElementById('mStart').value,
+      taskEnd:document.getElementById('mEnd').value,
+      hoursEst:parseFloat(document.getElementById('mHours').value)||1,
+      ref:document.getElementById('mRef').value.trim(),
+      docUrl:document.getElementById('mDocUrl').value.trim() || DOC_URLS[ph] || (lp && DOC_URLS[lp]) || '',
+      notes:document.getElementById('mNotes').value.trim(),
+      isQuiz:false, weak:false, subStatus:null,
+    });
+  }
+  saveState();
+  document.getElementById('modalOverlay').classList.add('hidden');
+  renderBoard();
+}
+
+// ── Config handlers ───────────────────────────────────────────────────────
+function onStartChange() {
+  const v = document.getElementById('startDateInput').value;
+  if (!v) return;
+  state.studyStart = v;
+  updateDateConstraints();
+  const minExam = fmtDate(addDays(parseDate(v), 30));
+  if (state.examDate && parseDate(state.examDate) < parseDate(minExam)) {
+    state.examDate = minExam;
+    document.getElementById('examDateInput').value = minExam;
+  }
+  saveState(); renderBoard();
+}
+function onExamChange() {
+  const v = document.getElementById('examDateInput').value;
+  if (!v) return;
+  state.examDate = v;
+  saveState(); renderBoard();
+}
+function rescheduleAll() {
+  if (!confirm('Reschedule all task dates proportionally?\nCustom dates will be overwritten.')) return;
+  state.tasks = scheduleTasks(state.tasks, state.studyStart, state.examDate);
+  saveState(); renderBoard(); showToast('All dates rescheduled!');
+}
+function clearAll() {
+  if (!confirm('Clear ALL tasks and reset to defaults?\nThis cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = {studyStart:'',examDate:'',tasks:[],weakPhases:[],hoursLogged:{}};
+  init(); showToast('Board reset to defaults.');
+}
+
+// ── View switching ────────────────────────────────────────────────────────
+function switchView(v) {
+  document.querySelectorAll('.view-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(v+'-view').classList.add('active');
+  const idx = ['board','weekly','hours'].indexOf(v);
+  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  if (v==='weekly') renderWeekly();
+  if (v==='hours')  renderHoursLog();
+}
+
+// ── Weekly Pacing View ────────────────────────────────────────────────────
+function renderWeekly() {
+  const el = document.getElementById('weeklyEl');
+  if (!state.studyStart || !state.examDate) {
+    el.innerHTML = '<p style="color:#64748b;padding:1rem">Set a study start and exam date to see the weekly plan.</p>';
+    return;
+  }
+  const start     = parseDate(state.studyStart);
+  const exam      = parseDate(state.examDate);
+  const today     = new Date(); today.setHours(0,0,0,0);
+  const totalDays = daysBetween(start, exam);
+  const numWeeks  = Math.ceil((totalDays+1)/7);
+
+  const weakTaskIds = new Set(state.tasks.filter(t=>t.weak).map(t=>t.phase));
+
+  let html = `<h2>Weekly Pacing Plan</h2><div class="week-grid">`;
+  for (let w=0; w<numWeeks; w++) {
+    const wStart = addDays(start, w*7);
+    const wEnd   = addDays(start, Math.min((w+1)*7-1, totalDays));
+    const isCurrent = today >= wStart && today <= wEnd;
+    const phases = new Set();
+    state.tasks.forEach(t => {
+      if (!t.taskStart) return;
+      const ts = parseDate(t.taskStart);
+      const te = t.taskEnd ? parseDate(t.taskEnd) : ts;
+      if (ts <= wEnd && te >= wStart) phases.add(t.phase);
+    });
+    const chips = [...phases].map(pid => {
+      const p = PHASES.find(x=>x.id===pid);
+      const isWeak = weakTaskIds.has(pid);
+      return p ? `<span class="week-phase-chip" style="background:${p.color};${isWeak?'outline:2px solid #ef4444;':''}">${p.label}${isWeak?' 🚩':''}</span>` : '';
+    }).join('');
+    html += `<div class="week-row${isCurrent?' current-week':''}">
+      <div>
+        <div class="week-num">Week ${w+1}${isCurrent?'<span class="current-week-label">← NOW</span>':''}</div>
+        <div class="week-dates">${fmtDate(wStart)} – ${fmtDate(wEnd)}</div>
+      </div>
+      <div class="week-phases">${chips||'<span style="color:#94a3b8;font-size:.75rem">No tasks scheduled</span>'}</div>
+    </div>`;
+  }
+  html += '</div>';
+
+  const weakTasks = state.tasks.filter(t=>t.weak);
+  if (weakTasks.length > 0) {
+    html += `<div class="weak-phases-section">
+      <h3>🚩 Tasks Flagged for Extra Review (${weakTasks.length})</h3>
+      <ul style="padding-left:1.2rem;font-size:.83rem;color:#374151;line-height:1.9">
+        ${weakTasks.map(t=>`<li>${escHtml(t.title)} <span style="color:#64748b;font-size:.72rem">(${PHASES.find(p=>p.id===t.phase)?.label||t.phase})</span></li>`).join('')}
+      </ul>
+    </div>`;
+  }
+  el.innerHTML = html;
+}
+
+// ── Hours Log View ────────────────────────────────────────────────────────
+function renderHoursLog() {
+  const el = document.getElementById('hoursEl');
+  const rows = PHASES.map(p => {
+    const tasks  = state.tasks.filter(t=>t.phase===p.id);
+    if (!tasks.length) return null;
+    const est    = tasks.reduce((s,t)=>s+(t.hoursEst||1),0);
+    const logged = tasks.reduce((s,t)=>s+(state.hoursLogged[t.id]||0),0);
+    const pct    = est>0 ? Math.min(100,Math.round(logged/est*100)) : 0;
+    return {...p, est, logged, pct, count:tasks.length};
+  }).filter(Boolean);
+  const totEst    = rows.reduce((s,r)=>s+r.est,0);
+  const totLogged = rows.reduce((s,r)=>s+r.logged,0);
+  const totPct    = totEst>0 ? Math.min(100,Math.round(totLogged/totEst*100)) : 0;
+
+  el.innerHTML = `<h2>Study Hours Log</h2>
+  <table class="hours-table">
+    <thead><tr><th>Phase</th><th>Tasks</th><th>Est. Hrs</th><th>Logged Hrs</th><th>Progress</th></tr></thead>
+    <tbody>
+      ${rows.map(r=>`<tr>
+        <td><span class="phase-tag" style="background:${r.color}">${r.label}</span></td>
+        <td>${r.count}</td><td>${r.est.toFixed(1)}</td><td>${r.logged.toFixed(1)}</td>
+        <td style="display:flex;align-items:center;gap:.4rem">
+          <div class="progress-bar-wrap" style="flex:1"><div class="progress-bar-fill" style="width:${r.pct}%"></div></div>
+          <span style="font-size:.7rem;color:#64748b;white-space:nowrap">${r.pct}%</span>
+        </td>
+      </tr>`).join('')}
+    </tbody>
+    <tfoot><tr style="font-weight:700;background:#f8fafc">
+      <td colspan="2">Total</td>
+      <td>${totEst.toFixed(1)}</td><td>${totLogged.toFixed(1)}</td>
+      <td style="display:flex;align-items:center;gap:.4rem">
+        <div class="progress-bar-wrap" style="flex:1"><div class="progress-bar-fill" style="width:${totPct}%;background:#22c55e"></div></div>
+        <span style="font-size:.7rem;color:#64748b;white-space:nowrap">${totPct}%</span>
+      </td>
+    </tr></tfoot>
+  </table>
+  <p style="font-size:.75rem;color:#94a3b8;margin-top:.75rem">Log hours directly on each task card using the "hrs logged" input.</p>`;
+}
+
+// ── Session Timer ─────────────────────────────────────────────────────────
+let timerState = {segIdx:0, secondsLeft:TIMER_SEGMENTS[0].mins*60, running:false, intervalId:null};
+
+function toggleTimerPanel() {
+  document.getElementById('timerPanel').classList.toggle('open');
+}
+function timerToggle() {
+  if (timerState.running) {
+    clearInterval(timerState.intervalId);
+    timerState.running = false;
+    document.getElementById('timerStartBtn').textContent = 'Resume';
+  } else {
+    timerState.running = true;
+    document.getElementById('timerStartBtn').textContent = 'Pause';
+    timerState.intervalId = setInterval(timerTick, 1000);
+  }
+}
+function timerReset() {
+  clearInterval(timerState.intervalId);
+  timerState = {segIdx:0, secondsLeft:TIMER_SEGMENTS[0].mins*60, running:false, intervalId:null};
+  document.getElementById('timerStartBtn').textContent = 'Start';
+  updateTimerUI();
+}
+function timerTick() {
+  timerState.secondsLeft--;
+  if (timerState.secondsLeft <= 0) {
+    const isDone = timerState.segIdx >= TIMER_SEGMENTS.length-1;
+    playBeep(isDone);
+    timerState.segIdx++;
+    if (isDone) {
+      clearInterval(timerState.intervalId);
+      timerState.running = false;
+      document.getElementById('timerStartBtn').textContent = 'Start';
+      document.getElementById('timerClock').textContent = '00:00';
+      document.getElementById('timerSegLabel').textContent = '🎉 Session Complete!';
+      updateSegDots(true);
+      showToast('🎉 60-min session complete! Great work.');
+      return;
+    }
+    timerState.secondsLeft = TIMER_SEGMENTS[timerState.segIdx].mins*60;
+    showToast(`▶ Starting: ${TIMER_SEGMENTS[timerState.segIdx].label} (${TIMER_SEGMENTS[timerState.segIdx].mins} min)`);
+  }
+  updateTimerUI();
+}
+function updateTimerUI() {
+  const seg = TIMER_SEGMENTS[Math.min(timerState.segIdx, TIMER_SEGMENTS.length-1)];
+  const m = String(Math.floor(timerState.secondsLeft/60)).padStart(2,'0');
+  const s = String(timerState.secondsLeft%60).padStart(2,'0');
+  document.getElementById('timerClock').textContent = `${m}:${s}`;
+  document.getElementById('timerSegLabel').textContent = `${seg.label} · ${seg.mins} min`;
+  updateSegDots(false);
+}
+function updateSegDots(allDone) {
+  TIMER_SEGMENTS.forEach((_,i) => {
+    const dot = document.getElementById('seg'+i);
+    if (allDone || i < timerState.segIdx) dot.className='timer-seg-dot done';
+    else if (i===timerState.segIdx)        dot.className='timer-seg-dot active';
+    else                                   dot.className='timer-seg-dot';
+  });
+}
+function playBeep(final=false) {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    [[final?880:660,0],[final?1100:880,0.35]].forEach(([freq,t]) => {
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value=freq; o.type='sine';
+      g.gain.setValueAtTime(0.3, ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+t+0.4);
+      o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+0.45);
+    });
+  } catch(e) {}
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 3500);
+}
+
+// ── Boot ───────────────────────────────────────────────────────────────────
+init();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
