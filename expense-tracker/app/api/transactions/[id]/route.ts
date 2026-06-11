@@ -8,7 +8,7 @@ export async function PATCH(
   const { id } = await params;
   const body = await req.json();
 
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (!supabase) {
     return NextResponse.json(body);
   }
 
@@ -29,7 +29,7 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (!supabase) {
     return NextResponse.json({ id });
   }
 

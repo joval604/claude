@@ -3,7 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { transactions as mockTransactions } from "../../data/mock";
 
 export async function GET() {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (!supabase) {
     return NextResponse.json(mockTransactions);
   }
 
@@ -19,7 +19,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (!supabase) {
     return NextResponse.json(body, { status: 201 });
   }
 
