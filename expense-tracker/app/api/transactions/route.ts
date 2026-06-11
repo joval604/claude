@@ -1,34 +1,72 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "../../lib/supabase";
+import { getSheets, SHEET_ID, SHEET_TAB } from "../../lib/sheets";
 import { transactions as mockTransactions } from "../../data/mock";
+import { Transaction } from "../../data/mock";
+
+const HEADERS = ["id", "date", "description", "amount", "type", "category", "productLine"];
+
+function rowToTransaction(row: string[]): Transaction {
+  return {
+    id: row[0],
+    date: row[1],
+    description: row[2],
+    amount: parseFloat(row[3]),
+    type: row[4] as Transaction["type"],
+    category: row[5] as Transaction["category"],
+    productLine: row[6] as Transaction["productLine"],
+  };
+}
 
 export async function GET() {
-  if (!supabase) {
+  if (!process.env.GOOGLE_SHEET_ID) {
     return NextResponse.json(mockTransactions);
   }
 
-  const { data, error } = await supabase
-    .from("transactions")
-    .select("*")
-    .order("date", { ascending: false });
+  const sheets = await getSheets();
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: SHEET_ID,
+    range: `${SHEET_TAB}!A2:G`,
+  });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data);
+  const rows = res.data.values ?? [];
+  const transactions = rows
+    .filter((r) => r[0])
+    .map(rowToTransaction)
+    .sort((a, b) => b.date.localeCompare(a.date));
+
+  return NextResponse.json(transactions);
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
+  const t: Transaction = await req.json();
 
-  if (!supabase) {
-    return NextResponse.json(body, { status: 201 });
+  if (!process.env.GOOGLE_SHEET_ID) {
+    return NextResponse.json(t, { status: 201 });
   }
 
-  const { data, error } = await supabase
-    .from("transactions")
-    .insert([body])
-    .select()
-    .single();
+  const sheets = await getSheets();
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: SHEET_ID,
+    range: `${SHEET_TAB}!A:G`,
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [[t.id, t.date, t.description, t.amount, t.type, t.category, t.productLine]],
+    },
+  });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data, { status: 201 });
+  // Write headers if sheet is empty
+  const check = await sheets.spreadsheets.values.get({
+    spreadsheetId: SHEET_ID,
+    range: `${SHEET_TAB}!A1:G1`,
+  });
+  if (!check.data.values?.[0]?.[0]) {
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: SHEET_ID,
+      range: `${SHEET_TAB}!A1:G1`,
+      valueInputOption: "RAW",
+      requestBody: { values: [HEADERS] },
+    });
+  }
+
+  return NextResponse.json(t, { status: 201 });
 }

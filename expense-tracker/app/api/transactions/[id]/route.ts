@@ -1,26 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "../../../lib/supabase";
+import { getSheets, SHEET_ID, SHEET_TAB } from "../../../lib/sheets";
+import { Transaction } from "../../../data/mock";
+
+async function findRow(sheets: Awaited<ReturnType<typeof getSheets>>, id: string): Promise<number | null> {
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: SHEET_ID,
+    range: `${SHEET_TAB}!A:A`,
+  });
+  const rows = res.data.values ?? [];
+  const idx = rows.findIndex((r) => r[0] === id);
+  return idx === -1 ? null : idx + 1; // 1-based row number
+}
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const body = await req.json();
+  const t: Transaction = await req.json();
 
-  if (!supabase) {
-    return NextResponse.json(body);
+  if (!process.env.GOOGLE_SHEET_ID) {
+    return NextResponse.json(t);
   }
 
-  const { data, error } = await supabase
-    .from("transactions")
-    .update(body)
-    .eq("id", id)
-    .select()
-    .single();
+  const sheets = await getSheets();
+  const row = await findRow(sheets, id);
+  if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data);
+  await sheets.spreadsheets.values.update({
+    spreadsheetId: SHEET_ID,
+    range: `${SHEET_TAB}!A${row}:G${row}`,
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [[t.id, t.date, t.description, t.amount, t.type, t.category, t.productLine]],
+    },
+  });
+
+  return NextResponse.json(t);
 }
 
 export async function DELETE(
@@ -29,11 +45,36 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
-  if (!supabase) {
+  if (!process.env.GOOGLE_SHEET_ID) {
     return NextResponse.json({ id });
   }
 
-  const { error } = await supabase.from("transactions").delete().eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  const sheets = await getSheets();
+  const row = await findRow(sheets, id);
+  if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  // Get spreadsheet ID for the sheet tab
+  const meta = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
+  const sheetMeta = meta.data.sheets?.find((s) => s.properties?.title === SHEET_TAB);
+  const sheetId = sheetMeta?.properties?.sheetId ?? 0;
+
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId: SHEET_ID,
+    requestBody: {
+      requests: [
+        {
+          deleteDimension: {
+            range: {
+              sheetId,
+              dimension: "ROWS",
+              startIndex: row - 1,
+              endIndex: row,
+            },
+          },
+        },
+      ],
+    },
+  });
+
   return NextResponse.json({ id });
 }
