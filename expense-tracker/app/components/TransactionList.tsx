@@ -28,15 +28,18 @@ const productLineColors: Record<string, string> = {
 
 interface Props {
   transactions: Transaction[];
+  onEdit?: (t: Transaction) => void;
   onDelete?: (id: string) => void;
 }
 
-export default function TransactionList({ transactions, onDelete }: Props) {
+export default function TransactionList({ transactions, onEdit, onDelete }: Props) {
   const [filter, setFilter] = useState<"all" | "income" | "expense">("all");
 
   const filtered = transactions
     .filter((t) => filter === "all" || t.type === filter)
     .sort((a, b) => b.date.localeCompare(a.date));
+
+  const hasActions = onEdit || onDelete;
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5">
@@ -49,21 +52,21 @@ export default function TransactionList({ transactions, onDelete }: Props) {
           >
             Export CSV
           </button>
-        <div className="flex gap-1">
-          {(["all", "income", "expense"] as const).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                filter === f
-                  ? "bg-gray-900 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              {f.charAt(0).toUpperCase() + f.slice(1)}
-            </button>
-          ))}
-        </div>
+          <div className="flex gap-1">
+            {(["all", "income", "expense"] as const).map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                  filter === f
+                    ? "bg-gray-900 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {f.charAt(0).toUpperCase() + f.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -75,7 +78,7 @@ export default function TransactionList({ transactions, onDelete }: Props) {
               <th className="text-left py-2 text-xs font-medium text-gray-400">Category</th>
               <th className="text-left py-2 text-xs font-medium text-gray-400">Line</th>
               <th className="text-right py-2 text-xs font-medium text-gray-400">Amount</th>
-              {onDelete && <th className="py-2" />}
+              {hasActions && <th className="py-2 w-14" />}
             </tr>
           </thead>
           <tbody>
@@ -94,15 +97,28 @@ export default function TransactionList({ transactions, onDelete }: Props) {
                 }`}>
                   {t.type === "income" ? "+" : "-"}${t.amount.toFixed(2)}
                 </td>
-                {onDelete && (
+                {hasActions && (
                   <td className="py-2.5 pl-2">
-                    <button
-                      onClick={() => onDelete(t.id)}
-                      className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-400 transition-all text-base leading-none"
-                      aria-label="Delete"
-                    >
-                      ×
-                    </button>
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                      {onEdit && (
+                        <button
+                          onClick={() => onEdit(t)}
+                          className="text-gray-300 hover:text-indigo-400 text-xs font-medium px-1 transition-colors"
+                          aria-label="Edit"
+                        >
+                          Edit
+                        </button>
+                      )}
+                      {onDelete && (
+                        <button
+                          onClick={() => onDelete(t.id)}
+                          className="text-gray-300 hover:text-red-400 text-base leading-none transition-colors"
+                          aria-label="Delete"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
                   </td>
                 )}
               </tr>

@@ -6,6 +6,8 @@ import PLChart from "./PLChart";
 import ExpenseBreakdown from "./ExpenseBreakdown";
 import TransactionList from "./TransactionList";
 import AddTransactionForm from "./AddTransactionForm";
+import EditTransactionForm from "./EditTransactionForm";
+import BudgetTracker from "./BudgetTracker";
 import { Transaction } from "../data/mock";
 
 function computeStats(txs: Transaction[]) {
@@ -25,6 +27,7 @@ export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [editing, setEditing] = useState<Transaction | null>(null);
 
   useEffect(() => {
     fetch("/api/transactions")
@@ -44,6 +47,17 @@ export default function Dashboard() {
     });
     const saved = await res.json();
     setTransactions((prev) => [saved, ...prev]);
+  }
+
+  async function handleEdit(t: Transaction) {
+    const res = await fetch(`/api/transactions/${t.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(t),
+    });
+    const saved = await res.json();
+    setTransactions((prev) => prev.map((x) => (x.id === t.id ? saved : x)));
+    setEditing(null);
   }
 
   async function handleDelete(id: string) {
@@ -91,17 +105,32 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <PLChart />
+              <PLChart transactions={transactions} />
               <ExpenseBreakdown transactions={transactions} />
             </div>
 
-            <TransactionList transactions={transactions} onDelete={handleDelete} />
+            <div className="mb-6">
+              <BudgetTracker transactions={transactions} />
+            </div>
+
+            <TransactionList
+              transactions={transactions}
+              onEdit={setEditing}
+              onDelete={handleDelete}
+            />
           </>
         )}
       </div>
 
       {showForm && (
         <AddTransactionForm onAdd={handleAdd} onClose={() => setShowForm(false)} />
+      )}
+      {editing && (
+        <EditTransactionForm
+          transaction={editing}
+          onSave={handleEdit}
+          onClose={() => setEditing(null)}
+        />
       )}
     </div>
   );
