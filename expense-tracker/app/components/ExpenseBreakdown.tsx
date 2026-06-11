@@ -1,11 +1,13 @@
 "use client";
 
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { transactions } from "../data/mock";
+import { Transaction } from "../data/mock";
 
 const COLORS = ["#6366f1","#10b981","#f59e0b","#f87171","#3b82f6","#a78bfa","#34d399","#fb923c","#94a3b8"];
 
-export default function ExpenseBreakdown() {
+interface Props { transactions: Transaction[]; }
+
+export default function ExpenseBreakdown({ transactions }: Props) {
   const expenseMap: Record<string, number> = {};
   transactions
     .filter((t) => t.type === "expense")
