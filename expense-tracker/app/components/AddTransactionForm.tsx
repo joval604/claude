@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Transaction, Category } from "../data/mock";
-import ReceiptUploader from "./ReceiptUploader";
 
 const EXPENSE_CATEGORIES: Category[] = [
   "Materials - Blanks",
@@ -53,21 +52,6 @@ export default function AddTransactionForm({ onAdd, onClose }: Props) {
     onClose();
   }
 
-  function handleParsed(data: {
-    vendor: string;
-    amount: number;
-    date: string;
-    description: string;
-    category: string;
-    type: "expense" | "income";
-  }) {
-    handleTypeChange(data.type);
-    setDate(data.date || date);
-    setAmount(data.amount ? String(data.amount) : amount);
-    setDescription(data.description || data.vendor || description);
-    if (data.category) setCategory(data.category);
-  }
-
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
@@ -76,10 +60,7 @@ export default function AddTransactionForm({ onAdd, onClose }: Props) {
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
         </div>
 
-        <ReceiptUploader onParsed={handleParsed} />
-
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Type toggle */}
           <div className="flex rounded-lg overflow-hidden border border-gray-200">
             {(["expense", "income"] as const).map((t) => (
               <button
