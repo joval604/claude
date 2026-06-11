@@ -43,6 +43,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+      {/* Header */}
       <div style={{ background: '#1e293b', color: '#fff', padding: '20px 32px', display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>Project Tracker</div>
         <div style={{ marginLeft: 'auto', fontSize: 13, color: '#94a3b8' }}>
@@ -57,9 +58,10 @@ export default function App() {
 
           return (
             <div key={division.id} style={{ marginBottom: 24 }}>
+              {/* Division Header */}
               <div
                 onClick={() => toggleDiv(division.id)}
-                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: '#1e293b', color: '#fff', borderRadius: divExpanded ? '10px 10px 0 0' : 10, cursor: 'pointer', userSelect: 'none' }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: '#15803d', color: '#fff', borderRadius: divExpanded ? '10px 10px 0 0' : 10, cursor: 'pointer', userSelect: 'none' }}>
                 <span style={{ fontSize: 16, transition: 'transform 0.2s', transform: divExpanded ? 'rotate(90deg)' : 'rotate(0)' }}>▶</span>
                 <span style={{ fontSize: 16, fontWeight: 700 }}>{division.name}</span>
                 <span style={{ marginLeft: 'auto', fontSize: 13, color: '#94a3b8' }}>{division.programs.length} programs · {totalProjects} projects</span>
@@ -74,7 +76,8 @@ export default function App() {
 
                     return (
                       <div key={program.id} style={{ borderBottom: isLast ? 'none' : '1px solid #e2e8f0' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: '#f1f5f9', cursor: 'pointer', userSelect: 'none' }}
+                        {/* Program Row */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: '#ede9fe', cursor: 'pointer', userSelect: 'none' }}
                           onClick={() => toggleProg(program.id)}>
                           <span style={{ fontSize: 13, color: '#64748b', transition: 'transform 0.2s', transform: progExpanded ? 'rotate(90deg)' : 'rotate(0)' }}>▶</span>
                           <span style={{ fontSize: 14, fontWeight: 600, color: '#334155', flex: 1 }}>{program.name}</span>
@@ -89,12 +92,13 @@ export default function App() {
                           </button>
                         </div>
 
+                        {/* Projects Table */}
                         {progExpanded && program.projects.length > 0 && (
                           <div style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                               <thead>
                                 <tr style={{ background: '#f8fafc' }}>
-                                  {['Project', 'Status', 'Progress', 'Go-Live', 'Teams', 'Resources', ''].map(h => (
+                                  {['Project', 'Status', 'Progress', 'Go-Live', 'Status Report', 'Project Manager', 'Teams', 'Resources', ''].map(h => (
                                     <th key={h} style={{ padding: '8px 16px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>{h}</th>
                                   ))}
                                 </tr>
@@ -109,6 +113,8 @@ export default function App() {
                                     <td style={tdStyle}><StatusBadge status={project.status} /></td>
                                     <td style={{ ...tdStyle, minWidth: 140 }}><ProgressBar value={project.percentComplete} /></td>
                                     <td style={{ ...tdStyle, whiteSpace: 'nowrap', color: '#374151' }}>{formatDate(project.goLiveDate)}</td>
+                                    <td style={{ ...tdStyle, maxWidth: 220, color: '#374151' }}>{project.statusReport || <span style={{ color: '#d1d5db' }}>—</span>}</td>
+                                    <td style={{ ...tdStyle, whiteSpace: 'nowrap', color: '#374151' }}>{project.resources.find(r => r.role === 'Project Manager')?.name || <span style={{ color: '#d1d5db' }}>—</span>}</td>
                                     <td style={tdStyle}>
                                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                                         {project.teams.map(t => (
@@ -152,6 +158,7 @@ export default function App() {
         })}
       </div>
 
+      {/* Modals */}
       {editingProject && (
         <ProjectModal
           project={editingProject.project}

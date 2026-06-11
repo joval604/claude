@@ -53,6 +53,11 @@ export function ProjectModal({ project, onSave, onClose }: Props) {
             style={{ ...inputStyle, height: 72, resize: 'vertical' }} />
         </Section>
 
+        <Section label="Status Report">
+          <textarea value={draft.statusReport} onChange={e => field('statusReport', e.target.value)}
+            style={{ ...inputStyle, height: 72, resize: 'vertical' }} />
+        </Section>
+
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
           <Section label="Status">
             <StatusSelect value={draft.status} onChange={v => field('status', v)} />
