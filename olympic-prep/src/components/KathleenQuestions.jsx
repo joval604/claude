@@ -11,16 +11,16 @@ export default function KathleenQuestions({ checked, setChecked }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-lg font-bold text-white">Kathleen Call — Sun Jun 28</h2>
-        <span className="text-sm text-[#f5c842] font-semibold">{done}/{total} asked</span>
+        <h2 className="text-lg font-bold text-gray-800">Kathleen Call — Sun Jun 28</h2>
+        <span className="text-sm text-purple-600 font-semibold">{done}/{total} asked</span>
       </div>
-      <p className="text-sm text-gray-400 mb-4">
+      <p className="text-sm text-slate-500 mb-4">
         Warm conversation between allies. 20–30 minutes. Top 7 questions. Let her talk. Listen for what she volunteers unprompted.
       </p>
 
-      <div className="h-1.5 bg-[#1a3464] rounded-full mb-5 overflow-hidden">
+      <div className="h-1.5 bg-slate-100 rounded-full mb-5 overflow-hidden">
         <div
-          className="h-full bg-purple-500 rounded-full transition-all duration-300"
+          className="h-full bg-gradient-to-r from-purple-400 to-violet-400 rounded-full transition-all duration-300"
           style={{ width: `${(done / total) * 100}%` }}
         />
       </div>
@@ -29,8 +29,8 @@ export default function KathleenQuestions({ checked, setChecked }) {
         {KATHLEEN_QUESTIONS.map((cat, ci) => (
           <div key={ci}>
             <div className="flex items-center gap-2 mb-3">
-              {cat.starred && <span className="text-[#f5c842] text-base">★</span>}
-              <h3 className="text-xs font-bold text-[#f5c842] uppercase tracking-wider">
+              {cat.starred && <span className="text-amber-400 text-base">★</span>}
+              <h3 className="text-xs font-bold text-purple-600 uppercase tracking-wider">
                 {cat.category}
               </h3>
             </div>
@@ -40,8 +40,8 @@ export default function KathleenQuestions({ checked, setChecked }) {
                 return (
                   <div
                     key={qi}
-                    className={`bg-[#0d1f3c] border rounded-xl p-4 transition-all ${
-                      checked[key] ? 'border-purple-600/50 opacity-80' : 'border-[#1a3464]'
+                    className={`bg-white border rounded-xl p-4 shadow-sm transition-all ${
+                      checked[key] ? 'border-emerald-200 opacity-75' : 'border-slate-200'
                     }`}
                   >
                     <div className="flex items-start gap-3">
@@ -49,8 +49,8 @@ export default function KathleenQuestions({ checked, setChecked }) {
                         onClick={() => toggle(key)}
                         className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
                           checked[key]
-                            ? 'bg-purple-600 border-purple-600'
-                            : 'border-gray-500 hover:border-purple-500'
+                            ? 'bg-emerald-500 border-emerald-500'
+                            : 'border-slate-300 hover:border-purple-400'
                         }`}
                       >
                         {checked[key] && (
@@ -61,18 +61,18 @@ export default function KathleenQuestions({ checked, setChecked }) {
                       </button>
                       <div className="flex-1">
                         <div className="flex items-start gap-2 flex-wrap mb-1">
-                          <p className={`text-sm font-medium ${checked[key] ? 'line-through text-gray-500' : 'text-white'}`}>
+                          <p className={`text-sm font-medium ${checked[key] ? 'line-through text-slate-400' : 'text-gray-800'}`}>
                             {item.q}
                           </p>
                           {item.note && (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-[#f5c842]/20 text-[#f5c842] font-medium shrink-0">
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium shrink-0">
                               {item.note}
                             </span>
                           )}
                         </div>
-                        <div className="mt-2 bg-[#112550] rounded-lg px-3 py-2">
-                          <p className="text-xs text-blue-300">
-                            <span className="font-semibold text-blue-200">Why ask: </span>
+                        <div className="mt-2 bg-slate-50 rounded-lg px-3 py-2 border border-slate-100">
+                          <p className="text-xs text-slate-600">
+                            <span className="font-semibold text-slate-700">Why ask: </span>
                             {item.why}
                           </p>
                         </div>
@@ -86,10 +86,10 @@ export default function KathleenQuestions({ checked, setChecked }) {
         ))}
       </div>
 
-      <div className="mt-5 bg-red-950/40 border border-red-500 rounded-xl px-4 py-3">
+      <div className="mt-5 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
         <div className="flex items-start gap-2">
           <span className="text-base shrink-0">⚡</span>
-          <p className="text-sm text-red-200">
+          <p className="text-sm text-red-700">
             <span className="font-bold">After this call: </span>
             Update your Elvianne questions, interview answers, and cover letter with new intelligence before Monday.
           </p>
