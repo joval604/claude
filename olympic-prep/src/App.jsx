@@ -51,7 +51,7 @@ export default function App() {
   const progress = Math.round((doneCount / totalItems) * 100)
 
   return (
-    <div className="min-h-screen bg-[#0a1628]">
+    <div className="min-h-screen bg-sky-100">
       {/* Header */}
       <div className="bg-[#0d1f3c] border-b border-[#1a3464] px-4 py-4">
         <div className="max-w-4xl mx-auto">
