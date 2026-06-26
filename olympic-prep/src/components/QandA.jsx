@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { QA_CATEGORIES } from '../data'
+import { QA_CATEGORIES, QA_STEVEN_QUESTIONS } from '../data'
 
 export default function QandA({ practicedQs, setPracticedQs }) {
   const [openQ, setOpenQ] = useState(null)
@@ -21,7 +21,6 @@ export default function QandA({ practicedQs, setPracticedQs }) {
         <span className="text-sm text-[#f5c842] font-semibold">{practiced}/{total} practiced</span>
       </div>
 
-      {/* Progress bar */}
       <div className="h-1.5 bg-[#1a3464] rounded-full mb-6 overflow-hidden">
         <div
           className="h-full bg-green-500 rounded-full transition-all duration-300"
@@ -100,6 +99,21 @@ export default function QandA({ practicedQs, setPracticedQs }) {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* 3 Questions for Steven */}
+      <div className="mt-8 bg-[#0d1f3c] border border-[#f5c842]/40 rounded-xl p-4">
+        <h3 className="text-xs font-bold text-[#f5c842] uppercase tracking-wider mb-3">
+          Your 3 Questions for Steven
+        </h3>
+        <ol className="space-y-2">
+          {QA_STEVEN_QUESTIONS.map((q, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
+              <span className="text-[#f5c842] font-bold shrink-0">{i + 1}.</span>
+              <span>{q}</span>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   )

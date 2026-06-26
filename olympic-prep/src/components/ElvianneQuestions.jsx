@@ -11,12 +11,13 @@ export default function ElvianneQuestions({ checked, setChecked }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-lg font-bold text-white">Elvianne Call — Jun 29</h2>
+        <h2 className="text-lg font-bold text-white">Elvianne Call — Mon Jun 29</h2>
         <span className="text-sm text-[#f5c842] font-semibold">{done}/{total} asked</span>
       </div>
-      <p className="text-sm text-gray-400 mb-4">14 strategic questions for your call with Elvianne — your most important intel session.</p>
+      <p className="text-sm text-gray-400 mb-4">
+        Update these after Kathleen's call. Go deeper on process, tools, day-to-day workflow, and the interview itself. Build a real relationship — she is your referral processor and long-term ally.
+      </p>
 
-      {/* Progress bar */}
       <div className="h-1.5 bg-[#1a3464] rounded-full mb-5 overflow-hidden">
         <div
           className="h-full bg-teal-500 rounded-full transition-all duration-300"
@@ -59,9 +60,16 @@ export default function ElvianneQuestions({ checked, setChecked }) {
                         )}
                       </button>
                       <div className="flex-1">
-                        <p className={`text-sm font-medium ${checked[key] ? 'line-through text-gray-500' : 'text-white'}`}>
-                          {item.q}
-                        </p>
+                        <div className="flex items-start gap-2 flex-wrap mb-1">
+                          <p className={`text-sm font-medium ${checked[key] ? 'line-through text-gray-500' : 'text-white'}`}>
+                            {item.q}
+                          </p>
+                          {item.note && (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-[#f5c842]/20 text-[#f5c842] font-medium shrink-0">
+                              {item.note}
+                            </span>
+                          )}
+                        </div>
                         <div className="mt-2 bg-[#112550] rounded-lg px-3 py-2">
                           <p className="text-xs text-blue-300">
                             <span className="font-semibold text-blue-200">Why ask: </span>
@@ -83,7 +91,7 @@ export default function ElvianneQuestions({ checked, setChecked }) {
           <span className="text-base shrink-0">⚡</span>
           <p className="text-sm text-red-200">
             <span className="font-bold">After this call: </span>
-            This is your single most important intel session. Document everything. Her words are your interview script. Update all STAR stories and resume language tonight.
+            Write up notes immediately. Thank you email within 2 hours. Update answers and cover letter tonight. Her words are your interview script.
           </p>
         </div>
       </div>

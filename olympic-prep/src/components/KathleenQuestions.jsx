@@ -11,12 +11,13 @@ export default function KathleenQuestions({ checked, setChecked }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-lg font-bold text-white">Kathleen Call — Jun 28</h2>
+        <h2 className="text-lg font-bold text-white">Kathleen Call — Sun Jun 28</h2>
         <span className="text-sm text-[#f5c842] font-semibold">{done}/{total} asked</span>
       </div>
-      <p className="text-sm text-gray-400 mb-4">10 strategic questions for your informational call with Kathleen.</p>
+      <p className="text-sm text-gray-400 mb-4">
+        Warm conversation between allies. 20–30 minutes. Top 7 questions. Let her talk. Listen for what she volunteers unprompted.
+      </p>
 
-      {/* Progress bar */}
       <div className="h-1.5 bg-[#1a3464] rounded-full mb-5 overflow-hidden">
         <div
           className="h-full bg-purple-500 rounded-full transition-all duration-300"
@@ -59,9 +60,16 @@ export default function KathleenQuestions({ checked, setChecked }) {
                         )}
                       </button>
                       <div className="flex-1">
-                        <p className={`text-sm font-medium ${checked[key] ? 'line-through text-gray-500' : 'text-white'}`}>
-                          {item.q}
-                        </p>
+                        <div className="flex items-start gap-2 flex-wrap mb-1">
+                          <p className={`text-sm font-medium ${checked[key] ? 'line-through text-gray-500' : 'text-white'}`}>
+                            {item.q}
+                          </p>
+                          {item.note && (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-[#f5c842]/20 text-[#f5c842] font-medium shrink-0">
+                              {item.note}
+                            </span>
+                          )}
+                        </div>
                         <div className="mt-2 bg-[#112550] rounded-lg px-3 py-2">
                           <p className="text-xs text-blue-300">
                             <span className="font-semibold text-blue-200">Why ask: </span>
@@ -83,7 +91,7 @@ export default function KathleenQuestions({ checked, setChecked }) {
           <span className="text-base shrink-0">⚡</span>
           <p className="text-sm text-red-200">
             <span className="font-bold">After this call: </span>
-            Update your STAR stories and resume language tonight. Align your materials to Kathleen's exact words before the Elvianne call tomorrow.
+            Update your Elvianne questions, interview answers, and cover letter with new intelligence before Monday.
           </p>
         </div>
       </div>

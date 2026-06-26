@@ -1,5 +1,38 @@
 import { DAYS, LABEL_COLORS } from '../data'
 
+const TAG_COLORS = {
+  'Research': 'text-red-300',
+  'Know It': 'text-indigo-300',
+  'Mental': 'text-rose-300',
+  'Key Meeting': 'text-purple-300',
+  'Intel': 'text-teal-300',
+  'Practice': 'text-green-300',
+  'Apply': 'text-amber-300',
+  'Rest': 'text-gray-400',
+}
+
+function TaskItem({ task, done }) {
+  // Extract [Tag] prefix if present
+  const match = task.match(/^\[([^\]]+)\]\s*(.+)$/)
+  const tag = match ? match[1] : null
+  const text = match ? match[2] : task
+  const tagColor = tag ? TAG_COLORS[tag] : null
+
+  return (
+    <li className="flex items-start gap-2 text-sm text-gray-300">
+      <span className="text-[#f5c842] mt-1 shrink-0">·</span>
+      <span className={done ? 'line-through text-gray-500' : ''}>
+        {tag && (
+          <span className={`font-semibold mr-1 ${tagColor || 'text-gray-400'}`}>
+            [{tag}]
+          </span>
+        )}
+        {text}
+      </span>
+    </li>
+  )
+}
+
 export default function DailyPlan({ completedDays, setCompletedDays }) {
   const completed = Object.values(completedDays).filter(Boolean).length
   const total = DAYS.length
@@ -33,7 +66,6 @@ export default function DailyPlan({ completedDays, setCompletedDays }) {
               }`}
             >
               <div className="flex items-start gap-3">
-                {/* Checkbox */}
                 <button
                   onClick={() => toggle(idx)}
                   className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
@@ -61,17 +93,13 @@ export default function DailyPlan({ completedDays, setCompletedDays }) {
                   </div>
                   <ul className="space-y-1">
                     {day.tasks.map((task, ti) => (
-                      <li key={ti} className="flex items-start gap-2 text-sm text-gray-300">
-                        <span className="text-[#f5c842] mt-1 shrink-0">·</span>
-                        <span className={completedDays[idx] ? 'line-through text-gray-500' : ''}>{task}</span>
-                      </li>
+                      <TaskItem key={ti} task={task} done={completedDays[idx]} />
                     ))}
                   </ul>
                 </div>
               </div>
             </div>
 
-            {/* Milestone callout */}
             {day.milestone && (
               <div
                 className={`mt-2 rounded-lg px-4 py-3 border-l-4 text-sm ${

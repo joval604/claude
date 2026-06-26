@@ -1,25 +1,22 @@
 export const DAYS = [
+  // PRE-WEEK: INTEL GATHERING
   {
     date: 'Fri Jun 26',
-    label: 'Key Meeting',
+    label: 'Research',
     tasks: [
-      'Send thank-you email to Elvianne (within 2 hours of offer call)',
-      'Confirm July 14 interview date and format in writing',
-      'Draft email to Kathleen requesting June 28 informational call',
-      'Update LinkedIn profile headline to reflect AD-level ambition',
-      'Pull and save Novartis Q1 2026 earnings call transcript',
+      '[Research] Re-read Kathleen\'s LinkedIn. Review her Seattle Children\'s $150M Epic implementation. Understand her legacy in this territory.',
+      '[Know It] Review Kathleen questions tab. Rank your top 7 must-ask questions.',
+      '[Mental] Watch Amy Cuddy TED Talk tonight. Journal: Write 3 reasons you are the right person for this role.',
     ],
     milestone: null,
   },
   {
     date: 'Sat Jun 27',
-    label: 'Research',
+    label: 'Know It',
     tasks: [
-      'Deep-read Novartis 2025 Annual Report — highlight HIT priorities',
-      'Research Novartis Innovative Medicines U.S. strategy and pipeline',
-      'Map Joanna\'s account list: payer mix, formulary status, prior auth burden',
-      'Build a "Novartis HIT landscape" one-page cheat sheet',
-      'Draft 3 versions of "Tell me about yourself" (2-min, 90-sec, 60-sec)',
+      '[Know It] Read full interview prep document for the first time. Get the big picture.',
+      '[Research] Review Novartis HIT flashcard and resources page one more time before Kathleen\'s call.',
+      '[Mental] Lagree or pickleball. Early night.',
     ],
     milestone: null,
   },
@@ -27,41 +24,36 @@ export const DAYS = [
     date: 'Sun Jun 28',
     label: 'Key Meeting',
     tasks: [
-      'Prepare 10 strategic questions for Kathleen call (see Kathleen tab)',
-      'Conduct Kathleen informational call — take detailed notes',
-      'Post-call: update STAR stories based on insights from Kathleen',
-      'Post-call: revise CV/resume to reflect language Kathleen used',
-      'Draft "What I learned from Kathleen" summary document',
+      '[Key Meeting] Before: 10-minute visualization. Warm, genuine, grateful. Conversation between allies.',
+      '[Key Meeting] During: Top 7 questions. Detailed notes. Listen for what she volunteers unprompted.',
+      '[Intel] After: Write up notes immediately. Thank you text within 1 hour. Update Elvianne questions tonight.',
     ],
     milestone: {
       type: 'alert',
-      text: 'After Kathleen call: Update your materials tonight. Align your language to hers before the Elvianne call tomorrow.',
+      text: 'After Kathleen\'s call update your Elvianne questions, interview answers, and cover letter with new intelligence before Monday.',
     },
   },
   {
     date: 'Mon Jun 29',
     label: 'Key Meeting',
     tasks: [
-      'Prepare 14 strategic questions for Elvianne call (see Elvianne tab)',
-      'Conduct Elvianne informational call — take detailed notes',
-      'Post-call: map gaps between your experience and what Elvianne described',
-      'Post-call: refine STAR stories with Elvianne\'s exact language',
-      'Email thank-you to Elvianne within 2 hours of call',
+      '[Key Meeting] Before: Review updated Elvianne questions incorporating Kathleen intel. 10-minute visualization.',
+      '[Key Meeting] During: Deep on process, CRM tools, interview format, Steven\'s style. Listen for what she volunteers.',
+      '[Intel] After: Write up notes immediately. Thank you email within 2 hours. Update answers and cover letter tonight.',
     ],
     milestone: {
-      type: 'alert',
-      text: 'After Elvianne call: This is your single most important intel session. Document everything. Her words are your interview script.',
+      type: 'milestone',
+      text: 'Both insider calls complete. Cover letter and answers updated with intel no other candidate has.',
     },
   },
+  // WEEK 1: BUILD THE FOUNDATION
   {
     date: 'Tue Jun 30',
-    label: 'Know It',
+    label: 'Intel',
     tasks: [
-      'Master Novartis pipeline: Kisqali, Kesimpta, Cosentyx, Leqvio, Fabhalta',
-      'Build drug-by-drug competitive landscape cards',
-      'Memorize Novartis mission, values, and cultural pillars',
-      'Research HIT market: pharmacy benefit managers, specialty pharmacy dynamics',
-      'Quiz yourself: 10 pipeline questions without notes',
+      '[Intel] Integrate Kathleen and Elvianne intel into all Q&As. Finalize cover letter.',
+      '[Know It] Memorize 60-second opener. Practice arc: nurse → GE → Overlake → why Novartis → Kathleen.',
+      '[Practice] Record Q1–Q5. Watch back. Fix pacing, content, body language.',
     ],
     milestone: null,
   },
@@ -69,86 +61,74 @@ export const DAYS = [
     date: 'Wed Jul 1',
     label: 'Know It',
     tasks: [
-      'Deep-dive: AD HIT role responsibilities and success metrics',
-      'Research: specialty pharmacy account management best practices',
-      'Build your "value proposition" statement — 3 sentences max',
-      'Learn: HIT channel strategy (retail, specialty, mail-order)',
-      'Map how your current role translates to AD HIT competencies',
+      '[Know It] Study Q6–Q10. Write STAR format for each. GE and Overlake stories cold. No answer over 2 minutes.',
+      '[Research] Territory Part 1: MultiCare and Fred Hutch. EHR platform, size, recent news, HIT initiatives.',
+      '[Practice] Trusted person runs Q6–Q10 cold. Time each answer.',
     ],
     milestone: null,
   },
   {
     date: 'Thu Jul 2',
-    label: 'Practice',
+    label: 'Know It',
     tasks: [
-      'Record yourself answering Q1–Q5 on video — watch it back',
-      'Practice "Tell me about yourself" 10 times aloud',
-      'STAR story drill: Leadership example (3 versions — short/med/long)',
-      'STAR story drill: Conflict resolution example',
-      'Share video with trusted colleague for feedback',
+      '[Know It] Study Q11–Q14. Use ePMO founding story and FY Transition program.',
+      '[Research] Territory Part 2: Providence, PeaceHealth, OHSU, Salem Health, Legacy Health, Virginia Mason.',
+      '[Mental] Watch Simon Sinek Start With Why. Think about your WHY for this role.',
     ],
     milestone: null,
   },
   {
     date: 'Fri Jul 3',
-    label: 'Practice',
+    label: 'Know It',
     tasks: [
-      'Record yourself answering Q6–Q10 on video — watch it back',
-      'STAR story drill: Data-driven decision example',
-      'STAR story drill: Cross-functional collaboration example',
-      'Practice: "Why Novartis?" — 3 different angles, pick the best',
-      'Practice: "Why AD HIT specifically?" — connect to your mission',
+      '[Know It] Study Q15–Q23. Practice failure story and influence without authority story out loud.',
+      '[Know It] EHR tools: SlicerDicer, Reporting Workbench, BPAs, SmartForms, Dynamic Work Lists.',
+      '[Mental] Visualization: Panel interview. Calm, specific, compelling. They are impressed.',
     ],
     milestone: null,
   },
   {
     date: 'Sat Jul 4',
-    label: 'Mental',
+    label: 'Rest',
     tasks: [
-      'Rest morning — no interview prep before noon',
-      'Afternoon: visualization practice (20 min) — see yourself in the role',
-      'Write your "I am ready" affirmation list — 10 specific reasons',
-      'Light exercise: walk, yoga, or swim',
-      'Review your top 5 STAR stories — read only, no drilling',
+      '[Rest] No heavy prep. Physical activity only. Walk, Lagree, pickleball. Your brain needs recovery time.',
     ],
     milestone: {
       type: 'milestone',
-      text: 'Halfway checkpoint — You\'ve done the foundation work. Pipeline knowledge is solid. STAR stories are built. The next 9 days are about sharpening.',
+      text: 'Holiday rest. Brain consolidating everything you have learned.',
     },
   },
   {
     date: 'Sun Jul 5',
-    label: 'Practice',
+    label: 'Know It',
     tasks: [
-      'Full mock interview — all 23 questions, timed, recorded',
-      'Watch recording: note filler words, pace, eye contact',
-      'Rewrite any weak answers',
-      'Practice Q11–Q15 with a partner or into mirror',
-      'Update answer bank with any new insights',
+      '[Know It] Study Novartis products: Leqvio, Fabhalta, Kisqali, Scemblix, Pluvicto, Cosentyx, Kesimpta.',
+      '[Know It] Compliance cold: Novartis educates and advises. We do not program, code, or operate any customer EHR and we do not access PHI.',
+      '[Apply] Prep all application materials: resume, cover letter, referral link ready for Monday morning.',
     ],
     milestone: null,
   },
   {
     date: 'Mon Jul 6',
-    label: 'Intel',
+    label: 'Apply',
     tasks: [
-      'Search LinkedIn for current Novartis AD HIT employees — read their profiles',
-      'Research your likely interviewers (if known) on LinkedIn',
-      'Read last 6 months of Novartis press releases',
-      'Check Glassdoor for Novartis AD interview experiences',
-      'Review any shared materials from Kathleen or Elvianne',
+      '[Apply] Submit the moment posting opens. Use Elvianne\'s referral link. Upload JValderrama_Resume_61626.docx and cover letter. Confirm with Elvianne and Kathleen.',
+      '[Know It] Review all 23 Q&As. Flag 5 weakest for Round 1 focus.',
+      '[Mental] Celebrate tonight. You have earned it.',
     ],
-    milestone: null,
+    milestone: {
+      type: 'milestone',
+      text: 'Application submitted. All 23 questions studied. EHR tools, therapeutic areas, and compliance known.',
+    },
   },
+  // WEEK 2: SHARPEN, PRACTICE AND PERFORM
   {
     date: 'Tue Jul 7',
     label: 'Practice',
     tasks: [
-      'Record yourself answering Q16–Q20 on video',
-      'STAR story drill: Initiative/innovation example',
-      'STAR story drill: Difficult stakeholder example',
-      'Practice: "Tell me about a time you missed a target" — recovery framing',
-      'Transition framing drill: "Why leave your current role?"',
+      '[Practice] Trusted colleague. Q1–Q11. No notes. Content accuracy and story specificity. Debrief immediately.',
+      '[Research] Community oncology practices in WA and OR using iKnowMed, OncoEMR, Meditech.',
+      '[Mental] Watch Brené Brown on vulnerability. Authentic storytelling beats polished performance.',
     ],
     milestone: null,
   },
@@ -156,11 +136,9 @@ export const DAYS = [
     date: 'Wed Jul 8',
     label: 'Know It',
     tasks: [
-      'Final pipeline review — quiz without notes (all products)',
-      'Review Novartis competitive positioning vs. AbbVie, J&J, Roche, BMS',
-      'Know your numbers: key metrics from your current role (%, $, growth)',
-      'Build one-page "Joanna\'s Impact" summary with quantified wins',
-      'Review your questions for the panel — refine based on all research',
+      '[Know It] Internalize 90-day plan. Three phases: listen and assess, identify and prioritize, propose and execute.',
+      '[Research] Novartis 2026 news and pipeline. Commercial strategy and how HIT advisory supports it.',
+      '[Mental] Lagree or pickleball. Non-negotiable this week.',
     ],
     milestone: null,
   },
@@ -168,69 +146,56 @@ export const DAYS = [
     date: 'Thu Jul 9',
     label: 'Practice',
     tasks: [
-      'Full mock interview with a trusted peer — simulate panel format',
-      'Record Q21–Q23 — watch back immediately',
-      'Practice presenting your "90-day plan" if asked',
-      'Practice: closing statement — "I want to leave you with..."',
-      'Feedback session: what landed, what needs work',
+      '[Practice] Different person. Q12–Q22. Score each answer 1–10 on confidence, clarity, specificity.',
+      '[Know It] Review 3 questions for Steven. Positioning statement. 60-second opener. Cover letter.',
+      '[Mental] Visualization: You are in the room with Steven and the panel. You are the most prepared person there.',
     ],
-    milestone: {
-      type: 'milestone',
-      text: 'Final stretch — 5 days out. Your job now is confidence reinforcement, not new learning. Trust the work you\'ve put in.',
-    },
+    milestone: null,
   },
   {
     date: 'Fri Jul 10',
-    label: 'Mental',
+    label: 'Practice',
     tasks: [
-      'Morning run or workout — physical confidence builder',
-      'Re-read all your STAR stories once — no drilling',
-      'Write thank-you notes in advance for post-interview sends',
-      'Confirm logistics: interview time, format, platform, attire',
-      'Breathwork practice: 4-7-8 technique, 10 minutes',
+      '[Practice] Review Round 2 feedback. Practice 3 weakest answers only. Do not re-practice what is already strong.',
+      '[Know It] Final territory research. Lock in Pacific Northwest landscape knowledge.',
+      '[Mental] Write letter to yourself about why you deserve this role. Read it out loud. Keep it for interview morning.',
     ],
     milestone: null,
   },
   {
     date: 'Sat Jul 11',
-    label: 'Apply',
+    label: 'Practice',
     tasks: [
-      'Final CV review — ensure it mirrors Elvianne\'s language',
-      'Prepare your interview kit: notebook, pen, water, backup tech',
-      'Do one light read-through of your top 10 Q&As',
-      'Practice your opener: "Tell me about yourself" — last time',
-      'Set up tech: lighting, background, camera angle (if virtual)',
-    ],
-    milestone: null,
-  },
-  {
-    date: 'Sun Jul 12',
-    label: 'Rest',
-    tasks: [
-      'No prep — complete rest day',
-      'Light activity: walk in nature, gentle yoga',
-      'Eat well — protein, hydration, sleep by 9:30 PM',
-      'Read something unrelated to work for pleasure',
-      'Affirmation before sleep: "I am ready. I belong in this room."',
+      '[Mental] Morning: Dress in your interview outfit. Get into interview day state of mind.',
+      '[Practice] Mock Interview Round 3: Full video call. All 23 questions. Timed. Recorded. No stopping. No do-overs.',
+      '[Practice] Evening: Review recording. Where do you trail off, over-explain, or shine brightest. Top 3 areas to tighten.',
     ],
     milestone: {
       type: 'milestone',
-      text: 'Eve of Interview — You\'ve done everything right. Tonight is about rest, restoration, and trust. The work is done. Tomorrow you just show up.',
+      text: 'Full Dress Rehearsal — Olympic Qualifying Round. Treat this exactly like the real thing.',
     },
+  },
+  {
+    date: 'Sun Jul 12',
+    label: 'Practice',
+    tasks: [
+      '[Practice] 3 weakest answers only. Short and sharp. Fix the last gaps.',
+      '[Know It] Light review: opener, 3 questions for Steven, positioning statement. Nothing new.',
+      '[Mental] Read your letter. Feel it. Believe it. You are ready.',
+    ],
+    milestone: null,
   },
   {
     date: 'Mon Jul 13',
     label: 'Key Meeting',
     tasks: [
-      'Wake up 2.5 hours before interview start',
-      'Morning routine: workout or walk, nourishing breakfast',
-      'Review: your 3-sentence value proposition one final time',
-      'Enter the interview as the AD HIT Joanna — confident, prepared, present',
-      'Post-interview: send thank-you emails within 2 hours',
+      '[Mental] Morning: Read your letter. 10-minute visualization of perfect interview. Opener review only. No cramming.',
+      '[Rest] Afternoon: Something that energizes you. Family, walk, pickleball. Trust your preparation.',
+      '[Mental] Evening: Early night. Outfit ready. Notes folder prepped. Alarm set.',
     ],
     milestone: {
       type: 'milestone',
-      text: 'Interview Day — This is your moment. Every piece of prep has led here. Walk in knowing you\'ve done the work.',
+      text: '4 mock interviews complete. Fully prepared. You are the most prepared candidate in this process.',
     },
   },
 ]
@@ -248,311 +213,269 @@ export const LABEL_COLORS = {
 
 export const QA_CATEGORIES = [
   {
-    name: 'Tell Me About Yourself & Your Story',
+    name: 'Category 1: About You',
     questions: [
       {
         q: 'Tell me about yourself.',
-        a: `I'm a healthcare sales professional with [X] years of experience in [current specialty], with a consistent record of [key metric — e.g., exceeding quota, growing market share, managing complex accounts]. Throughout my career, I've built strong relationships with [types of stakeholders — e.g., specialty pharmacy directors, PBM executives, IDN account leaders] by combining strategic thinking with a deep understanding of the payer and channel landscape.
+        a: `So my background is a little different from most people you might talk to for this role. I started as a registered nurse which honestly shaped everything about how I think about health IT. I understand what it is like to be at the bedside and how technology either helps or gets in the way of care. That clinical lens is something I bring into every engagement.
 
-What draws me to this AD HIT role at Novartis is the opportunity to translate that expertise into a broader strategic impact — working across a portfolio that is genuinely changing patient outcomes. I've spent [time period] learning [relevant area], and I'm ready to bring that knowledge to a company with the mission and pipeline to match.`,
-        tip: 'Time yourself: 90 seconds is the sweet spot. Practice until it flows without notes.',
+From there I moved into health IT at GE Healthcare where I spent about a decade as the primary adviser to health systems across the country, implementing EHR systems and being that go-to person for clinical and operational leaders.
+
+What I do now at Overlake is where it all comes together. I lead a portfolio of AI and digital programs at the enterprise level, working directly with C-suite sponsors and clinical leaders. I designed and led our ambient AI documentation program across 200+ providers, and our conversational AI deployment cut patient call volume by over 85% in the first 90 days.
+
+What excites me about this role is taking that advisory work into the field. And the fact that Kathleen, who built something remarkable in this role, chose to refer me means everything.`,
+        tip: 'Practice this until it sounds natural, not rehearsed. Arc: nurse → GE → Overlake → why Novartis → Kathleen.',
       },
       {
-        q: 'Why do you want to leave your current role?',
-        a: `I'm deeply proud of what I've built at [current company] — the relationships, the results, and the team culture I've contributed to. What I'm looking for now is a role where I can operate at a higher strategic altitude — managing more complex accounts, leading cross-functional strategy, and working within a portfolio like Novartis's that is genuinely at the frontier of medicine.
+        q: 'Why are you interested in this role?',
+        a: `A few things came together for me. First, Kathleen's referral. She knows this role from the inside and she knows my background. When someone of her caliber says you are the right fit, you pay attention.
 
-This isn't about leaving something. It's about growing into a version of this work that I know I'm capable of, and that I haven't yet had the scope to fully express.`,
-        tip: 'Never speak negatively about your current employer. Frame it as growth, not escape.',
+Second, what Steven described on our call resonated deeply. The opportunity to be that trusted field adviser, to walk into a health system, understand where they are, and help them define a roadmap — that is the work I love most. I have been doing a version of it internally at Overlake for years but I am ready to take it into the field.
+
+Third, the Pacific Northwest is my home. I know these health systems. I have relationships here. And I genuinely believe this territory has enormous untapped potential for the kind of HIT advisory work Novartis offers.`,
+        tip: null,
       },
       {
-        q: 'Why Novartis specifically?',
-        a: `Novartis stands out to me for three reasons. First, the pipeline — Kisqali, Kesimpta, Leqvio, Fabhalta — these aren't incremental products. They represent genuine clinical differentiation, and that makes the HIT work meaningful rather than transactional. Second, the cultural commitment to reimagining medicine, not just selling it — that aligns with how I see my role as a partner, not a vendor. And third, the scope of the AD HIT role — the combination of strategic account management, cross-functional leadership, and payer navigation is exactly where I want to grow.`,
-        tip: 'Mention specific products by name. Generic "great pipeline" answers don\'t land.',
+        q: 'Why are you leaving Overlake?',
+        a: `Overlake has been a fantastic place to build and I am proud of what I have accomplished there. But I have reached a natural inflection point. The programs I built are running well, the PMO is established, and I am looking for a role that lets me take what I have learned and apply it at scale across multiple health systems rather than one.
+
+This role is that next step. It is not about leaving something. It is about stepping into something that matches where I am in my career and what I want to contribute.`,
+        tip: 'Never speak negatively about Overlake. This is a growth story, not a departure story.',
       },
       {
-        q: 'Walk me through your career trajectory.',
-        a: `I started my career in [first role] where I learned [foundational skill — e.g., how to navigate complex institutions, build relationships from zero]. I then moved to [next role] because [intentional reason], where I [key achievement]. From there, I took on [current role] with the goal of [stated ambition at the time], and I've [achieved X, Y, Z].
+        q: 'What does your current role look like day to day?',
+        a: `No two days look the same which is honestly what I love about it. On any given day I might be presenting a quarterly performance review to our CMO, facilitating a clinical workgroup on a new AI program, reviewing metrics on our ambient documentation adoption, or working through a process challenge with a vendor.
 
-Looking at the arc, there's a clear thread: I've always sought environments where the complexity of the work matches my appetite to solve hard problems. The AD HIT role is the next step in that trajectory — it's the role where all of what I've built becomes a platform for something bigger.`,
+I oversee about ten concurrent programs right now spanning AI governance, EHR optimization, revenue integrity, and financial transformation. I am the person who connects the dots across all of them, keeps executive sponsors informed, and makes sure every program has a clear path from current state to sustained adoption.`,
+        tip: null,
+      },
+      {
+        q: 'Walk me through your clinical background and how it applies here.',
+        a: `I trained and practiced as a registered nurse in Canada, working in pediatric cardiology, home care, and acute medicine. High acuity environments where you have to think fast, assess quickly, and communicate clearly with patients, families, and physicians simultaneously.
+
+What that experience gave me that I cannot get from any certification or degree is a visceral understanding of what it is like to be a clinician. I know what cognitive burden feels like. I know what happens when technology gets in the way of care instead of enabling it. And I know what it takes to earn a clinician's trust.
+
+When I walk into a health system as a HIT adviser, I am not just someone who knows the technology. I am someone clinicians recognize as one of their own. That changes the conversation entirely.`,
+        tip: 'This is your single biggest differentiator. Deliver it with conviction.',
+      },
+    ],
+  },
+  {
+    name: 'Category 2: HIT Advisory and Client Engagement',
+    questions: [
+      {
+        q: 'How do you approach a new health system relationship?',
+        a: `My first step is always to listen and assess before I recommend anything. I want to understand their strategic priorities, their EHR environment, how their clinical workflows are structured, and where the gaps are between what their data shows and what clinical care pathways recommend.
+
+From there I help them understand what tools already exist in their EHR — whether that is Epic SlicerDicer, Reporting Workbench, Best Practice Advisories, or Cerner Dynamic Work Lists — that can surface patients who might benefit from earlier identification and intervention.
+
+The key constraint I operate within is that I am there to educate and advise, not to build or operate their systems. I help them understand what is possible and then support their own teams in making it happen. That distinction is important both from a compliance standpoint and from a relationship standpoint. Health systems trust advisers who respect that boundary.`,
+        tip: null,
+      },
+      {
+        q: 'How do you identify what a health system needs when they may not know themselves?',
+        a: `This is one of my favorite challenges and honestly where my nursing background is most useful. In clinical care you learn to look beyond what a patient tells you and assess what is actually happening. I bring that same diagnostic instinct to health system engagements.
+
+I look for patterns across multiple conversations. I pay attention to what people say and what they do not say. I look at their data, their workflows, and their outcomes. And I ask questions that help leaders articulate problems they have been living with so long they stopped seeing them.
+
+At Overlake I used this approach to identify $500K+ in projected revenue recovery that nobody had connected to a technology solution yet. The problem existed, the data existed, but nobody had mapped them together. That is the kind of gap I look for.`,
+        tip: null,
+      },
+      {
+        q: 'Tell me about a time you had to educate a clinical or executive leader on a technology solution.',
+        a: `When I proposed our ambient AI documentation program at Overlake, our CMO was skeptical. Physicians had heard a lot of promises about technology reducing their burden and most of those promises had not delivered.
+
+I did not lead with the technology. I led with the problem. I showed her the data on after-hours chart time and documentation burden across our provider population. Then I walked her through how the solution worked in plain language, what the evidence showed from other health systems, and what our phased rollout would look like so we could validate before scaling.
+
+She approved the program and became one of our strongest advocates. That is the same approach I would take in the field — lead with the clinical problem, support with data, and make the solution tangible.`,
+        tip: null,
+      },
+      {
+        q: 'How do you handle a client who is resistant to change?',
+        a: `Resistance is almost always rooted in something real. Either a previous technology failed them, they do not see what is in it for them, or they do not trust that the implementation will be done well. My job is to figure out which one it is and address it directly.
+
+I never try to push through resistance. I slow down and listen. I ask what their concerns are and I take them seriously. Sometimes the resistance reveals a legitimate gap in the solution that needs to be addressed before moving forward.
+
+At Overlake I had a department director who was strongly opposed to our conversational AI deployment because she was worried it would increase her team's workload during the transition. Instead of overriding her concern I brought her into the design process. She became a co-owner of the solution and one of its biggest champions post go-live.`,
+        tip: null,
+      },
+      {
+        q: 'Describe a situation where you translated complex technical capabilities into practical solutions.',
+        a: `When we were evaluating DAX Copilot for our ambient AI program, I had to present the business case to a steering committee that included our CFO, CMO, and Chief of Staff. None of them wanted a technical deep dive. They wanted to know what problem it solved, what it would cost, what the risk was, and what success would look like.
+
+I built a presentation that started with the clinical problem — documentation burden and after-hours chart time — then showed the solution in plain language, then walked through a metrics-gated rollout plan with clear go and no-go criteria at each phase.
+
+That is exactly what the Novartis HIT role calls for. Taking complex EHR capabilities and presenting them in a way that health system leaders can understand and act on.`,
         tip: null,
       },
     ],
   },
   {
-    name: 'Role-Specific & Technical Knowledge',
+    name: 'Category 3: Process and Operations',
     questions: [
       {
-        q: 'What do you know about the HIT channel and how it differs from traditional pharma sales?',
-        a: `The Health Systems and Integrated Networks (HIT) channel differs from traditional pharma sales in several fundamental ways. Where traditional sales focuses on individual prescribers, HIT account management operates at the institutional and payer level — working with IDNs, GPOs, specialty pharmacy chains, PBMs, and regional health plans.
+        q: 'Tell me about a time you had to define a process from scratch.',
+        a: `When I joined Overlake there was no formal PMO. Projects were being managed inconsistently, there was no standard intake process, and leadership had limited visibility into what was in flight.
 
-The key difference is that HIT decisions are system-level decisions. A formulary win at a top-tier PBM can impact thousands of patients across a region. That means the skill set shifts from relationship-based prescriber influence to strategic account planning, economic value demonstration, contract negotiation navigation, and cross-functional alignment with medical affairs, market access, and trade.
+I co-founded the enterprise PMO from the ground up. I built the intake governance process, the project documentation templates, the Smartsheet tracking infrastructure, and the executive dashboard reporting. Within the first year we had standardized governance across 30+ strategic initiatives and leadership had real-time visibility into portfolio performance for the first time.
 
-What I find compelling about HIT is that it requires the full breadth of business skills — clinical knowledge, financial modeling, relationship depth, and long-cycle strategic thinking — all at once.`,
-        tip: 'Know the acronyms cold: IDN, GPO, PBM, SP, WAC, rebates, step edits, prior auth.',
-      },
-      {
-        q: 'How would you approach building relationships with a new specialty pharmacy partner?',
-        a: `The first step is to listen before pitching. I would request a discovery meeting focused entirely on understanding the pharmacy's operational priorities, patient population, dispensing challenges, and what they value most from pharma partners. I've learned that the fastest way to build trust with a specialty pharmacy director is to demonstrate that you understand their world, not just yours.
-
-From there, I'd work to establish a joint business plan — identifying where Novartis products can genuinely improve their clinical and operational metrics. Then I'd bring in medical affairs and patient support resources proactively, before they ask. The relationship compounds when they see you as someone who brings solutions they didn't know they needed.
-
-My benchmark for a strong SP relationship: they call me before problems escalate, not after.`,
+Steven mentioned on our call that part of this role involves defining existing processes. That is exactly the kind of work I have done before and I genuinely enjoy it. Building structure where there is ambiguity is one of my strengths.`,
         tip: null,
       },
       {
-        q: 'How familiar are you with Novartis\'s key products in this portfolio?',
-        a: `I've done significant research on the portfolio relevant to the AD HIT role. Here's where I am:
+        q: 'How do you handle ambiguity?',
+        a: `I am comfortable with ambiguity because I have spent most of my career in it. When I joined Overlake the AI governance space was completely undefined. No policies, no frameworks, no precedent. When I started the PMO there was no blueprint. When I led our first ambient AI program there was no established playbook for health systems our size.
 
-**Kisqali (ribociclib)**: CDK4/6 inhibitor for HR+/HER2- breast cancer. Strong OS data differentiates it from competitors. Key HIT conversation: formulary tier positioning and prior auth burden reduction.
+My approach is to move forward with the information I have, build iteratively, and course correct as I learn more. I do not wait for perfect clarity before taking action. I define what I know, flag what I do not know, and make a plan to close the gaps.
 
-**Kesimpta (ofatumumab)**: Self-administered B-cell depleting therapy for MS. The patient self-injection model creates unique specialty pharmacy partnership opportunities.
-
-**Cosentyx (secukinumab)**: IL-17A inhibitor across multiple indications. Mature brand with biosimilar landscape awareness critical.
-
-**Leqvio (inclisiran)**: siRNA therapy for LDL reduction, twice-yearly dosing. The buy-and-bill model in HIT is a major differentiator vs. oral agents.
-
-**Fabhalta (iptacopan)**: PNH and IgAN treatment. Rare disease access dynamics require deep payer navigation expertise.
-
-I'm ready to go deeper on any of these — and I recognize that part of this role is continuously sharpening product and market knowledge.`,
-        tip: 'Have a 2-sentence summary for each product ready. Interviewers will probe clinical knowledge.',
-      },
-      {
-        q: 'How do you manage a situation where a key account has formulary restrictions on a Novartis product?',
-        a: `Formulary restrictions are a negotiation, not a verdict. My approach has three phases.
-
-First, I diagnose the restriction — is it a step-edit, prior auth, non-preferred tier, or exclusion? Each has a different lever. A step-edit is a clinical conversation; a tier issue is an economic one; an exclusion requires a different escalation path.
-
-Second, I build the case collaboratively. I work with market access to develop a value dossier tailored to that account's cost structure and patient population — total cost of care models, outcomes data, patient support program ROI. The goal is to make their decision-makers look smart for changing the restriction, not just to win.
-
-Third, I bring in the right internal partners — medical affairs, HEOR, patient advocacy if relevant — so the account sees a team behind the product, not just a rep.
-
-I've used this framework to [specific example result — formulary win, tier improvement, etc.].`,
+Steven specifically said he needs someone who is comfortable with ambiguity and can think outside the box. That is genuinely how I operate.`,
         tip: null,
       },
       {
-        q: 'What metrics do you think are most important for an AD HIT to track and why?',
-        a: `For an AD HIT, I think the most meaningful metrics fall into three buckets:
+        q: 'Describe how you have used data and metrics to drive decisions.',
+        a: `Data is the backbone of everything I do. I do not launch a program without defining what success looks like upfront and I do not scale without validating the metrics first.
 
-**Access metrics**: Formulary coverage rate by tier across key accounts, prior authorization approval rates, step-edit override success rate. These tell you whether patients can actually get the drug.
+For our ambient AI program I used Epic data including time in notes and after-hours chart time to identify the highest burden providers and prioritize them for the first cohort. I then set utilization rate thresholds that each cohort had to hit before we expanded to the next group. That metrics-gated approach is what got us to 70% adoption across 200+ providers.
 
-**Pull-through metrics**: Script velocity at partner specialty pharmacies, days on therapy, adherence rates. These connect the account work to patient outcomes.
+I also deliver quarterly performance reviews to our C-suite that translate program metrics into business outcomes. Not adoption percentages in isolation but what those numbers mean for clinician experience, operational efficiency, and patient care.`,
+        tip: null,
+      },
+      {
+        q: 'Tell me about a time you worked across multiple stakeholders simultaneously.',
+        a: `My current role is essentially this every day. Right now I am simultaneously managing our AI governance committee, two Epic Community Connect partner sites, a fiscal year transition program with Finance, HR, IT, and Operations, and an Axiom conversion project.
 
-**Relationship quality indicators**: Account satisfaction, meeting frequency with decision-makers, joint business plan milestone completion. These predict future access before it shows up in the data.
+Each of those workstreams has different stakeholders with different priorities and different communication styles. My job is to keep all of them moving forward without letting any one of them create a bottleneck for the others.
 
-What I find most important is the lag between access work and pull-through outcomes — sometimes 6–12 months. An AD HIT who only looks at short-cycle metrics will underinvest in foundational account work that pays off over the long term.`,
+The key is being very clear about roles, decisions, and timelines upfront and communicating proactively when something changes. I would rather over-communicate than have a stakeholder surprised.`,
         tip: null,
       },
     ],
   },
   {
-    name: 'Behavioral & STAR Stories',
+    name: 'Category 4: AI and EHR Specific',
     questions: [
       {
-        q: 'Tell me about a time you managed a complex, multi-stakeholder account.',
-        a: `**Situation**: At [company], I was managing [account type] — an account with [X] decision-makers across pharmacy, medical, and administrative leadership, each with different priorities and influence.
+        q: 'What is your experience with ambient AI?',
+        a: `This is where I am probably most current among candidates you will speak with. I designed and led Overlake's enterprise ambient AI documentation program from the ground up. I evaluated vendors, built the business case, designed the phased rollout model, set the metrics gates, and have been managing adoption and outcomes ever since.
 
-**Task**: My goal was to secure formulary access for [product] while maintaining the relationship across all stakeholder levels during a contract renewal.
+We achieved an estimated 70% adoption across 200+ providers with reported reductions in documentation time and cognitive burden. I also translated clinician feedback into formal vendor recommendations that influenced DAX Copilot's product roadmap.
 
-**Action**: I mapped each stakeholder's specific concern — the CMO cared about outcomes data, the pharmacy director about operational burden, the CFO about rebate structure. I built a tailored presentation for each, coordinating with medical affairs for clinical support and market access for financial modeling. I held individual pre-meetings before the committee decision to surface and address objections early.
-
-**Result**: We secured [specific outcome — tier improvement, preferred status, access expansion] and [measurable business impact]. More importantly, [relationship outcome — became strategic partner, expanded access to other products, etc.].`,
-        tip: 'Lead with the complexity. Interviewers want to see that you can navigate ambiguity and competing priorities simultaneously.',
+Right now I am in the middle of evaluating Ambience Healthcare as a potential replacement for DAX — 183 licenses, comparing approximately $44K per month for DAX versus a lower per-provider rate for Ambience. I know both products from the health system decision-maker side. That perspective is something I can bring directly into conversations with your accounts.`,
+        tip: 'This is your strongest differentiator in Category 4. Own it.',
       },
       {
-        q: 'Describe a time you had to influence someone without authority.',
-        a: `**Situation**: [Describe situation where you needed to move someone in a peer or senior position without a reporting relationship — cross-functional colleague, external partner, senior stakeholder.]
+        q: 'How familiar are you with EHRs beyond Epic?',
+        a: `Very familiar. My deepest non-Epic experience is at GE Healthcare where I spent nearly a decade implementing GE Centricity Orders and Results modules at major health systems across the country. I set up and tested HL7 integrations across radiology, pharmacy, and lab systems at health systems including Memorial Florida, Hoag, UCLA, and others.
 
-**Task**: I needed [specific outcome] but had no formal authority to direct the decision.
+I also have familiarity with Cerner through my work at UW Medicine where the health system used both Epic and Cerner across different entities.
 
-**Action**: I recognized that the key was understanding what they needed, not what I needed. I [specific approach — built shared context, aligned to their goals, brought data that mattered to them, created a coalition, framed the ask in terms of their priorities]. I was deliberate about not pressuring — I presented options, showed respect for their autonomy, and let the logic do the work.
-
-**Result**: [Outcome and relationship impact]. What I took from this: sustainable influence comes from credibility and alignment, not position.`,
+I have also reviewed the Novartis HIT resources and I see you have guides built for Oracle Cerner, iKnowMed, OncoEMR, Meditech, and EMA/ModMed in addition to Epic. I am familiar with the core reporting and workflow concepts that translate across platforms — SlicerDicer and Reporting Workbench in Epic have equivalents in Dynamic Work Lists and Discern Analytics in Cerner. The platform changes but the clinical logic stays consistent.`,
         tip: null,
       },
       {
-        q: 'Tell me about a time you failed or missed a target. What did you do?',
-        a: `**Situation**: In [year/quarter], I [missed target / lost account / initiative didn't perform as expected].
+        q: 'How do you stay current with health IT trends?',
+        a: `A few ways. I sit on the HIMSS Washington Chapter board as Program Chair which means I am constantly reviewing proposals, hosting events, and staying connected to what health system leaders are thinking about. I attended the UW RAIN Summit on AI in healthcare and a CHIME executive AI governance roundtable recently.
 
-**Task**: I had committed to [goal], and it was clear early/mid-cycle that we weren't going to hit it.
+I am also completing my PMI Certified Professional in Managing AI credential right now which is keeping me very current on AI governance frameworks and responsible adoption practices.
 
-**Action**: I didn't wait for the end-of-period postmortem. I immediately diagnosed the root causes — [specific factors], communicated proactively to my manager about what was happening and why, and pivoted the strategy to [recovery approach]. I also documented the lessons learned so the next cycle would be different.
-
-**Result**: While I didn't hit the original target, [recovery outcome]. The more important result was [process/learning outcome — improved system, stronger relationship with manager, structural change that prevented recurrence].`,
-        tip: 'The failure story is really a character story. Show self-awareness, accountability, and the absence of blame. Interviewers are watching for how you handle adversity.',
-      },
-      {
-        q: 'Give an example of a time you used data to drive a business decision.',
-        a: `**Situation**: At [company], I noticed [observation — account performance anomaly, trend in market data, gap between share and access].
-
-**Task**: I needed to determine whether the observation was actionable, and if so, build the business case for a strategic shift.
-
-**Action**: I pulled [specific data sources — sales data, claim data, formulary status reports, patient hub metrics]. I built an analysis that showed [specific insight — e.g., the access gap was concentrated at three accounts representing 40% of potential volume]. I then used that data to reprioritize my account call plan, bring in field reimbursement resources to the right accounts, and present the business case to my manager for additional support investment.
-
-**Result**: [Quantified outcome — access improvement, script growth, efficiency gain]. The key was not just having the data but knowing which question to answer with it.`,
+And honestly my day to day work keeps me current. When you are actively evaluating ambient AI vendors, deploying conversational AI, and sitting on an enterprise AI governance committee, you do not have the luxury of being behind the curve.`,
         tip: null,
       },
       {
-        q: 'Tell me about a time you showed initiative beyond your defined role.',
-        a: `**Situation**: I noticed [gap, opportunity, or problem] that wasn't formally in my lane but that I believed had significant impact on [team/customer/business outcome].
+        q: 'What do you see as the biggest opportunities for AI and HIT in health systems right now?',
+        a: `Three areas stand out to me, and they map directly to what the Novartis HIT team is already doing.
 
-**Task**: I could have let it pass — it wasn't my job — but I felt the cost of ignoring it was higher than the risk of acting.
+First, patient identification and risk stratification. Most health systems have incredible amounts of clinical data in their EHRs but limited capacity to turn it into actionable intelligence. Using tools like SlicerDicer, Reporting Workbench, and Best Practice Advisories to surface patients with cardiovascular disease, kidney disease, or oncology conditions who are not yet on guideline-directed therapy is one of the highest-value things a HIT adviser can do right now.
 
-**Action**: I [specific proactive steps — built the proposal, pulled in resources, piloted a solution, escalated with a recommendation rather than just a problem]. I was careful to bring others along rather than act unilaterally, so the solution had organizational buy-in.
+Second, embedding care pathways into the workflow. Clinical decision support that fires at the right moment makes the right action the easy action.
 
-**Result**: [Outcome + organizational impact]. What this experience reinforced for me: the distinction between doing your job and doing great work is often the willingness to close the gap between what's asked and what's actually needed.`,
+Third, patient activation. Technology that helps patients engage in their own care is the next frontier and something I have direct experience with through our conversational AI and digital access work at Overlake.`,
         tip: null,
       },
       {
-        q: 'Describe a conflict with a colleague or partner. How did you handle it?',
-        a: `**Situation**: I experienced a meaningful disagreement with [colleague type] about [approach/priority/methodology — without specifics that make anyone look bad].
+        q: 'Are you familiar with our HIT resources and how you would use them in the field?',
+        a: `Yes, I spent time on the Novartis HIT resources page and I was really impressed by the depth and breadth of what the team has built. You have patient identification guides and workflow optimization resources across Epic, Cerner, iKnowMed, OncoEMR, Meditech, and ModMed covering cardiovascular, renal, oncology, and immunology.
 
-**Task**: The conflict was affecting [project / relationship / team dynamic], and I knew ignoring it would make it worse.
+What struck me is how practical and immediately actionable these resources are. A health system can download a tip sheet and use SlicerDicer that same day to start identifying patients with IgAN or C3G. That is exactly the kind of education and value-added advisory service that health systems appreciate.
 
-**Action**: I requested a direct, private conversation — not over email. I opened by acknowledging their perspective before sharing mine, specifically saying [something like "I want to understand where you're coming from before I share my view"]. I focused on the shared goal we both had, and worked to separate the issue from the person. Where we couldn't agree, I proposed an escalation path that felt fair to both of us.
-
-**Result**: [Resolution outcome]. What I believe now: most workplace conflict is a communication failure, not a values conflict. If you slow down and listen first, the resolution usually reveals itself.`,
-        tip: null,
+I also noticed that Neuroscience resources are listed as coming soon, which tells me there is active growth in the team's scope. That is exciting to me.`,
+        tip: 'Most candidates will not have studied the HIT resources page. This answer immediately sets you apart.',
       },
     ],
   },
   {
-    name: 'Strategic & Leadership Thinking',
+    name: 'Category 5: Behavioral and Situational',
     questions: [
       {
-        q: 'How do you prioritize when you have too many accounts and too little time?',
-        a: `Prioritization for an AD HIT should follow both strategic value and access opportunity. My framework has three tiers:
+        q: 'Tell me about a time you failed and what you learned.',
+        a: `Early in my time at Overlake I launched a program rollout without adequate change management planning. I had the technology right, the metrics right, and the timeline right but I underestimated how much clinical leader buy-in I needed before we went live. We hit significant resistance at go-live that could have been avoided.
 
-**Tier 1 — Strategic must-win**: Accounts where we have an access gap that is solvable in the near term and the business impact is significant. These get my primary time and internal resource investment.
+What I learned is that no matter how strong the solution is, adoption is a people problem first and a technology problem second. Every program I lead now starts with a structured change management plan before we touch the technology. That shift is directly reflected in the 70% adoption we achieved on our ambient AI program.`,
+        tip: 'Be genuine. Show growth. End with the outcome that proves you learned.',
+      },
+      {
+        q: 'Describe a situation where you had to influence without authority.',
+        a: `This comes up constantly in my work because I lead programs that cut across departments and functions I do not own.
 
-**Tier 2 — Relationship maintenance**: Accounts where access is adequate but relationships need nurturing to defend against competitor pressure. These get scheduled, consistent attention — less intensive but never neglected.
+The clearest example is our MyChart message billing go-live. To make that happen I had to align Finance, Legal, Compliance, Risk, IT, clinical operations, and physician leadership — none of whom report to me. Each group had different concerns and different timelines.
 
-**Tier 3 — Monitor and opportunistic**: Accounts where the access landscape is locked for now, but I keep the relationship warm and monitor for decision-maker changes, contract cycles, or clinical developments that reopen the conversation.
-
-The discipline is resisting the temptation to spend time where I'm comfortable rather than where the leverage is. I review my prioritization against outcomes data quarterly to catch drift.`,
+I built a coordinated workgroup, created a shared timeline with dependencies, and met with each stakeholder individually to understand their concerns before our first group meeting. By the time we got to the room together the major objections had already been addressed one on one. We went live on schedule.`,
         tip: null,
       },
       {
-        q: 'Where do you see the HIT channel evolving over the next 3-5 years?',
-        a: `I see three major forces reshaping the HIT channel over the next 3-5 years.
+        q: 'Tell me about a time you built a relationship with a difficult stakeholder.',
+        a: `When I was leading our conversational AI deployment at Overlake, our Chief Nursing Officer was initially very resistant. She had concerns about patient experience and whether an AI tool could handle the nuance of patient inquiries appropriately.
 
-First, **vertical integration acceleration** — the continued merger of PBMs, health systems, and specialty pharmacies is consolidating decision-making authority into fewer, larger accounts. An AD HIT who can navigate enterprise-level relationships will be more valuable than one who works the fragmented account landscape that existed five years ago.
+Rather than presenting to her I asked if I could spend time with her team first to understand their patient communication workflows. I spent two days shadowing the call center and came back with a set of specific use cases where the AI would help and a short list of scenarios where human judgment was essential.
 
-Second, **outcomes-based contracting expansion** — payers are increasingly demanding risk-sharing models, particularly for high-cost specialty products. The AD HIT who understands health economics and can participate in value-based contract design will have a seat at a table that didn't used to exist for sales.
-
-Third, **digital health integration** — specialty pharmacies and health systems are building tech infrastructure (adherence platforms, data-sharing agreements, patient registries) that will redefine the partnership model with pharma. Being fluent in that language will be table stakes.
-
-Novartis is well-positioned for all three — the portfolio depth and the investment in outcomes data put the company ahead of where the market is going.`,
-        tip: 'Show that you think in trends, not just tactics. This answer demonstrates strategic altitude.',
-      },
-      {
-        q: 'How would you build a 30-60-90 day plan in this role?',
-        a: `**Days 1–30: Listen, learn, map.**
-My first priority is not to act but to understand. I'd conduct stakeholder listening sessions with internal partners — medical affairs, market access, patient services, trade — to understand the current state of each account and where the friction points are. I'd review account plans, formulary status reports, and prior auth data. The goal is an accurate picture, not a quick win.
-
-**Days 31–60: Prioritize, plan, begin.**
-With context in hand, I'd build a tiered account plan, identify the 2-3 highest-leverage opportunities for the first half of the year, and begin executing joint business plans with top-tier accounts. I'd also establish my cadence — how often I meet with each stakeholder class, what I bring to each meeting.
-
-**Days 61–90: Prove, refine, scale.**
-Execute against the plan, measure early indicators, and show initial results. Begin building the cross-functional relationships that will define the role long-term. By day 90, I want my manager and my accounts to trust that I'm someone who does what they say.`,
+That changed the conversation completely. She felt heard, she saw that I had done the homework, and she became a genuine partner in the deployment. The relationship was built on respect and curiosity, not on selling.`,
         tip: null,
       },
       {
-        q: 'What is your leadership philosophy?',
-        a: `I believe that the best leaders create conditions for the people around them to do their best work — and then get out of the way.
+        q: 'What does success look like to you in the first 90 days?',
+        a: `For me the first 30 days are about listening and learning. I want to understand the accounts in my territory, the existing relationships, what has worked, what has not, and what health system leaders are thinking about. I do not come in with a predetermined agenda.
 
-Specifically, I operate from three principles. First, clarity over comfort: I'd rather have an honest, sometimes difficult conversation early than let ambiguity fester into a bigger problem. Second, results through relationships: I've found that the fastest path to business outcomes runs through genuine trust — which takes longer to build but holds under pressure in ways that authority-based relationships don't. Third, learn out loud: I model the growth mindset I want to see by acknowledging what I don't know and being visible about how I'm developing.
+Days 31 to 60 I want to have identified two or three priority opportunities where I can add immediate value — whether that is helping a health system run their first SlicerDicer query to identify ASCVD patients, walking them through a BPA design for PNH, or connecting them with a Novartis HIT resource they did not know was available.
 
-In an AD HIT context, leadership often means influencing without authority — coordinating internal teams, navigating account politics, aligning external partners. My leadership philosophy is specifically designed for that kind of environment.`,
-        tip: null,
-      },
-      {
-        q: 'How do you stay current on the competitive landscape and payer environment?',
-        a: `My approach is both systematic and opportunistic.
+By day 90 I want to have made a meaningful impression on at least one key account, have a clear territory map with prioritized opportunities, and have contributed something back to the national HIT team based on what I am hearing in the Pacific Northwest.
 
-**Systematic**: I maintain a regular cadence of reading — payer policy updates, CMS rule changes, pipeline FDA decisions from competitors, earnings calls from major PBMs and health systems. I set Google alerts for key competitors and relevant therapeutic areas. I review MMIT and other access data regularly to track formulary position changes.
-
-**Opportunistic**: I treat every account meeting as an intelligence-gathering session. Decision-makers at specialty pharmacies and health plans will often tell you what competitors are doing if you ask the right questions and have built enough trust.
-
-**Network**: I stay connected to a network of colleagues across the industry — not for anything proprietary, but for the general pattern recognition you get from talking to people who see different corners of the market.
-
-In the HIT channel specifically, competitive intelligence is a core competency, not a nice-to-have. The formulary landscape shifts constantly, and being 3 months behind on competitive access changes can cost you significant business.`,
-        tip: null,
-      },
-    ],
-  },
-  {
-    name: 'Culture Fit & Closing',
-    questions: [
-      {
-        q: 'What does "reimagining medicine" mean to you personally?',
-        a: `To me, reimagining medicine means refusing to accept that the current state of patient care is the ceiling of what's possible.
-
-At the account level, it means every formulary win isn't just a business outcome — it's a barrier removed between a patient and a treatment that could change their life. When I think about the patients behind Novartis products — the MS patient who can self-inject Kesimpta at home instead of going to an infusion center, the cardiovascular patient who gets Leqvio twice a year and never has to remember a daily pill — that's reimagining medicine in practice.
-
-What it means for how I work: I take the access work seriously because I know what's on the other side of a "yes" from a formulary committee. The mission gives the work weight. That's not something I can fake, and it's a big part of why Novartis specifically appeals to me.`,
-        tip: null,
-      },
-      {
-        q: 'What are your greatest strengths?',
-        a: `Three strengths that I believe are directly relevant to the AD HIT role:
-
-**Strategic account thinking**: I don't just manage accounts — I build account strategies. I think in terms of multi-year relationship trajectories, not just next quarter's call plan.
-
-**Trust-building with sophisticated stakeholders**: Whether it's a PBM formulary director, a specialty pharmacy VP, or an IDN pharmacy and therapeutics committee member, I've learned how to earn credibility with people who have high expectations and limited time.
-
-**Cross-functional orchestration**: The AD HIT role requires coordinating medical affairs, market access, patient services, and trade — often simultaneously and under time pressure. I've developed the organizational awareness and internal relationship capital to do that effectively.`,
-        tip: null,
-      },
-      {
-        q: 'What is your greatest area for development?',
-        a: `I'd name two areas I'm actively working on.
-
-First, **executive presence in highly ambiguous situations** — I'm confident in structured environments and prepared presentations, but I've been developing my ability to project confidence and make clear decisions in real-time when the situation is genuinely uncertain. I've been working on this through [specific example — taking on stretch assignments, getting coaching, etc.].
-
-Second, **the breadth of the HIT financial modeling skill set** — I'm strong on relationship management and formulary navigation, but I recognize that value-based contracting and outcomes-based agreement design is a growing part of this role, and it requires financial modeling sophistication that I'm actively building through [coursework, mentorship, self-study].
-
-I'm flagging these not as weaknesses I'm hiding but as areas I'm intentionally developing, because I believe self-awareness is a prerequisite for growth.`,
-        tip: 'Pick a real development area that is not a core competency of the role. Then show you\'re actively addressing it.',
-      },
-      {
-        q: 'Do you have any questions for us?',
-        a: `Yes — I've prepared thoughtful questions and I'd love to use the time well. A few that are most important to me:
-
-1. What does success look like in this role at 6 months and 12 months — specifically, how would you know you made the right hire?
-
-2. What is the biggest challenge the current AD HIT team is navigating in [specific territory or therapeutic area] right now?
-
-3. How does the AD HIT role interface with medical affairs and market access on a day-to-day basis — is it collaborative by design, or does it require active cultivation?
-
-4. What does the culture of this team feel like when things are hard — when a formulary decision goes the wrong way or a quarter is off?
-
-5. What is it about the people who have thrived in this role — what made them different from the ones who didn't?`,
-        tip: 'Never say you have no questions. The questions you ask are part of the interview. These five show strategic thinking and cultural self-awareness.',
+Ultimately success in 90 days looks like Steven feeling confident he made the right hire.`,
+        tip: 'End with that last line. It is memorable and it puts Steven at the center of the answer.',
       },
     ],
   },
 ]
 
+export const QA_STEVEN_QUESTIONS = [
+  'What does success look like in the first 90 days for the person in this role?',
+  'How does the HIT team partner with the field sales organization day to day?',
+  'What are the biggest opportunities you see in the Pacific Northwest territory right now?',
+]
+
 export const KATHLEEN_QUESTIONS = [
   {
-    category: 'Strategic Must Ask',
+    category: 'Strategic — Must Ask',
     starred: true,
     questions: [
       {
-        q: 'What do you believe separates the truly outstanding AD HIT candidates from the strong ones in this process?',
-        why: 'This is the single most valuable question you can ask. Kathleen will give you the exact criteria the hiring team is using — language you can mirror in the interview.',
+        q: 'What do you think Steven is really looking for that might not come through in the JD?',
+        why: 'Kathleen knows Steven\'s real priorities. This is the single most valuable question you can ask her.',
+        note: 'Ask this first.',
       },
       {
-        q: 'What is the biggest challenge the AD HIT team is navigating right now in this territory?',
-        why: 'Shows strategic interest and gives you intelligence to demonstrate awareness of in the interview.',
+        q: 'What made you successful in this role that you would want me to know going in?',
+        why: 'Institutional knowledge no other candidate has. She will tell you exactly what works in this territory.',
+        note: 'Must ask.',
       },
       {
-        q: 'If you were in my position going into the July 14 interview, what would you most want the panel to know about you?',
-        why: 'Reframes her as an advisor, not just a gatekeeper. Often produces gold.',
+        q: 'Are there any accounts in the territory I should know about — relationships to build on or situations I should be aware of?',
+        why: 'Account intelligence before the interview lets you speak about the territory with specificity no other candidate has.',
+        note: 'Must ask.',
       },
       {
-        q: 'What has surprised you most about Novartis since you joined — something you didn\'t expect?',
-        why: 'Humanizes the conversation and often reveals authentic cultural insight you can\'t get from public sources.',
+        q: 'Is there anything about my background you think I should emphasize more — or anything I should address proactively?',
+        why: 'Direct coaching from your biggest advocate. She may flag a gap or a strength you are underselling.',
+        note: 'Must ask.',
       },
     ],
   },
@@ -561,20 +484,24 @@ export const KATHLEEN_QUESTIONS = [
     starred: false,
     questions: [
       {
-        q: 'Can you tell me about the interview format on July 14 — who I\'ll be meeting with, and what aspects of the role each person is likely to probe?',
-        why: 'Critical logistics and prep intelligence.',
+        q: 'What does the panel interview look like — who will be in the room and what do they each tend to focus on?',
+        why: 'Knowing the panelists lets you research them and tailor your answers before you walk in.',
+        note: null,
       },
       {
-        q: 'What are the 2 or 3 things about my background that you believe are most directly relevant to what Novartis is looking for?',
-        why: 'Shows self-awareness and lets Kathleen reinforce your strengths — which she may carry back to the hiring manager.',
+        q: 'How did you approach the first 90 days and what would you do differently knowing what you know now?',
+        why: 'Her answer directly informs your 90-day plan and makes your interview answer uniquely credible.',
+        note: null,
       },
       {
-        q: 'Is there anything in my background or experience that you think I should be prepared to address or clarify with the panel?',
-        why: 'Proactively surfaces potential objections so you can prepare and neutralize them.',
+        q: 'What were the biggest challenges in the Pacific Northwest territory and how did you navigate them?',
+        why: 'Real-world context you can reference in the interview to show you understand the territory.',
+        note: null,
       },
       {
-        q: 'What does a typical week look like for the person who currently holds or held this role?',
-        why: 'Grounds your understanding in operational reality, not job description language.',
+        q: 'How does Steven like to be communicated with — how often, in what format, and what does he value most?',
+        why: 'Lets you mirror his style in the interview and signal you will be easy to manage.',
+        note: null,
       },
     ],
   },
@@ -583,12 +510,14 @@ export const KATHLEEN_QUESTIONS = [
     starred: false,
     questions: [
       {
-        q: 'How do you see the role of the AD HIT evolving over the next 2-3 years at Novartis?',
-        why: 'Signals long-term thinking and commitment to career growth within the company.',
+        q: 'Are there key relationships in the territory you would want to make sure get a warm handoff?',
+        why: 'Shows you are thinking about continuity and the relationships she built.',
+        note: null,
       },
       {
-        q: 'Is there anything I can do between now and July 14 that would strengthen my candidacy or preparation?',
-        why: 'Action-oriented closing question that positions you as proactive and coachable.',
+        q: 'What is the one thing you wish someone had told you before you started this role?',
+        why: 'Open-ended and powerful. Her answer will be something genuinely useful that no job description captures.',
+        note: null,
       },
     ],
   },
@@ -596,24 +525,28 @@ export const KATHLEEN_QUESTIONS = [
 
 export const ELVIANNE_QUESTIONS = [
   {
-    category: 'Strategic Must Ask',
+    category: 'Strategic — Must Ask',
     starred: true,
     questions: [
       {
-        q: 'What does exceptional performance look like in this role at 12 months — what would make you say "that was exactly the right hire"?',
-        why: 'The most important question of the call. Her answer tells you exactly what to say you\'ll deliver on July 14.',
+        q: 'What do you think differentiates the strongest AD HIT candidates from the rest when Steven interviews them?',
+        why: 'Direct insider intelligence on what wins the interview from someone hired for this exact role.',
+        note: 'Must ask.',
       },
       {
-        q: 'What is the single hardest part of the AD HIT role in this territory — the thing that most people underestimate?',
-        why: 'Shows you want the unfiltered truth, not the recruiting pitch. Demonstrates maturity and readiness.',
+        q: 'What types of questions did your interview focus on and what did you wish you had prepared more?',
+        why: 'Direct insider intelligence on the interview format and content no other candidate can get.',
+        note: 'Must ask.',
       },
       {
-        q: 'What do you wish you had known in your first 90 days in this kind of role that you know now?',
-        why: 'Invites her to share hard-won wisdom — builds personal connection and provides insider intelligence.',
+        q: 'Who will be on the panel interview with Steven and what do they each tend to focus on?',
+        why: 'Lets you research the panelists and tailor your answers to their backgrounds.',
+        note: 'Must ask.',
       },
       {
-        q: 'What matters most to you in a direct report — what qualities do you find yourself relying on most?',
-        why: 'Critical. You are interviewing to report to or closely work with Elvianne. Knowing her leadership values lets you present yourself as the ideal collaborator.',
+        q: 'Based on what you know about this role and my background, is there anything I should emphasize or address proactively?',
+        why: 'She may flag a gap or a strength you are underselling. Save this for the end of the call.',
+        note: 'Ask last.',
       },
     ],
   },
@@ -622,20 +555,24 @@ export const ELVIANNE_QUESTIONS = [
     starred: false,
     questions: [
       {
-        q: 'How much of this role is externally facing (accounts, partners) vs. internally coordinating (medical affairs, market access, trade)?',
-        why: 'Helps you understand where to put the emphasis in your experience stories.',
+        q: 'What does a typical week look like for you as an AD HIT?',
+        why: 'Grounds your 90-day plan in the reality of what the role actually looks like.',
+        note: null,
       },
       {
-        q: 'What does the cadence of account management look like — how frequently are you engaging top-tier accounts, and what does a high-quality engagement look like?',
-        why: 'Operational intelligence that shows you think in systems, not just tactics.',
+        q: 'How does the team use the Veeva CRM and what does effective use of it look like in practice?',
+        why: 'Elvianne built the CRM solution. Knowing how it works shows you are operationally serious.',
+        note: null,
       },
       {
-        q: 'How does the AD HIT role interact with the field sales team, and how do you manage the line between strategic account work and tactical field support?',
-        why: 'Common tension in HIT roles — showing awareness of it is a differentiator.',
+        q: 'Can you walk me through how you approach a new health system account from first contact through active engagement?',
+        why: 'Her process is the gold standard for this role. Use it to inform Q6 and your 90-day plan.',
+        note: null,
       },
       {
-        q: 'What tools and data resources does Novartis provide to the AD HIT team, and how do most people use them?',
-        why: 'Practical intelligence and shows readiness to be operational quickly.',
+        q: 'How does the HIT team collaborate with field sales day to day and where are the boundaries?',
+        why: 'One of your three questions for Steven. Getting Elvianne\'s perspective first makes your answer more informed.',
+        note: null,
       },
     ],
   },
@@ -644,16 +581,19 @@ export const ELVIANNE_QUESTIONS = [
     starred: false,
     questions: [
       {
-        q: 'Which accounts in this territory are the most strategically important right now, and why?',
-        why: 'Direct intelligence you can reference in the interview: "In my research I understood that [account type] is a priority area..."',
+        q: 'Which therapeutic areas are getting the most traction with health systems in the Pacific Northwest right now?',
+        why: 'Tells you where to focus your territory research and which Novartis products to study most deeply.',
+        note: null,
       },
       {
-        q: 'What is the current state of formulary access for the key portfolio products in this territory — where are the biggest gaps?',
-        why: 'Shows you understand that access is the core job, not just relationship management.',
+        q: 'Are there specific accounts in WA and OR that are most active or present the most immediate opportunity?',
+        why: 'Account-level intelligence lets you speak about the territory with specificity that impresses Steven.',
+        note: null,
       },
       {
-        q: 'Are there specific competitor moves or payer dynamics in this territory that the team is actively navigating?',
-        why: 'Competitive intelligence and awareness of the real operational environment.',
+        q: 'Are there health systems in the territory using EHR platforms other than Epic I should be particularly prepared for?',
+        why: 'Steven said the territory has different EHR platforms. Knowing which ones focuses your prep.',
+        note: null,
       },
     ],
   },
@@ -662,16 +602,19 @@ export const ELVIANNE_QUESTIONS = [
     starred: false,
     questions: [
       {
-        q: 'How would you describe the culture of the HIT team — how do people collaborate, and what does the team value in each other?',
-        why: 'Culture fit intelligence you can reference: "I heard the team values [X], and that maps to how I like to work because..."',
+        q: 'How would you describe Steven\'s leadership style and what does he value most in his team?',
+        why: 'Lets you mirror his communication preferences and signal cultural fit in the interview.',
+        note: null,
       },
       {
-        q: 'What does professional development and growth look like for someone who performs well in the AD HIT role at Novartis?',
-        why: 'Shows ambition and long-term commitment — not just looking for a job, looking for a career.',
+        q: 'How collaborative is the team across regions and how much do AD HITs work together versus independently?',
+        why: 'Shows you are thinking about how you will contribute to the team, not just your own territory.',
+        note: null,
       },
       {
-        q: 'Is there anything about my background or approach that you think I should make sure the interview panel hears clearly on July 14?',
-        why: 'Invites her to advocate for you. If she answers substantively, she\'s already becoming your champion.',
+        q: 'What do you love most about this role and what took you the longest to figure out?',
+        why: 'Authentic and relationship-building. Her answer will reveal something real that no job description captures.',
+        note: null,
       },
     ],
   },
@@ -679,64 +622,48 @@ export const ELVIANNE_QUESTIONS = [
 
 export const RITUALS = {
   morning: [
-    '6:30 AM — Wake, hydrate (16 oz water before phone)',
-    '6:45 AM — Movement: 30-min run, walk, or yoga — non-negotiable',
-    '7:15 AM — Nourishing breakfast: protein + complex carbs',
-    '7:45 AM — 10 minutes of prep review: one section per day, no cramming',
-    '8:00 AM — Set daily intention: one specific prep goal for the day',
-    '8:05 AM — Affirmation: read aloud, not silently',
+    'Three deep breaths before you open anything.',
+    'Read your three differentiators out loud: clinical credibility, technical depth, strategic experience.',
+    'Say out loud: I have done this work. I know this material. I am the right person for this role.',
   ],
   evening: [
-    '8:00 PM — No new learning after 8 PM — consolidation only',
-    '8:15 PM — Review what you practiced today — 5 minutes',
-    '8:20 PM — Write one thing that went well and one thing to sharpen',
-    '9:00 PM — Screen off — device in another room',
-    '9:15 PM — Reading for pleasure (non-work)',
-    '9:45 PM — Lights out — 8 hours is not optional before the interview',
+    'Write one thing you prepared well today.',
+    'Write one thing you will sharpen tomorrow.',
+    '10-minute visualization: See yourself walking into the interview confident and calm. Hear your opener land clearly. See Steven nodding. See the panel impressed. See the offer coming.',
   ],
   anxiety: [
-    '4-7-8 Breathing: Inhale 4 counts, hold 7, exhale 8. Repeat 4x.',
-    'Ground yourself: name 5 things you can see, 4 you can touch, 3 you can hear.',
-    'Power pose for 2 minutes before any high-stakes moment (private space).',
-    'Reframe "I\'m nervous" as "I\'m excited" — identical physiological state, different story.',
-    'Call your confidence anchor: one specific moment when you were undeniably at your best.',
-    'Write the catastrophe test: "What is the worst realistic outcome, and would I survive it?" — You always would.',
+    'Say out loud: I have done this work. I know this material. I am the right person for this role.',
+    'Take 5 slow breaths.',
+    'Read the letter you wrote to yourself about why you deserve this role.',
+    'Remember: Kathleen chose you. Steven engaged with you before the posting opened. You are already ahead of every other candidate.',
   ],
   tedTalks: [
     {
-      title: 'Your Body Language May Shape Who You Are — Amy Cuddy',
+      title: 'Amy Cuddy — Your Body Language May Shape Who You Are',
       url: 'https://www.ted.com/talks/amy_cuddy_your_body_language_may_shape_who_you_are',
-      note: 'Watch the night before the interview. Do the power pose.',
+      note: 'Tonight June 26. Watch this first.',
     },
     {
-      title: 'How to Speak So That People Want to Listen — Julian Treasure',
-      url: 'https://www.ted.com/talks/julian_treasure_how_to_speak_so_that_people_want_to_listen',
-      note: 'Vocal delivery and pacing. Directly applicable.',
-    },
-    {
-      title: 'The Power of Vulnerability — Brené Brown',
-      url: 'https://www.ted.com/talks/brene_brown_the_power_of_vulnerability',
-      note: 'Authenticity in interviews. Vulnerability builds trust.',
-    },
-    {
-      title: 'How Great Leaders Inspire Action — Simon Sinek',
+      title: 'Simon Sinek — How Great Leaders Inspire Action',
       url: 'https://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action',
-      note: 'Start with WHY framework — apply to "Why Novartis?" answer.',
+      note: 'July 2. Think about your WHY for this role.',
+    },
+    {
+      title: 'Brené Brown — The Power of Vulnerability',
+      url: 'https://www.ted.com/talks/brene_brown_the_power_of_vulnerability',
+      note: 'July 7. Authentic storytelling beats polished performance.',
     },
   ],
   podcasts: [
-    'Worklife with Adam Grant — episode: "The Science of the Job Interview"',
-    'How I Built This — Guy Raz: listen for resilience and narrative framing',
-    'The Tim Ferriss Show — episodes on high performance and fear-setting',
-    'Dare to Lead with Brené Brown — leadership authenticity',
-    'The Knowledge Project with Shane Parrish — mental models for decisions',
+    'Fierce Healthcare Podcast',
+    'Health IT Podcast',
+    'HIMSS Podcast',
+    'High Performance Podcast with Jake Humphrey',
   ],
   physical: [
-    'Minimum 30 minutes of movement every single day — non-negotiable.',
-    'No alcohol from July 10 forward — sleep quality and cognitive sharpness.',
-    'Protein at every meal from July 8 forward — brain fuel.',
-    'Limit caffeine after 12 PM to protect sleep architecture.',
-    'Hydrate aggressively on July 13 — dehydration affects cognitive performance noticeably.',
-    'Interview day: light, nourishing breakfast — not too heavy, not too light.',
+    'Lagree or pickleball at least 3 times during the prep period.',
+    'Full rest on Saturday July 4th holiday.',
+    'Early nights during Week 2. Sleep consolidates everything you have learned.',
+    'No alcohol the night before any mock interview or the real interview.',
   ],
 }
