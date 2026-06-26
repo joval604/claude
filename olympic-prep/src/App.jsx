@@ -32,6 +32,7 @@ function useLocalStorage(key, initial) {
 export default function App() {
   const [activeTab, setActiveTab] = useState('daily')
   const [completedDays, setCompletedDays] = useLocalStorage('completedDays', {})
+  const [taskNotes, setTaskNotes] = useLocalStorage('taskNotes', {})
   const [practicedQs, setPracticedQs] = useLocalStorage('practicedQs', {})
   const [kathleenChecked, setKathleenChecked] = useLocalStorage('kathleenChecked', {})
   const [elvianneChecked, setElvianneChecked] = useLocalStorage('elvianneChecked', {})
@@ -111,7 +112,7 @@ export default function App() {
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 py-6">
         {activeTab === 'daily' && (
-          <DailyPlan completedDays={completedDays} setCompletedDays={setCompletedDays} />
+          <DailyPlan completedDays={completedDays} setCompletedDays={setCompletedDays} taskNotes={taskNotes} setTaskNotes={setTaskNotes} />
         )}
         {activeTab === 'qa' && (
           <QandA practicedQs={practicedQs} setPracticedQs={setPracticedQs} />

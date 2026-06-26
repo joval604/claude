@@ -1,39 +1,49 @@
 import { DAYS, LABEL_COLORS } from '../data'
 
 const TAG_COLORS = {
-  'Research': 'text-red-300',
-  'Know It': 'text-indigo-300',
-  'Mental': 'text-rose-300',
-  'Key Meeting': 'text-purple-300',
-  'Intel': 'text-teal-300',
-  'Practice': 'text-green-300',
-  'Apply': 'text-amber-300',
+  'Research': 'text-red-400',
+  'Know It': 'text-indigo-400',
+  'Mental': 'text-rose-400',
+  'Key Meeting': 'text-purple-400',
+  'Intel': 'text-teal-400',
+  'Practice': 'text-green-500',
+  'Apply': 'text-amber-400',
   'Rest': 'text-gray-400',
 }
 
-function TaskItem({ task, done }) {
-  // Extract [Tag] prefix if present
+function TaskItem({ task, noteKey, note, onNoteChange }) {
   const match = task.match(/^\[([^\]]+)\]\s*(.+)$/)
   const tag = match ? match[1] : null
   const text = match ? match[2] : task
   const tagColor = tag ? TAG_COLORS[tag] : null
 
   return (
-    <li className="flex items-start gap-2 text-sm text-gray-300">
-      <span className="text-[#f5c842] mt-1 shrink-0">·</span>
-      <span className={done ? 'line-through text-gray-500' : ''}>
-        {tag && (
-          <span className={`font-semibold mr-1 ${tagColor || 'text-gray-400'}`}>
-            [{tag}]
-          </span>
-        )}
-        {text}
-      </span>
+    <li className="space-y-1.5">
+      <div className="flex items-start gap-2 text-sm text-gray-200">
+        <span className="text-[#f5c842] mt-1 shrink-0">·</span>
+        <span>
+          {tag && (
+            <span className={`font-semibold mr-1 ${tagColor || 'text-gray-400'}`}>
+              [{tag}]
+            </span>
+          )}
+          {text}
+        </span>
+      </div>
+      <div className="ml-4">
+        <textarea
+          value={note || ''}
+          onChange={(e) => onNoteChange(noteKey, e.target.value)}
+          placeholder="Add your notes here..."
+          rows={2}
+          className="w-full text-xs bg-[#0a1628]/60 border border-[#1a3464] rounded-lg px-3 py-2 text-gray-300 placeholder-gray-600 resize-none focus:outline-none focus:border-[#f5c842]/50 transition-colors"
+        />
+      </div>
     </li>
   )
 }
 
-export default function DailyPlan({ completedDays, setCompletedDays }) {
+export default function DailyPlan({ completedDays, setCompletedDays, taskNotes, setTaskNotes }) {
   const completed = Object.values(completedDays).filter(Boolean).length
   const total = DAYS.length
 
@@ -41,11 +51,15 @@ export default function DailyPlan({ completedDays, setCompletedDays }) {
     setCompletedDays((prev) => ({ ...prev, [idx]: !prev[idx] }))
   }
 
+  const handleNoteChange = (key, value) => {
+    setTaskNotes((prev) => ({ ...prev, [key]: value }))
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-white">Day-by-Day Prep Schedule</h2>
-        <span className="text-sm text-[#f5c842] font-semibold">{completed}/{total} days</span>
+        <h2 className="text-lg font-bold text-[#0d1f3c]">Day-by-Day Prep Schedule</h2>
+        <span className="text-sm text-[#0d1f3c] font-semibold">{completed}/{total} days</span>
       </div>
 
       {/* Legend */}
@@ -82,7 +96,7 @@ export default function DailyPlan({ completedDays, setCompletedDays }) {
                 </button>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center flex-wrap gap-2 mb-2">
+                  <div className="flex items-center flex-wrap gap-2 mb-3">
                     <span className="text-sm font-bold text-white">{day.date}</span>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${LABEL_COLORS[day.label]}`}>
                       {day.label}
@@ -91,9 +105,15 @@ export default function DailyPlan({ completedDays, setCompletedDays }) {
                       <span className="text-xs text-[#f5c842] font-medium">✓ Complete</span>
                     )}
                   </div>
-                  <ul className="space-y-1">
+                  <ul className="space-y-3">
                     {day.tasks.map((task, ti) => (
-                      <TaskItem key={ti} task={task} done={completedDays[idx]} />
+                      <TaskItem
+                        key={ti}
+                        task={task}
+                        noteKey={`${idx}-${ti}`}
+                        note={taskNotes[`${idx}-${ti}`]}
+                        onNoteChange={handleNoteChange}
+                      />
                     ))}
                   </ul>
                 </div>
