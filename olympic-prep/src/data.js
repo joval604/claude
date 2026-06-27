@@ -7,6 +7,7 @@ export const DAYS = [
       '[Research] Re-read Kathleen\'s LinkedIn. Review her Seattle Children\'s $150M Epic implementation. Understand her legacy in this territory.',
       '[Know It] Review Kathleen questions tab. Rank your top 7 must-ask questions.',
       '[Mental] Watch Amy Cuddy TED Talk tonight. Journal: Write 3 reasons you are the right person for this role.',
+      '[Know It] Download and begin reading the free Novartis HIT Patient ID Guides at https://www.novartis.com/us-en/healthcare-professionals/health-information-technology-resources — start with Cardiovascular and Oncology.',
     ],
     milestone: null,
   },
@@ -17,6 +18,7 @@ export const DAYS = [
       '[Know It] Read full interview prep document for the first time. Get the big picture.',
       '[Research] Review Novartis HIT flashcard and resources page one more time before Kathleen\'s call.',
       '[Mental] Lagree or pickleball. Early night.',
+      '[Know It] Read the Appendix tab — patient examples and the sample interview Q&A on why HIT advisory is different from what Epic provides.',
     ],
     milestone: null,
   },
@@ -54,6 +56,7 @@ export const DAYS = [
       '[Intel] Integrate Kathleen and Elvianne intel into all Q&As. Finalize cover letter.',
       '[Know It] Memorize 60-second opener. Practice arc: nurse → GE → Overlake → why Novartis → Kathleen.',
       '[Practice] Record Q1–Q5. Watch back. Fix pacing, content, body language.',
+      '[Know It] Memorize the one-sentence HIT value proposition: The Novartis HIT team helps health systems use their existing EHR data to identify high-risk patients who already have a diagnosis but may be slipping through the cracks between visits.',
     ],
     milestone: null,
   },
@@ -64,6 +67,7 @@ export const DAYS = [
       '[Know It] Study Q6–Q10. Write STAR format for each. GE and Overlake stories cold. No answer over 2 minutes.',
       '[Research] Territory Part 1: MultiCare and Fred Hutch. EHR platform, size, recent news, HIT initiatives.',
       '[Practice] Trusted person runs Q6–Q10 cold. Time each answer.',
+      '[Know It] Read the Renal HIT guides: C3G and IgAN Patient ID Tip Sheets for Epic and Cerner.',
     ],
     milestone: null,
   },
@@ -74,6 +78,7 @@ export const DAYS = [
       '[Know It] Study Q11–Q14. Use ePMO founding story and FY Transition program.',
       '[Research] Territory Part 2: Providence, PeaceHealth, OHSU, Salem Health, Legacy Health, Virginia Mason.',
       '[Mental] Watch Simon Sinek Start With Why. Think about your WHY for this role.',
+      '[Know It] Read the Immunology HIT guides: AxSpa SmartForm guide and CSU Patient ID Guide.',
     ],
     milestone: null,
   },
@@ -84,6 +89,8 @@ export const DAYS = [
       '[Know It] Study Q15–Q23. Practice failure story and influence without authority story out loud.',
       '[Know It] EHR tools: SlicerDicer, Reporting Workbench, BPAs, SmartForms, Dynamic Work Lists.',
       '[Mental] Visualization: Panel interview. Calm, specific, compelling. They are impressed.',
+      '[Know It] Read all Oncology HIT guides: CML, PNH, Early Breast Cancer, PSMA+ mCRPC.',
+      '[Practice] Practice the three patient examples from the Appendix out loud in 60 seconds each.',
     ],
     milestone: null,
   },
@@ -105,6 +112,7 @@ export const DAYS = [
       '[Know It] Study Novartis products: Leqvio, Fabhalta, Kisqali, Scemblix, Pluvicto, Cosentyx, Kesimpta.',
       '[Know It] Compliance cold: Novartis educates and advises. We do not program, code, or operate any customer EHR and we do not access PHI.',
       '[Apply] Prep all application materials: resume, cover letter, referral link ready for Monday morning.',
+      '[Know It] Final review of Appendix. Practice the Epic comparison answer out loud.',
     ],
     milestone: null,
   },
@@ -118,7 +126,7 @@ export const DAYS = [
     ],
     milestone: {
       type: 'milestone',
-      text: 'Application submitted. All 23 questions studied. EHR tools, therapeutic areas, and compliance known.',
+      text: 'Application submitted. All 23 questions studied. All HIT guides read. Patient examples practiced. Compliance guardrails known cold.',
     },
   },
   // WEEK 2: SHARPEN, PRACTICE AND PERFORM
@@ -129,6 +137,7 @@ export const DAYS = [
       '[Practice] Trusted colleague. Q1–Q11. No notes. Content accuracy and story specificity. Debrief immediately.',
       '[Research] Community oncology practices in WA and OR using iKnowMed, OncoEMR, Meditech.',
       '[Mental] Watch Brené Brown on vulnerability. Authentic storytelling beats polished performance.',
+      '[Practice] Practice telling the three patient examples as part of your answer to Q6 and Q18.',
     ],
     milestone: null,
   },
@@ -139,6 +148,7 @@ export const DAYS = [
       '[Know It] Internalize 90-day plan. Three phases: listen and assess, identify and prioritize, propose and execute.',
       '[Research] Novartis 2026 news and pipeline. Commercial strategy and how HIT advisory supports it.',
       '[Mental] Lagree or pickleball. Non-negotiable this week.',
+      '[Know It] Re-read the Appendix one more time. Make sure you can answer the Epic comparison question cold.',
     ],
     milestone: null,
   },
@@ -149,6 +159,7 @@ export const DAYS = [
       '[Practice] Different person. Q12–Q22. Score each answer 1–10 on confidence, clarity, specificity.',
       '[Know It] Review 3 questions for Steven. Positioning statement. 60-second opener. Cover letter.',
       '[Mental] Visualization: You are in the room with Steven and the panel. You are the most prepared person there.',
+      '[Practice] Have your mock interviewer ask: How is the Novartis HIT service different from what Epic already does? Deliver the Appendix answer cold.',
     ],
     milestone: null,
   },
@@ -167,7 +178,7 @@ export const DAYS = [
     label: 'Practice',
     tasks: [
       '[Mental] Morning: Dress in your interview outfit. Get into interview day state of mind.',
-      '[Practice] Mock Interview Round 3: Full video call. All 23 questions. Timed. Recorded. No stopping. No do-overs.',
+      '[Practice] Mock Interview Round 3: Full video call. All 23 questions plus the Epic comparison question from the Appendix. Timed. Recorded. No stopping. No do-overs.',
       '[Practice] Evening: Review recording. Where do you trail off, over-explain, or shine brightest. Top 3 areas to tighten.',
     ],
     milestone: {
@@ -195,7 +206,7 @@ export const DAYS = [
     ],
     milestone: {
       type: 'milestone',
-      text: '4 mock interviews complete. Fully prepared. You are the most prepared candidate in this process.',
+      text: '4 mock interviews complete. All HIT guides read. All patient examples practiced. Fully prepared.',
     },
   },
 ]
@@ -269,8 +280,10 @@ When I walk into a health system as a HIT adviser, I am not just someone who kno
 
 From there I help them understand what tools already exist in their EHR — whether that is Epic SlicerDicer, Reporting Workbench, Best Practice Advisories, or Cerner Dynamic Work Lists — that can surface patients who might benefit from earlier identification and intervention.
 
+For example a health system might have hundreds of cardiology patients with ASCVD but no systematic way to find the ones whose LDL-C is still above goal despite being on a statin. I can help them build a SlicerDicer report that surfaces exactly those patients so the cardiologist has a prioritized list to review at the next clinic day.
+
 The key constraint I operate within is that I am there to educate and advise, not to build or operate their systems. I help them understand what is possible and then support their own teams in making it happen. That distinction is important both from a compliance standpoint and from a relationship standpoint. Health systems trust advisers who respect that boundary.`,
-        tip: null,
+        tip: 'Weaving in a patient example makes this answer concrete and clinical.',
       },
       {
         q: 'How do you identify what a health system needs when they may not know themselves?',
@@ -383,14 +396,16 @@ And honestly my day to day work keeps me current. When you are actively evaluati
       },
       {
         q: 'What do you see as the biggest opportunities for AI and HIT in health systems right now?',
-        a: `Three areas stand out to me, and they map directly to what the Novartis HIT team is already doing.
+        a: `Most health systems have incredible amounts of clinical data in their EHRs but limited capacity to turn it into actionable intelligence. A 58-year-old ASCVD patient whose LDL-C is still above goal may be sitting in the chart unnoticed. A breast cancer patient who completed treatment may not be proactively reviewed for extended therapy options. An MS patient who had two relapses in the past year may continue on an inadequate therapy. The Novartis HIT team helps surface all of these patients using tools that already exist in the EHR.
+
+Three areas stand out to me, and they map directly to what the Novartis HIT team is already doing.
 
 First, patient identification and risk stratification. Most health systems have incredible amounts of clinical data in their EHRs but limited capacity to turn it into actionable intelligence. Using tools like SlicerDicer, Reporting Workbench, and Best Practice Advisories to surface patients with cardiovascular disease, kidney disease, or oncology conditions who are not yet on guideline-directed therapy is one of the highest-value things a HIT adviser can do right now.
 
 Second, embedding care pathways into the workflow. Clinical decision support that fires at the right moment makes the right action the easy action.
 
 Third, patient activation. Technology that helps patients engage in their own care is the next frontier and something I have direct experience with through our conversational AI and digital access work at Overlake.`,
-        tip: null,
+        tip: 'Opening with the three patient examples makes this answer concrete and memorable.',
       },
       {
         q: 'Are you familiar with our HIT resources and how you would use them in the field?',
@@ -435,12 +450,12 @@ That changed the conversation completely. She felt heard, she saw that I had don
         q: 'What does success look like to you in the first 90 days?',
         a: `For me the first 30 days are about listening and learning. I want to understand the accounts in my territory, the existing relationships, what has worked, what has not, and what health system leaders are thinking about. I do not come in with a predetermined agenda.
 
-Days 31 to 60 I want to have identified two or three priority opportunities where I can add immediate value — whether that is helping a health system run their first SlicerDicer query to identify ASCVD patients, walking them through a BPA design for PNH, or connecting them with a Novartis HIT resource they did not know was available.
+Days 31 to 60 I want to have identified two or three priority opportunities where I can add immediate value — whether that is helping a health system run their first SlicerDicer query to identify ASCVD patients, walking them through a BPA design for PNH, or connecting them with a Novartis HIT resource they did not know was available. A health system can download the ASCVD Patient ID Guide and run a SlicerDicer report the same day to find patients whose LDL-C is still above goal. A neurology practice can use the PNH BPA guide to set up an alert that fires when a patient's labs show a PNH pattern.
 
 By day 90 I want to have made a meaningful impression on at least one key account, have a clear territory map with prioritized opportunities, and have contributed something back to the national HIT team based on what I am hearing in the Pacific Northwest.
 
 Ultimately success in 90 days looks like Steven feeling confident he made the right hire.`,
-        tip: 'End with that last line. It is memorable and it puts Steven at the center of the answer.',
+        tip: 'Saying you actually read the guides sets you apart from every other candidate. End with the Steven line — it is memorable.',
       },
     ],
   },
