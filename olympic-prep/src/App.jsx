@@ -4,6 +4,7 @@ import QandA from './components/QandA'
 import KathleenQuestions from './components/KathleenQuestions'
 import ElvianneQuestions from './components/ElvianneQuestions'
 import DailyRituals from './components/DailyRituals'
+import Appendix from './components/Appendix'
 import { DAYS, QA_CATEGORIES, KATHLEEN_QUESTIONS, ELVIANNE_QUESTIONS } from './data'
 
 const TABS = [
@@ -12,6 +13,7 @@ const TABS = [
   { id: 'kathleen', label: 'Kathleen' },
   { id: 'elvianne', label: 'Elvianne' },
   { id: 'rituals', label: 'Rituals' },
+  { id: 'appendix', label: 'Appendix' },
 ]
 
 function useLocalStorage(key, initial) {
@@ -126,6 +128,7 @@ export default function App() {
           <ElvianneQuestions checked={elvianneChecked} setChecked={setElvianneChecked} notes={elvianneNotes} setNotes={setElvianneNotes} />
         )}
         {activeTab === 'rituals' && <DailyRituals />}
+        {activeTab === 'appendix' && <Appendix />}
       </div>
     </div>
   )

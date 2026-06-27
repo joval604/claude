@@ -635,6 +635,126 @@ export const ELVIANNE_QUESTIONS = [
   },
 ]
 
+export const APPENDIX = {
+  oneSentenceSummary: 'The Novartis HIT team helps health systems use their existing EHR data to identify high-risk patients who already have a diagnosis but may be slipping through the cracks between visits, so clinicians can proactively review them and make timely, informed treatment decisions.',
+
+  epicDifference: {
+    headline: 'Why This Is Different From What Epic Already Does',
+    intro: 'This question may come up in the interview. The honest answer is that it is not different from what Epic can do. SlicerDicer, Reporting Workbench, Best Practice Advisories, and SmartForms are all native Epic tools. Epic absolutely has the capability. The difference is not the technology. It is three things:',
+    points: [
+      {
+        number: '1',
+        heading: 'Health systems do not have the bandwidth.',
+        body: 'Epic analysts are stretched across hundreds of projects. Building a custom patient identification report requires someone to define the clinical criteria, translate them into report logic, validate the output, and train the clinical team. That takes time health systems do not have.',
+      },
+      {
+        number: '2',
+        heading: 'Health systems do not always know what to build.',
+        body: 'The Novartis HIT team brings disease-specific knowledge about which patient criteria matter clinically, which data elements are reliably documented in the EHR, and how other health systems have approached the same problem.',
+      },
+      {
+        number: '3',
+        heading: 'Novartis has already done the work.',
+        body: 'The Patient ID Guides and Tip Sheets are pre-built, validated, and ready to use. A health system can download the ASCVD SlicerDicer guide and run it the same day. Without Novartis they would have to start from scratch.',
+      },
+    ],
+  },
+
+  sampleQA: {
+    q: 'How is the Novartis HIT advisory service different from what Epic already provides to health systems?',
+    a: `Epic absolutely has the capability to do this. SlicerDicer, Reporting Workbench, and Best Practice Advisories are all native Epic tools that can surface high-risk patients when configured correctly. The gap is not the technology.
+
+The gap is knowing what to build, having the clinical expertise to define the right patient criteria, and having the time and bandwidth to prioritize it. Health system Epic teams are stretched across hundreds of projects. Building a custom patient identification report for ASCVD patients with uncontrolled LDL-C is valuable but it is rarely at the top of anyone's work queue.
+
+What the Novartis HIT team does is close that gap. We bring disease-specific expertise and pre-built, validated resources that health systems can implement immediately without adding to their already stretched Epic teams. A health system can download our ASCVD Patient ID Guide and run a SlicerDicer report the same day. That is the value — not a new technology but a faster path to using the technology they already have.`,
+    tip: 'This answer shows you understand both the technology and the real-world constraints health systems operate under. It will impress Steven and any clinical informatics panelists in the room.',
+  },
+
+  patientExamples: [
+    {
+      id: 1,
+      label: 'Example 1',
+      diagnosis: 'Cardiovascular / ASCVD',
+      product: 'Leqvio (inclisiran)',
+      color: 'rose',
+      story: [
+        'A 58-year-old patient has a diagnosis of atherosclerotic cardiovascular disease. They have a history of a heart attack two years ago and have been on a statin for several years. Their LDL-C at their last lab draw was 98 mg/dL, still above the guideline-recommended goal of less than 70 mg/dL for high-risk patients.',
+        'Without HIT infrastructure in place, this patient\'s elevated LDL-C may sit in the chart unnoticed between visits. The cardiologist sees dozens of patients a day and may not have a systematic way to identify who is still at goal and who is not.',
+        'The Novartis HIT team helps the health system build a SlicerDicer report in Epic that surfaces patients with an ASCVD diagnosis, a prior cardiovascular event, current statin use, and an LDL-C above 70 mg/dL at their last lab. The cardiologist now has a prioritized list and can have an informed conversation about whether additional LDL-lowering therapy is appropriate at the next visit.',
+      ],
+      ehrTools: 'Epic SlicerDicer, Reporting Workbench | Cerner: Dynamic Work List, Discern Analytics',
+    },
+    {
+      id: 2,
+      label: 'Example 2',
+      diagnosis: 'Oncology / Early Breast Cancer',
+      product: 'Kisqali (ribociclib)',
+      color: 'violet',
+      story: [
+        'A 52-year-old woman was diagnosed with stage II HR-positive HER2-negative breast cancer eighteen months ago. She completed surgery and chemotherapy and is now on adjuvant endocrine therapy. Her oncologist documented her tumor staging, receptor status, and treatment history in Epic at the time of diagnosis.',
+        'Without systematic patient identification, this patient may not be proactively reviewed for whether she is a candidate for extended adjuvant therapy unless she presents with a new concern or her oncologist happens to recall her case during rounds.',
+        'The Novartis HIT team helps the oncology practice build a Reporting Workbench report in Epic or a query in iKnowMed that pulls patients with HR-positive HER2-negative early breast cancer diagnoses, specific nodal staging, and current endocrine therapy. The oncologist reviews the list, identifies patients appropriate for a tumor board discussion, and determines whether a treatment conversation is warranted at the next visit.',
+      ],
+      ehrTools: 'Epic Reporting Workbench, SlicerDicer | iKnowMed, OncoEMR queries',
+    },
+    {
+      id: 3,
+      label: 'Example 3',
+      diagnosis: 'Neuroscience / Relapsing MS',
+      product: 'Kesimpta (ofatumumab)',
+      color: 'sky',
+      story: [
+        'A 34-year-old patient was diagnosed with relapsing-remitting multiple sclerosis three years ago. They are on an oral disease-modifying therapy but had two relapses documented in the EHR over the past twelve months. Their most recent MRI showed new lesion activity.',
+        'Without proactive identification, this patient may continue on their current therapy until they present with a new relapse or their neurologist happens to flag them during a routine visit. The window for earlier intervention may be missed.',
+        'The Novartis HIT team helps the neurology practice build a patient identification report that surfaces patients with a relapsing MS diagnosis who have had documented relapses in the past twelve months or new MRI lesion activity noted in their clinical documentation. The neurologist reviews the list and determines which patients warrant a conversation about whether their current therapy is adequately controlling their disease.',
+      ],
+      ehrTools: 'Epic Reporting Workbench, Best Practice Advisory | Cerner Dynamic Work List',
+    },
+  ],
+
+  commonThread: 'In each case the patient already has the diagnosis. The data already exists in the EHR. The gap is not clinical knowledge but visibility. The Novartis HIT team bridges that gap by helping health systems use their own technology to surface the patients who deserve a closer look. The clinician then applies their judgment and makes the treatment decision independently.',
+
+  compliancePhrase: 'Novartis helps health systems identify patients who already have a diagnosis and may benefit from a closer clinical look. What happens next is entirely the clinician\'s decision.',
+
+  resources: {
+    url: 'https://www.novartis.com/us-en/healthcare-professionals/health-information-technology-resources',
+    categories: [
+      {
+        name: 'Cardiovascular, Renal and Metabolic',
+        guides: [
+          'ASCVD Patient ID Guide (Epic and Cerner)',
+          'ASCVD Workflow Optimization Guide (Epic and Cerner)',
+          'C3G Patient ID Tip Sheet (Epic and Cerner)',
+          'IgAN Patient ID Tip Sheet (Epic and Cerner)',
+        ],
+      },
+      {
+        name: 'Immunology',
+        guides: [
+          'AxSpa Screening SmartForm Guide (Epic)',
+          'CSU Patient ID Guide (Epic and EMA/ModMed)',
+        ],
+      },
+      {
+        name: 'Oncology',
+        guides: [
+          'CML EHR Guide (Epic, Cerner, iKnowMed, OncoEMR)',
+          'PNH Patient ID Tip Sheet (Epic and Cerner)',
+          'PNH Best Practice Alert Guide (Epic)',
+          'Early Breast Cancer Patient ID Tip Sheet (Epic, Cerner, iKnowMed, OncoEMR)',
+          'Early Breast Cancer Tumor and Nodal Staging Guide (Epic)',
+          'PSMA+ mCRPC Patient ID Guide (Epic, Cerner, Meditech, OncoEMR, iKnowMed)',
+        ],
+      },
+      {
+        name: 'Neuroscience',
+        guides: ['Coming soon — ask Elvianne about the roadmap.'],
+        comingSoon: true,
+      },
+    ],
+  },
+}
+
 export const RITUALS = {
   morning: [
     'Three deep breaths before you open anything.',
