@@ -6,10 +6,11 @@ const CAT_STYLE = [
   { card: 'bg-indigo-50 border-indigo-200', heading: 'text-indigo-700', inner: 'bg-white border-indigo-100', why: 'text-indigo-700', whyLabel: 'text-indigo-800' },
 ]
 
-export default function KathleenQuestions({ checked, setChecked }) {
+export default function KathleenQuestions({ checked, setChecked, notes, setNotes }) {
   const total = KATHLEEN_QUESTIONS.reduce((acc, cat) => acc + cat.questions.length, 0)
   const done = Object.values(checked).filter(Boolean).length
   const toggle = (key) => setChecked((prev) => ({ ...prev, [key]: !prev[key] }))
+  const handleNote = (key, value) => setNotes((prev) => ({ ...prev, [key]: value }))
 
   return (
     <div>
@@ -79,6 +80,13 @@ export default function KathleenQuestions({ checked, setChecked }) {
                               {item.why}
                             </p>
                           </div>
+                          <textarea
+                            value={notes?.[key] || ''}
+                            onChange={(e) => handleNote(key, e.target.value)}
+                            placeholder="What did she say?"
+                            rows={2}
+                            className="mt-2 w-full text-xs bg-white border border-purple-200 rounded-lg px-3 py-2 text-gray-700 placeholder-slate-300 resize-none focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-100 transition-colors"
+                          />
                         </div>
                       </div>
                     </div>

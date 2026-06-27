@@ -35,7 +35,9 @@ export default function App() {
   const [taskNotes, setTaskNotes] = useLocalStorage('taskNotes', {})
   const [practicedQs, setPracticedQs] = useLocalStorage('practicedQs', {})
   const [kathleenChecked, setKathleenChecked] = useLocalStorage('kathleenChecked', {})
+  const [kathleenNotes, setKathleenNotes] = useLocalStorage('kathleenNotes', {})
   const [elvianneChecked, setElvianneChecked] = useLocalStorage('elvianneChecked', {})
+  const [elvianneNotes, setElvianneNotes] = useLocalStorage('elvianneNotes', {})
 
   const totalDays = DAYS.length
   const totalQs = QA_CATEGORIES.reduce((acc, cat) => acc + cat.questions.length, 0)
@@ -118,10 +120,10 @@ export default function App() {
           <QandA practicedQs={practicedQs} setPracticedQs={setPracticedQs} />
         )}
         {activeTab === 'kathleen' && (
-          <KathleenQuestions checked={kathleenChecked} setChecked={setKathleenChecked} />
+          <KathleenQuestions checked={kathleenChecked} setChecked={setKathleenChecked} notes={kathleenNotes} setNotes={setKathleenNotes} />
         )}
         {activeTab === 'elvianne' && (
-          <ElvianneQuestions checked={elvianneChecked} setChecked={setElvianneChecked} />
+          <ElvianneQuestions checked={elvianneChecked} setChecked={setElvianneChecked} notes={elvianneNotes} setNotes={setElvianneNotes} />
         )}
         {activeTab === 'rituals' && <DailyRituals />}
       </div>
