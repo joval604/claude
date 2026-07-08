@@ -14,6 +14,7 @@ const TABS = [
   { id: 'elvianne', label: 'Elvianne' },
   { id: 'rituals', label: 'Rituals' },
   { id: 'appendix', label: 'Appendix' },
+  { id: 'notes', label: 'Notes' },
 ]
 
 function useLocalStorage(key, initial) {
@@ -40,6 +41,7 @@ export default function App() {
   const [kathleenNotes, setKathleenNotes] = useLocalStorage('kathleenNotes', {})
   const [elvianneChecked, setElvianneChecked] = useLocalStorage('elvianneChecked', {})
   const [elvianneNotes, setElvianneNotes] = useLocalStorage('elvianneNotes', {})
+  const [freeNotes, setFreeNotes] = useLocalStorage('freeNotes', '')
 
   const totalDays = DAYS.length
   const totalQs = QA_CATEGORIES.reduce((acc, cat) => acc + cat.questions.length, 0)
@@ -129,6 +131,18 @@ export default function App() {
         )}
         {activeTab === 'rituals' && <DailyRituals />}
         {activeTab === 'appendix' && <Appendix />}
+        {activeTab === 'notes' && (
+          <div>
+            <h2 className="text-lg font-bold text-gray-800 mb-1">Notes</h2>
+            <p className="text-sm text-slate-500 mb-4">Questions, links, intel — anything you want to save. Auto-saved to your browser.</p>
+            <textarea
+              value={freeNotes}
+              onChange={(e) => setFreeNotes(e.target.value)}
+              placeholder="Type your notes here..."
+              className="w-full h-[60vh] text-sm bg-white border border-slate-200 rounded-xl px-4 py-3 text-gray-700 placeholder-slate-300 resize-none focus:outline-none focus:border-violet-400 focus:ring-1 focus:ring-violet-100 transition-colors shadow-sm leading-relaxed"
+            />
+          </div>
+        )}
       </div>
     </div>
   )
